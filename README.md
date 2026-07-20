@@ -1,390 +1,192 @@
-# RAG-Based Question Answering System for CIS Critical Security Controls v8
+# 🛡️ CIS Security Assistant - RAG Pipeline
 
-## Overview
+A production-oriented Retrieval-Augmented Generation (RAG) system built for answering cybersecurity questions using the **CIS Critical Security Controls v8** document.
 
-This project implements an end-to-end **Retrieval-Augmented Generation (RAG)** system for answering questions about the **CIS Critical Security Controls Version 8** document.
-
-Instead of relying solely on a Large Language Model's internal knowledge, the system retrieves relevant information from the official CIS Controls PDF, reranks the retrieved results, and generates accurate answers grounded in the document.
-
-The project was designed as a complete RAG pipeline, including:
-
-- PDF parsing and preprocessing
-- Document reconstruction
-- Intelligent chunking
-- Embedding generation
-- Vector database indexing
-- Semantic retrieval
-- Cross-encoder reranking
-- Local LLM generation
-- Automatic evaluation
-- Human-in-the-Loop (HITL) evaluation
-- Interactive Streamlit chatbot
-
-The objective is to build a reliable question-answering assistant capable of providing document-grounded cybersecurity answers while minimizing hallucinations.
+The system combines document intelligence, vector search, reranking, local LLM generation, automated evaluation, and human-in-the-loop validation.
 
 ---
 
-# Table of Contents
+# 🚀 Project Overview
 
-- Project Overview
-- Features
-- System Architecture
-- Project Structure
-- Pipeline Overview
-- Technologies Used
-- Installation
-- Running the Project
-- Configuration
-- Evaluation
-- Human-in-the-Loop Workflow
-- Streamlit Chatbot
-- Example Questions
-- Future Improvements
-- License
+This project implements a complete RAG pipeline:
+
+```
+PDF Document
+      |
+      ↓
+Document Parsing
+      |
+      ↓
+Cleaning & Structure Restoration
+      |
+      ↓
+Logical Section Merging
+      |
+      ↓
+Semantic Chunking
+      |
+      ↓
+Embedding Generation
+      |
+      ↓
+Weaviate Vector Database
+      |
+      ↓
+Hybrid Retrieval + Reranking
+      |
+      ↓
+Local LLM Generation
+      |
+      ↓
+DeepEval Evaluation
+      |
+      ↓
+Human Feedback Loop
+```
+
+The final application provides a cybersecurity assistant capable of answering questions based only on the provided security knowledge base.
 
 ---
 
-# Features
+# ✨ Features
 
 ## Document Processing
 
-- PDF parsing using Unstructured
-- Cleaning and normalization
-- Structure reconstruction
-- Section detection
-- Logical document merging
+- PDF extraction using Unstructured
+- High-resolution layout parsing
+- Text, titles, tables and metadata extraction
+- Document cleaning
+- Structure restoration
+- Logical section reconstruction
 
 ---
 
-## Chunking
+## Retrieval System
 
-- Recursive character-based chunking
+- Local HuggingFace embeddings
+- BAAI BGE-small embedding model
+- Weaviate vector database
+- Semantic similarity search
 - Metadata preservation
-- Configurable chunk size
-- Configurable overlap
-
----
-
-## Embeddings
-
-- Local embedding generation
-- HuggingFace BAAI embeddings
-- Normalized vectors
-- Batch processing
-- CPU/GPU support
-
----
-
-## Vector Database
-
-- Weaviate integration
-- Self-provided vectors
-- Metadata storage
-- Fast semantic search
-
----
-
-## Retrieval
-
-- Semantic vector retrieval
-- Configurable retrieval depth
-- Metadata-aware documents
-
----
-
-## Reranking
-
-- Cross-Encoder reranking
-- Improved relevance
-- Top-K document selection
+- Cross-encoder reranking
 
 ---
 
 ## Generation
 
-- Local LLM using Ollama
-- Context-aware prompting
-- Grounded answers
-- Hallucination reduction
+- Local LLM inference using Ollama
+- Qwen2.5 7B model
+- Context-grounded answers
+- Prompt-controlled cybersecurity assistant
 
 ---
 
-## Evaluation
+## Evaluation System
 
-Automatic evaluation using DeepEval:
+Implemented evaluation workflow:
 
-- Answer Relevancy
-- Faithfulness
-- Contextual Precision
-- Contextual Recall
-
----
-
-## Human-in-the-Loop
-
-Automatic generation of review datasets for failed answers.
-
-Human reviewers can:
-
-- inspect retrieved context
-- review generated answers
-- provide corrections
-- approve or reject responses
+- DeepEval automated testing
+- Answer relevancy evaluation
+- Faithfulness evaluation
+- Contextual precision
+- Contextual recall
 
 ---
 
-## User Interface
+## Human-In-The-Loop (HITL)
 
-Interactive chatbot built with Streamlit.
+The system supports:
 
-Features include:
-
-- conversational interface
-- chat history
-- document-grounded answers
-- modern responsive UI
-
----
-
-# System Architecture
-
-```
-                        PDF
-                         │
-                         ▼
-                  PDF Parser
-                         │
-                         ▼
-                 Document Cleaner
-                         │
-                         ▼
-              Structure Enhancement
-                         │
-                         ▼
-                 Document Merger
-                         │
-                         ▼
-                    Chunking
-                         │
-                         ▼
-                  Embeddings
-                         │
-                         ▼
-                   Weaviate DB
-                         │
-                         ▼
-                   Retriever
-                         │
-                         ▼
-                    Reranker
-                         │
-                         ▼
-                   Qwen Generator
-                         │
-                         ▼
-                     Response
-```
+- Automatic failure detection
+- Human review dataset creation
+- Human corrections
+- Re-evaluation after improvements
+- Before/after metric comparison
 
 ---
 
-# Project Structure
+# 🏗️ Project Structure
 
 ```
 rag_setup/
 
 │
-├── data/
-│   └── CIS_Controls__v8__Critical_Security_Controls__2023_08.pdf
-│
-├── output/
-│   ├── parsed/
-│   ├── chunks/
-│   ├── embeddings/
-│   └── logs/
-│
-├── evaluation/
-│   ├── golden_dataset.json
-│   ├── deepeval_results.json
-│   ├── human_review_dataset.json
-│   └── hitl_deepeval_results.json
-│
 ├── src/
 │   └── rag_pipeline/
-│       ├── cleaner.py
-│       ├── chunker.py
-│       ├── chunk_quality.py
-│       ├── config.py
-│       ├── embedder.py
-│       ├── embedding_exporter.py
-│       ├── exporters.py
-│       ├── generator.py
-│       ├── logger.py
-│       ├── merger.py
+│       │
 │       ├── parser.py
-│       ├── reranker.py
-│       ├── retriever.py
+│       ├── cleaner.py
 │       ├── structure.py
-│       └── weaviate_store.py
+│       ├── merger.py
+│       ├── chunker.py
+│       ├── embedder.py
+│       ├── weaviate_store.py
+│       ├── retriever.py
+│       ├── reranker.py
+│       └── generator.py
+│
+├── evaluation/
+│   │
+│   ├── deepeval_test.py
+│   ├── create_hitl_dataset.py
+│   ├── hitl_deepeval.py
+│   ├── merge_evaluation.py
+│   └── compare_deepeval.py
 │
 ├── app.py
+├── chat.py
 ├── main.py
-├── create_hitl_dataset.py
-├── hitl_deepeval.py
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
 ---
 
-# Pipeline Overview
+# ⚙️ Installation
 
-## 1. PDF Parsing
-
-The original CIS Controls PDF is parsed using the Unstructured library.
-
-Each page is converted into document elements such as:
-
-- Titles
-- Paragraphs
-- Lists
-- Tables
-
----
-
-## 2. Cleaning
-
-Removes:
-
-- empty elements
-- unnecessary whitespace
-- parser artifacts
-
-while preserving document meaning.
-
----
-
-## 3. Structure Enhancement
-
-Restores logical document hierarchy.
-
-Adds metadata such as:
-
-- section titles
-- element type
-- page information
-
----
-
-## 4. Document Merging
-
-Since PDF parsers split documents into many small elements, this stage reconstructs logical sections by grouping related content under the appropriate title.
-
----
-
-## 5. Chunking
-
-Merged sections are split into retrieval-friendly chunks using a Recursive Character Text Splitter.
-
-Benefits include:
-
-- manageable context size
-- improved semantic retrieval
-- overlap preservation
-
----
-
-## 6. Embedding Generation
-
-Each chunk is converted into a dense vector using
-
-```
-BAAI/bge-small-en-v1.5
-```
-
-Embeddings are normalized for cosine similarity search.
-
----
-
-## 7. Vector Storage
-
-Embeddings are uploaded into Weaviate.
-
-Each object stores:
-
-- chunk text
-- metadata
-- embedding vector
-
----
-
-## 8. Retrieval
-
-For each user query:
-
-1. Generate query embedding
-2. Search Weaviate
-3. Retrieve nearest vectors
-
----
-
-## 9. Reranking
-
-Retrieved chunks are reranked using
-
-```
-BAAI/bge-reranker-base
-```
-
-This improves relevance before generation.
-
----
-
-## 10. Response Generation
-
-The retrieved context is injected into the prompt.
-
-A locally hosted
-
-```
-Qwen2.5 7B
-```
-
-model generates the final answer.
-
-The model is instructed to answer only from the retrieved context.
-
----
-
-# Technologies Used
-
-| Component | Technology |
-|------------|------------|
-| Programming Language | Python |
-| PDF Parsing | Unstructured |
-| Framework | LangChain |
-| Embeddings | BAAI/bge-small-en-v1.5 |
-| Reranker | BAAI/bge-reranker-base |
-| Vector Database | Weaviate |
-| LLM | Qwen2.5 7B |
-| Local LLM Runtime | Ollama |
-| Evaluation | DeepEval |
-| Interface | Streamlit |
-
----
-
-# Installation
-
-## Clone the repository
+## 1. Clone repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/RabihhK1/rag_project.git
 
-cd rag_setup
+cd rag_project
 ```
 
 ---
 
-## Install dependencies
+## 2. Create virtual environment
+
+Using Python:
+
+```bash
+python -m venv rag-env
+```
+
+Activate:
+
+### Windows
+
+```bash
+rag-env\Scripts\activate
+```
+
+### Linux/Mac
+
+```bash
+source rag-env/bin/activate
+```
+
+---
+
+## 3. Install dependencies
+
+Using uv:
+
+```bash
+uv sync
+```
+
+or:
 
 ```bash
 pip install -r requirements.txt
@@ -392,228 +194,167 @@ pip install -r requirements.txt
 
 ---
 
-## Install Ollama
+# 🗄️ Running Weaviate
 
-Download Ollama:
-
-https://ollama.com
-
----
-
-## Download the LLM
+Start Weaviate using Docker:
 
 ```bash
-ollama pull qwen2.5:7b
+docker run -p 8080:8080 -p 50051:50051 \
+cr.weaviate.io/semitechnologies/weaviate:1.27.0
 ```
 
 ---
 
-## Start Weaviate
+# 📥 Running the RAG Ingestion Pipeline
 
-```bash
-docker compose up -d
-```
+The ingestion pipeline processes the PDF and stores embeddings.
 
-Verify Weaviate is running on:
-
-```
-http://localhost:8080
-```
-
----
-
-# Running the Project
-
-## Step 1
-
-Place the CIS Controls PDF inside
-
-```
-data/
-```
-
----
-
-## Step 2
-
-Run the ingestion pipeline
+Run:
 
 ```bash
 python main.py
 ```
 
-The pipeline performs:
+Pipeline stages:
 
-- PDF parsing
-- Cleaning
-- Structure enhancement
-- Section merging
-- Chunk generation
-- Embedding creation
-- Weaviate upload
+1. Parse PDF
+2. Clean documents
+3. Restore structure
+4. Merge sections
+5. Create chunks
+6. Analyze chunk quality
+7. Generate embeddings
+8. Store vectors in Weaviate
 
 ---
 
-## Step 3
+# 💬 Running the Assistant
 
-Launch the chatbot
+## Terminal Chat
+
+```bash
+python chat.py
+```
+
+---
+
+## Streamlit Application
 
 ```bash
 streamlit run app.py
 ```
 
----
+The application provides:
 
-# Configuration
-
-Configuration parameters are stored in
-
-```
-config.py
-```
-
-Examples include:
-
-- embedding model
-- chunk size
-- overlap
-- parser strategy
-- output folders
-- Weaviate host
+- Chat interface
+- Retrieved evidence visualization
+- CIS security assistant experience
 
 ---
 
-# Evaluation
+# 🧠 Models Used
 
-The project includes automatic evaluation using DeepEval.
+## Embedding Model
 
-Metrics:
+```
+BAAI/bge-small-en-v1.5
+```
 
-- Answer Relevancy
-- Faithfulness
-- Contextual Precision
-- Contextual Recall
+Purpose:
 
-These metrics evaluate how accurately the generated answer matches the retrieved document context.
+- Convert text chunks into semantic vectors
+- Enable similarity search
 
 ---
 
-# Human-in-the-Loop Workflow
-
-Automatic evaluation alone cannot capture every failure.
-
-The project therefore includes a Human-in-the-Loop pipeline.
-
-Workflow:
+## Reranker Model
 
 ```
-Question
-      │
-      ▼
-RAG System
-      │
-      ▼
-DeepEval
-      │
-      ▼
-Failed Cases
-      │
-      ▼
-Human Review Dataset
-      │
-      ▼
-Manual Review
-      │
-      ▼
-Corrected Answers
-      │
-      ▼
+BAAI/bge-reranker-base
+```
+
+Purpose:
+
+- Improve retrieval accuracy
+- Select the most relevant documents
+
+---
+
+## Generation Model
+
+```
+qwen2.5:7b
+```
+
+Running locally using:
+
+```
+Ollama
+```
+
+---
+
+# 📊 Evaluation Workflow
+
+The evaluation process:
+
+```
+Golden Dataset
+       |
+       ↓
+DeepEval Testing
+       |
+       ↓
+Failure Detection
+       |
+       ↓
+Human Review
+       |
+       ↓
+HITL Dataset
+       |
+       ↓
 Re-evaluation
+       |
+       ↓
+Performance Comparison
 ```
 
-Reviewers inspect:
+---
 
-- retrieved context
-- generated answer
-- evaluation metrics
+# 🛠️ Technologies
 
-They may:
-
-- approve answers
-- correct answers
-- provide notes
+- Python
+- LangChain
+- LangChain Ollama
+- LangChain HuggingFace
+- Unstructured
+- Sentence Transformers
+- Weaviate
+- Ollama
+- Streamlit
+- DeepEval
+- Docker
 
 ---
 
-# Streamlit Chatbot
+# 🎯 Future Improvements
 
-The project includes an interactive chatbot interface.
+Planned improvements:
 
-Features:
-
-- conversational UI
-- persistent chat history
-- grounded document answers
-- local inference
-- responsive interface
-
-The chatbot retrieves relevant document chunks before generating each response.
-
----
-
-# Example Questions
-
-Examples include:
-
-- What are the three Implementation Groups?
-- What is Control 6?
-- What is Access Control Management?
-- Which safeguards require Multi-Factor Authentication?
-- How often should vulnerability scans be performed?
-- What is a zero-day exploit?
-- What are the responsibilities of Implementation Group 2?
-- Which safeguards apply to remote network access?
-
----
-
-# Current Limitations
-
-Although the system performs well, several limitations remain.
-
-These include:
-
-- occasional retrieval of partially relevant chunks
-- dependence on embedding quality
-- no hybrid keyword/vector search
-- no conversation memory
-- no automatic query rewriting
-- retrieval errors may propagate to generation
-
-These limitations are documented and considered for future work.
-
----
-
-# Future Improvements
-
-Potential improvements include:
-
-- Hybrid Search (BM25 + Vector Search)
-- Metadata filtering
+- Advanced retrieval strategies
 - Query rewriting
-- Conversation memory
-- Agent-based retrieval
-- Incremental indexing
-- Automatic HITL feedback integration
-- Citation generation
-- Confidence estimation
-- Multi-document support
+- Hybrid search
+- Production API deployment
+- Monitoring dashboard
+- Automated regression testing
+- Continuous evaluation pipeline
 
 ---
 
-# License
+# 👨‍💻 Author
 
-This project was developed for educational and research purposes.
+Rabih Kiwan
 
-The CIS Controls document remains the intellectual property of the Center for Internet Security (CIS).
-
-Please refer to the official CIS licensing terms for redistribution and commercial usage.
+Computer Engineering Student  
+AI / Robotics / LLM Applications
