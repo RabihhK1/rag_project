@@ -1,0 +1,350 @@
+
+======================================================================
+QUESTION #1
+
+What are the three Implementation Groups (IGs) defined in the CIS Controls, and how do they differ?
+
+ANSWER:
+The three Implementation Groups (IGs) defined in the CIS Controls are IG1, IG2, and IG3. IG1 is referred to as "essential cyber hygiene," representing the foundational set of cyber defense Safeguards that every enterprise should apply to guard against common attacks. IG2 builds upon IG1 by including all the Safeguards from IG1 plus additional ones, while IG3 includes all CIS Controls Safeguards in both IG1 and IG2, providing a comprehensive approach for enterprises with higher risk profiles and more resources.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.5833333333333333 PASS=False
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #2
+
+What are the core design principles used to guide the creation of CIS Controls Version 8?
+
+ANSWER:
+The core design principles used to guide the creation of CIS Controls Version 8 include Offense Informs Defense and Focus.
+
+METRICS:
+Answer Relevancy: 0.5 PASS=False
+Faithfulness: 0.5 PASS=False
+Contextual Precision: 0.5 PASS=False
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #3
+
+Why is the inventory and control of enterprise assets considered a critical first step?
+
+ANSWER:
+The inventory and control of enterprise assets is considered a critical first step because it allows enterprises to accurately know the totality of assets that need to be monitored and protected within the enterprise, which supports identifying unauthorized and unmanaged assets to remove or remediate.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #4
+
+How frequently should an enterprise review and update its detailed enterprise asset inventory?
+
+ANSWER:
+An enterprise should review and update its detailed enterprise asset inventory bi-annually, or more frequently.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.6 PASS=False
+
+======================================================================
+QUESTION #5
+
+What is the recommended timeframe for addressing unauthorized assets on the network?
+
+ANSWER:
+The recommended timeframe for addressing unauthorized assets on the network is on a weekly basis.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.5 PASS=False
+
+======================================================================
+QUESTION #6
+
+Why is it important to track and manage software assets even if a patch is not yet available?
+
+ANSWER:
+It is important to track and manage software assets even if a patch is not yet available because a complete software inventory allows an enterprise to identify and mitigate known vulnerabilities until patches are released, thereby guarding against potential attacks.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 0.3333333333333333 PASS=False
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #7
+
+If unsupported software is necessary for the enterprise's mission, what must be done to remain compliant with CIS Controls?
+
+ANSWER:
+If unsupported software is necessary for the enterprise's mission, an exception detailing mitigating controls and residual risk acceptance must be documented to remain compliant with CIS Controls.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.9166666666666666 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #8
+
+What frequency is required for allowlisting authorized software libraries and scripts?
+
+ANSWER:
+Bi-annually, or more frequently.
+
+METRICS:
+Answer Relevancy: 0.5 PASS=False
+Faithfulness: 0.5 PASS=False
+Contextual Precision: 0.7000000000000001 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #9
+
+Why is data protection not exclusively about data encryption?
+
+ANSWER:
+Data protection has become more about the appropriate use and management of data, not just encryption, as enterprises are learning that privacy involves managing data throughout its entire life cycle.
+
+METRICS:
+Answer Relevancy: 0.6666666666666666 PASS=False
+Faithfulness: 0.5 PASS=False
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #10
+
+What timelines must be included when enforcing data retention?
+
+ANSWER:
+When enforcing data retention, both minimum and maximum timelines must be included according to the enterprise’s data management process.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.2 PASS=False
+
+======================================================================
+QUESTION #11
+
+How should an enterprise deploy storage-layer encryption for sensitive data at rest?
+
+ANSWER:
+An enterprise should implement storage-layer encryption, also known as server-side encryption, to protect sensitive data at rest on servers, applications, and databases containing such data.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.4 PASS=False
+
+======================================================================
+QUESTION #12
+
+What is a recommended technological implementation for encrypting data on end-user devices?
+
+ANSWER:
+A recommended technological implementation for encrypting data on end-user devices is to use Windows BitLocker®, Apple FileVault®, or Linux® dm-crypt.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.4 PASS=False
+
+======================================================================
+QUESTION #13
+
+Why do service providers pose a challenge to secure configuration of enterprise assets?
+
+ANSWER:
+Service providers often deliver default configurations that prioritize ease-of-deployment and ease-of-use over security, which can introduce weaknesses such as basic controls, open services and ports, default accounts or passwords, pre-configured DNS settings, older (vulnerable) protocols, and pre-installation of unnecessary software. These factors make it challenging for enterprises to maintain a secure configuration of their assets when using service providers' offerings.
+
+METRICS:
+Answer Relevancy: 0.125 PASS=False
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.7 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #14
+
+What are the automatic session locking limits for general purpose operating systems versus mobile end-user devices?
+
+ANSWER:
+For general purpose operating systems, the period must not exceed 15 minutes. For mobile end-user devices, the period must not exceed 2 minutes.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #15
+
+What is the maximum allowed number of failed authentication attempts before lockout on laptops compared to tablets/smartphones?
+
+ANSWER:
+The maximum allowed number of failed authentication attempts before lockout on laptops is not more than 20, while for tablets and smartphones, it is no more than 10.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.2 PASS=False
+
+======================================================================
+QUESTION #16
+
+How should default accounts on enterprise assets and software be managed?
+
+ANSWER:
+Default accounts on enterprise assets and software should be managed by disabling or making them unusable.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.8333333333333333 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #17
+
+What are the common ways attackers can covertly obtain access to user accounts?
+
+ANSWER:
+Attackers can covertly obtain access to user accounts through weak passwords, accounts still valid after a user leaves the enterprise, dormant or lingering test accounts, shared accounts that have not been changed in months or years, service accounts embedded in applications for scripts, a user having the same password as one they use for an online account that has been compromised (in a public password dump), social engineering a user to give their password, or using malware to capture passwords or tokens in memory or over the network.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 0.75 PASS=True
+Contextual Precision: 0.9166666666666666 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #18
+
+What is the policy for dormant accounts under Control 5?
+
+ANSWER:
+Delete or disable any dormant accounts after a period of 45 days of inactivity, where supported.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.8333333333333333 PASS=True
+Contextual Recall: 0.75 PASS=True
+
+======================================================================
+QUESTION #19
+
+What are the minimum password length requirements depending on whether Multi-Factor Authentication (MFA) is used?
+
+ANSWER:
+The minimum password length requirement is 8 characters for accounts using Multi-Factor Authentication (MFA), according to the provided context.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #20
+
+What is the main difference in focus between Control 5 (Account Management) and Control 6 (Access Control Management)?
+
+ANSWER:
+Control 5 focuses on managing the assignment of authorization to credentials for user accounts, including administrator and service accounts, while Control 6 specifically deals with ensuring users only have access to appropriate data or assets based on their role, emphasizing strong authentication for critical or sensitive functions.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 0.6666666666666666 PASS=False
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #21
+
+Why might disabling an account be preferred over deleting it when an employee leaves the enterprise?
+
+ANSWER:
+Disabling an account instead of deleting it may be necessary to preserve audit trails, as stated in the context.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #22
+
+Which types of access explicitly require Multi-Factor Authentication (MFA) according to Control 6?
+
+ANSWER:
+According to Control 6, MFA is required for externally-exposed applications, remote network access, and administrative access.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 0.6666666666666666 PASS=False
+Contextual Precision: 0.3666666666666667 PASS=False
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #23
+
+What is a zero-day exploit and why does it complicate vulnerability management?
+
+ANSWER:
+A zero-day exploit takes advantage of previously unknown vulnerabilities that have yet to have a patch released from the software vendor, complicating vulnerability management because defenders must use other controls to mitigate risks until patches are available.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 0.3333333333333333 PASS=False
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 1.0 PASS=True
+
+======================================================================
+QUESTION #24
+
+How often should automated operating system and application patch management occur?
+
+ANSWER:
+Automated operating system and application patch management should occur on a monthly, or more frequent, basis.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 1.0 PASS=True
+Contextual Recall: 0.6 PASS=False
+
+======================================================================
+QUESTION #25
+
+What type of scans should be conducted for internal enterprise assets, and how often?
+
+ANSWER:
+Automated vulnerability scans for internal enterprise assets should be conducted on a quarterly, or more frequent, basis using both authenticated and unauthenticated scans with a SCAP-compliant vulnerability scanning tool.
+
+METRICS:
+Answer Relevancy: 1.0 PASS=True
+Faithfulness: 1.0 PASS=True
+Contextual Precision: 0.9166666666666666 PASS=True
+Contextual Recall: 0.8 PASS=True

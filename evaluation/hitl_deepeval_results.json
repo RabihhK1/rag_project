@@ -1,0 +1,853 @@
+{
+    "timestamp": "2026-07-16 10:37:55.513463",
+    "model": "qwen2.5:7b",
+    "total_cases": 25,
+    "results": [
+        {
+            "id": 1,
+            "question": "What are the three Implementation Groups (IGs) defined in the CIS Controls, and how do they differ?",
+            "ai_answer": "The three Implementation Groups (IGs) defined in the CIS Controls are IG1, IG2, and IG3. IG1 is referred to as \"essential cyber hygiene,\" representing the foundational set of cyber defense Safeguards that every enterprise should apply to guard against common attacks. IG2 builds upon IG1 by including all the Safeguards from IG1 plus additional ones, while IG3 includes all CIS Controls Safeguards in both IG1 and IG2, providing a comprehensive approach for enterprises with higher risk profiles and more resources.",
+            "expected": "The CIS Controls are categorized into three Implementation Groups. IG1 is designed for small to medium-sized enterprises with limited IT and cybersecurity expertise, focusing on essential cyber hygiene[cite: 1]. IG2 includes all IG1 safeguards and is intended for enterprises managing IT infrastructure and sensitive data, capable of withstanding short interruptions[cite: 1]. IG3 includes all IG1 and IG2 safeguards and is meant for enterprises with specialized security experts protecting sensitive functions against targeted, sophisticated attacks[cite: 1].",
+            "failed_before": {
+                "Contextual Precision": {
+                    "score": 0.5833333333333333,
+                    "success": false,
+                    "reason": "The score is 0.58 because the first and fourth nodes are ranked higher despite being irrelevant, as they do not directly address IG1, IG2, or IG3. The second node mentions IGs but does so indirectly, while the third node provides direct information about the three IGs and their differences."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the question about the three Implementation Groups (IGs) defined in the CIS Controls and their differences, with no irrelevant statements present."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 0.41666666666666663,
+                    "passed": false,
+                    "reason": "The score is 0.42 because the first and second nodes (ranked 1st and 2nd) are irrelevant, discussing topics unrelated to IGs or their differences. The third and fourth nodes (ranked 3rd and 4th) provide relevant information about IG1, IG2, and IG3, but they should be ranked higher than the irrelevant nodes."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the human correction closely aligns with the original expected output, accurately describing the three Implementation Groups (IG) of the CIS Controls and their respective focuses on cyber hygiene, enterprise risk management, and specialized security for large organizations, without any contradictions or omissions."
+                }
+            }
+        },
+        {
+            "id": 2,
+            "question": "What are the core design principles used to guide the creation of CIS Controls Version 8?",
+            "ai_answer": "The core design principles used to guide the creation of CIS Controls Version 8 include Offense Informs Defense and Focus.",
+            "expected": "The design principles for Version 8 include: Offense Informs Defense (based on data and attacker behavior), Focus (identifying the most critical actions), Feasible (practical to implement), Measurable (avoiding ambiguous language), and Align (co-existing peacefully with other frameworks like NIST and ISO)[cite: 1].",
+            "failed_before": {
+                "Answer Relevancy": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because while it addresses the topic, the response includes an irrelevant statement that does not contribute to explaining the core design principles."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because the actual output incorrectly assumed the inclusion of core design principles like 'Offense Informs Defense' in the retrieval context, which was not present."
+                },
+                "Contextual Precision": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because the first node (rank 1) indirectly supports the core principles without explicitly stating them, while the second node (rank 2) directly lists 'Offense Informs Defense', 'Focus', and implicitly 'Feasible'. Nodes ranked 3 to 5 discuss related topics but do not address the specific question about core design principles."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 0.5,
+                    "passed": false,
+                    "reason": "The score is 0.50 because while the output could be more specific to the core design principles, it avoids irrelevant statements that would lower the score further."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "passed": false,
+                    "reason": "The score is 0.50 because the actual output incorrectly assumes the inclusion of 'Offense Informs Defense' as a guiding principle for CIS Controls v8, which is not supported by the retrieval context."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes are correctly ranked at the top (nodes 1-4), and only one node (node 5) is ranked lower, which is not explicitly mentioned as a core design principle."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all design principles mentioned in the expected output are directly supported by the nodes in retrieval context, with no unsupportive reasons present."
+                }
+            }
+        },
+        {
+            "id": 3,
+            "question": "Why is the inventory and control of enterprise assets considered a critical first step?",
+            "ai_answer": "The inventory and control of enterprise assets is considered a critical first step because it allows enterprises to accurately know the totality of assets that need to be monitored and protected within the enterprise, which supports identifying unauthorized and unmanaged assets to remove or remediate.",
+            "expected": "Enterprises cannot defend what they do not know they have[cite: 1]. External attackers continuously scan for unprotected assets, and internal unidentified assets can have weak security configurations that are vulnerable to malware or lateral movement[cite: 1]. Asset management also supports incident response, system backup, and recovery[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the actual output that detract from addressing the question about why inventory and control of enterprise assets are critical."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes are ranked correctly as 'yes', with no irrelevant nodes present to lower the score."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all sentences in the expected output are directly supported by the nodes in the retrieval context, with no unsupportive reasons present."
+                }
+            }
+        },
+        {
+            "id": 4,
+            "question": "How frequently should an enterprise review and update its detailed enterprise asset inventory?",
+            "ai_answer": "An enterprise should review and update its detailed enterprise asset inventory bi-annually, or more frequently.",
+            "expected": "An enterprise must review and update the inventory of all enterprise assets bi-annually, or more frequently[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.6,
+                    "success": false,
+                    "reason": "The score is 0.60 because the supportive reasons align closely with node(s) in retrieval context related to inventory management and regular updates, while unsupportive reasons focus on software management which do not match the given nodes."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the query about frequency of reviewing and updating the enterprise asset inventory, with no irrelevant statements present."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 0.8333333333333333,
+                    "passed": true,
+                    "reason": "The score is 0.83 because the first and third nodes in retrieval contexts (ranked 1 and 3) are correctly identified as 'yes' and directly address the bi-annual review frequency, which aligns with the input. However, the second and fourth nodes (ranked 2 and 4), despite suggesting frequent updates, do not specify the bi-annual review frequency, leading to a lower score. The fifth node (ranked 5) is irrelevant but does not significantly impact the score."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the retrieval context node directly matches the expected output without any discrepancies."
+                }
+            }
+        },
+        {
+            "id": 5,
+            "question": "What is the recommended timeframe for addressing unauthorized assets on the network?",
+            "ai_answer": "The recommended timeframe for addressing unauthorized assets on the network is on a weekly basis.",
+            "expected": "A process must exist to address unauthorized assets on a weekly basis, which may involve removing, denying remote connection, or quarantining the asset[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because the node(s) in retrieval context focuses on addressing and reviewing unauthorized assets and software usage, which partially aligns with sentences 1-2 but does not cover asset discovery or log retention as mentioned in sentences 3-4."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that would lower this score."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes are ranked higher than irrelevant ones, with the first node clearly stating the recommended timeframe (weekly) for addressing unauthorized assets on the network, while subsequent nodes provide unrelated information."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output clearly outlines a process for addressing unauthorized assets on a weekly basis, which aligns perfectly with the node in retrieval context."
+                }
+            }
+        },
+        {
+            "id": 6,
+            "question": "Why is it important to track and manage software assets even if a patch is not yet available?",
+            "ai_answer": "It is important to track and manage software assets even if a patch is not yet available because a complete software inventory allows an enterprise to identify and mitigate known vulnerabilities until patches are released, thereby guarding against potential attacks.",
+            "expected": "If a patch is not yet available (such as with zero-day exploits), a complete software inventory allows an enterprise to guard against known attacks by implementing temporary mitigation measures until the patch is released by the software vendor[cite: 1].",
+            "failed_before": {
+                "Faithfulness": {
+                    "score": 0.3333333333333333,
+                    "success": false,
+                    "reason": "The score is 0.33 because the actual output contradicts the emphasis on the importance of a complete software inventory for security and its role in identifying vulnerabilities, suggesting instead that it does not provide these benefits."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that detract from addressing the question about tracking and managing software assets."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) are ranked higher than irrelevant nodes (nodes 3, 4, and 5), directly addressing the importance of tracking software assets even without a patch for zero-day exploits."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output clearly aligns with the node in retrieval context, emphasizing the importance of a complete software inventory for guarding against known attacks even when patches are not yet available."
+                }
+            }
+        },
+        {
+            "id": 7,
+            "question": "If unsupported software is necessary for the enterprise's mission, what must be done to remain compliant with CIS Controls?",
+            "ai_answer": "If unsupported software is necessary for the enterprise's mission, an exception detailing mitigating controls and residual risk acceptance must be documented to remain compliant with CIS Controls.",
+            "expected": "If unsupported software is necessary, the enterprise must document an exception detailing mitigating controls and residual risk acceptance[cite: 1]. Without this documentation, it must be designated as unauthorized[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that would lower this score."
+                },
+                "Faithfulness": {
+                    "score": 0.0,
+                    "passed": false,
+                    "reason": "The score is 0.00 because the actual output incorrectly implies that such documentation is always required, contradicting the condition specified in the retrieval context."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) are ranked higher than irrelevant nodes (nodes 3-5), directly addressing the input's specific scenario."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output aligns perfectly with the first node in the retrieval context, emphasizing the need for documented exceptions and designating unsupported software without documentation as unauthorized."
+                }
+            }
+        },
+        {
+            "id": 8,
+            "question": "What frequency is required for allowlisting authorized software libraries and scripts?",
+            "ai_answer": "Bi-annually, or more frequently.",
+            "expected": "Technical controls for allowlisting authorized libraries (like .dll or .so files) and scripts (like .ps1 or .py files) must be reassessed bi-annually, or more frequently[cite: 1].",
+            "failed_before": {
+                "Answer Relevancy": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because it addresses the query but fails to specify a concrete frequency, which is crucial for allowlisting."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because the actual output does not provide any evidence of a reassessment frequency for the allowlisting process, despite it being mentioned in the retrieval context."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 0.5,
+                    "passed": false,
+                    "reason": "The score is 0.50 because the response addresses the question but misses a direct specification of the required frequency, which is bi-annual."
+                },
+                "Faithfulness": {
+                    "score": 0.0,
+                    "passed": false,
+                    "reason": "The score is 0.00 because the actual output incorrectly states a specific frequency greater than bi-annual for script/libRARY allowlisting, contradicting the retrieval context."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (ranked 1) are correctly identified as 'yes' and provide direct information about allowlisting authorized scripts, while the subsequent nodes ranked 2-5 are 'no' and do not address the specific frequency or relevance to scripts and libraries."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output directly aligns with the content of the first node in retrieval context, emphasizing the reassessment frequency of technical controls."
+                }
+            }
+        },
+        {
+            "id": 9,
+            "question": "Why is data protection not exclusively about data encryption?",
+            "ai_answer": "Data protection has become more about the appropriate use and management of data, not just encryption, as enterprises are learning that privacy involves managing data throughout its entire life cycle.",
+            "expected": "Data privacy is about the appropriate use and management of data throughout its entire life cycle, including identifying, classifying, securely handling, retaining, and disposing of data[cite: 1].",
+            "failed_before": {
+                "Answer Relevancy": {
+                    "score": 0.6666666666666666,
+                    "success": false,
+                    "reason": "The score is 0.67 because it addresses relevant aspects of data protection, but does not solely focus on encryption as requested."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "success": false,
+                    "reason": "The score is 0.50 because the actual output introduces topics (appropriate use and management of data) that are not present in the retrieval context, which focuses only on encryption methods."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that detract from addressing the question."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "passed": false,
+                    "reason": "The score is 0.50 because the actual output incorrectly implies that data protection only involves encryption, contradicting the context's emphasis on comprehensive management throughout the data life cycle."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the first node correctly explains that data privacy encompasses broader aspects beyond encryption, directly addressing the input. The subsequent nodes, ranked lower, discuss encryption or related topics but do not provide the specific information needed to fully answer why data protection involves more than just data encryption."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all content in the expected output directly aligns with the first node in retrieval context, emphasizing the importance of appropriate use and management of data throughout its lifecycle."
+                }
+            }
+        },
+        {
+            "id": 10,
+            "question": "What timelines must be included when enforcing data retention?",
+            "ai_answer": "When enforcing data retention, both minimum and maximum timelines must be included according to the enterprise’s data management process.",
+            "expected": "Data retention enforcement must include both minimum and maximum timelines[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.2,
+                    "success": false,
+                    "reason": "The score is 0.20 because the sentence about retaining data according to the enterprise’s process aligns with node(s) in retrieval context, but other sentences are either too broad or unrelated."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response does not contain any irrelevant statements that could detract from addressing the question about timelines for data retention enforcement."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (ranked 1) are correctly identified as 'yes', while irrelevant nodes (ranks 2-5) are appropriately ranked lower, directly addressing the input's focus on data retention timelines."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output clearly states the requirement for data retention enforcement, which directly aligns with the information provided in node 1 of the retrieval context."
+                }
+            }
+        },
+        {
+            "id": 11,
+            "question": "How should an enterprise deploy storage-layer encryption for sensitive data at rest?",
+            "ai_answer": "An enterprise should implement storage-layer encryption, also known as server-side encryption, to protect sensitive data at rest on servers, applications, and databases containing such data.",
+            "expected": "Storage-layer encryption, or server-side encryption, meets the minimum requirement for encrypting sensitive data at rest on servers, applications, and databases[cite: 1]. Additional methods can include application-layer encryption[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.4,
+                    "success": false,
+                    "reason": "The score is 0.40 because the supportive reasons for node(s) in retrieval context are redundant and do not significantly contribute to explaining the contextual recall score."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the actual output that detract from addressing the question about deploying storage-layer encryption for sensitive data at rest."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes ranked 1 and 2) are correctly identified as 'yes' and placed at the top of the rankings, while irrelevant nodes (nodes ranked 3 to 5) are appropriately marked as 'no'. The contextual precision is perfect as there are no cases where an irrelevant node precedes a relevant one."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all sentences in the expected output are accurately and completely reflected in the retrieval context, with no contradictions or omissions."
+                }
+            }
+        },
+        {
+            "id": 12,
+            "question": "What is a recommended technological implementation for encrypting data on end-user devices?",
+            "ai_answer": "A recommended technological implementation for encrypting data on end-user devices is to use Windows BitLocker®, Apple FileVault®, or Linux® dm-crypt.",
+            "expected": "Example implementations for encrypting data on end-user devices include Windows BitLocker, Apple FileVault, or Linux dm-crypt[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.4,
+                    "success": false,
+                    "reason": "The score is 0.40 because the node(s) in retrieval context only partially matches sentences 1 and 2 of the expected output, focusing on encrypting data on end-user devices and removable media, while ignoring other important aspects like data classification and documentation."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that would lower this score."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the first node directly provides relevant information on recommended encryption implementations for end-user devices, while subsequent nodes are ranked lower due to their less direct relevance, such as discussing broader security measures or other aspects of data protection."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output directly aligns with the information provided in the node of the retrieval context, mentioning specific examples of encryption implementations without any discrepancies."
+                }
+            }
+        },
+        {
+            "id": 13,
+            "question": "Why do service providers pose a challenge to secure configuration of enterprise assets?",
+            "ai_answer": "Service providers often deliver default configurations that prioritize ease-of-deployment and ease-of-use over security, which can introduce weaknesses such as basic controls, open services and ports, default accounts or passwords, pre-configured DNS settings, older (vulnerable) protocols, and pre-installation of unnecessary software. These factors make it challenging for enterprises to maintain a secure configuration of their assets when using service providers' offerings.",
+            "expected": "Service providers are often not set up by default in the most secure configuration, but rather to provide flexibility for customers to apply their own policies[cite: 1]. This leaves default accounts, excessive access, or unnecessary services that the using enterprise is responsible for mitigating[cite: 1].",
+            "failed_before": {
+                "Answer Relevancy": {
+                    "score": 0.125,
+                    "success": false,
+                    "reason": "The score is 0.12 because the response addresses the issue but includes multiple irrelevant examples and descriptions about vulnerabilities in default configurations, which are not directly related to why service providers pose a challenge."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 0.125,
+                    "passed": false,
+                    "reason": "The score is 0.12 because all statements are relevant, addressing the challenges posed by service providers in securing enterprise assets, which directly answers the input question."
+                },
+                "Faithfulness": {
+                    "score": 0.5,
+                    "passed": false,
+                    "reason": "The score is 0.50 because the actual output incorrectly suggests a priority on security over ease-of-use, contradicting the context's emphasis on ease-of-deployment."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes are ranked higher than irrelevant ones, with the first two nodes clearly addressing why service providers pose a challenge to securing enterprise assets."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all sentences in the expected output are accurately supported by the node(s) in retrieval context, providing a clear explanation of service provider configurations and their implications."
+                }
+            }
+        },
+        {
+            "id": 14,
+            "question": "What are the automatic session locking limits for general purpose operating systems versus mobile end-user devices?",
+            "ai_answer": "For general purpose operating systems, the period must not exceed 15 minutes. For mobile end-user devices, the period must not exceed 2 minutes.",
+            "expected": "For general purpose operating systems, the automatic session locking period must not exceed 15 minutes, whereas for mobile end-user devices, it must not exceed 2 minutes[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response does not contain any irrelevant statements that could distract from or mislead about the question regarding session locking limits between general-purpose operating systems and mobile devices."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the first node directly provides the specific session locking limits required for both general purpose operating systems and mobile end-user devices, while subsequent nodes are either unrelated or discuss different topics like secure configuration processes or device lockouts, ranking them lower."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all information from the expected output is accurately reflected in the human correction for both general purpose operating systems and mobile end-user devices, with no additional or conflicting details."
+                }
+            }
+        },
+        {
+            "id": 15,
+            "question": "What is the maximum allowed number of failed authentication attempts before lockout on laptops compared to tablets/smartphones?",
+            "ai_answer": "The maximum allowed number of failed authentication attempts before lockout on laptops is not more than 20, while for tablets and smartphones, it is no more than 10.",
+            "expected": "For laptops, no more than 20 failed authentication attempts are allowed, while for tablets and smartphones, the threshold is no more than 10 failed authentication attempts[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.2,
+                    "success": false,
+                    "reason": "The score is 0.20 because the expected output focuses on device security measures, specifically automatic lockout after failed authentication attempts, which does not align with any node in retrieval context related to software development, security frameworks, or network security tools."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response does not contain any irrelevant statements, directly addressing the query about authentication attempts across different devices."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) are ranked higher than the irrelevant ones (nodes 3, 4, and 5), providing precise answers to the input query."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output directly aligns with the information provided in the first node of the retrieval context without any contradictions or additional details."
+                }
+            }
+        },
+        {
+            "id": 16,
+            "question": "How should default accounts on enterprise assets and software be managed?",
+            "ai_answer": "Default accounts on enterprise assets and software should be managed by disabling or making them unusable.",
+            "expected": "Default accounts, such as root, administrator, and pre-configured vendor accounts, should be managed by either disabling them or making them unusable[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements, making it fully relevant."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (ranked 1) directly support the input by providing specific guidance on managing default accounts, while irrelevant nodes (ranks 2-5) do not address the specific management of default accounts and are ranked lower."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all content from the expected output directly aligns with and supports the first node in the retrieval context, which recommends managing default accounts by disabling or making them unusable."
+                }
+            }
+        },
+        {
+            "id": 17,
+            "question": "What are the common ways attackers can covertly obtain access to user accounts?",
+            "ai_answer": "Attackers can covertly obtain access to user accounts through weak passwords, accounts still valid after a user leaves the enterprise, dormant or lingering test accounts, shared accounts that have not been changed in months or years, service accounts embedded in applications for scripts, a user having the same password as one they use for an online account that has been compromised (in a public password dump), social engineering a user to give their password, or using malware to capture passwords or tokens in memory or over the network.",
+            "expected": "Attackers can obtain access through weak passwords, dormant accounts still valid after a user leaves, shared accounts with unchanged passwords, embedded service accounts in scripts, reused passwords compromised in public dumps, social engineering, or using malware to capture credentials[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 0.75,
+                    "passed": true,
+                    "reason": "The score is 0.75 because the response includes irrelevant scenarios that do not directly address common methods attackers use for obtaining access, such as phishing or exploiting vulnerabilities."
+                },
+                "Faithfulness": {
+                    "score": 0.75,
+                    "passed": true,
+                    "reason": "The score is 0.75 because the actual output incorrectly omits the mention of both social engineering and malware as methods used by attackers, which contradicts the information in the context."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes are ranked higher than irrelevant ones, with the first node directly addressing common ways attackers can obtain access to user accounts. Nodes 2 through 5, although related to security challenges, do not specifically answer the question about methods of obtaining access."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all sentences in the expected output are directly relevant and supportive of the single node in retrieval context, providing comprehensive reasons for how attackers can obtain access."
+                }
+            }
+        },
+        {
+            "id": 18,
+            "question": "What is the policy for dormant accounts under Control 5?",
+            "ai_answer": "Delete or disable any dormant accounts after a period of 45 days of inactivity, where supported.",
+            "expected": "Dormant accounts should be deleted or disabled after a period of 45 days of inactivity, where supported[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output, making it a perfect fit for the question about dormant account policies under Control 5."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (ranked 1) directly address the policy for dormant accounts under Control 5, while irrelevant nodes (ranks 2-5) do not provide specific information about this topic."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output directly aligns with the content provided by the second node in the retrieval context, without any contradictions or additional information that would affect the match."
+                }
+            }
+        },
+        {
+            "id": 19,
+            "question": "What are the minimum password length requirements depending on whether Multi-Factor Authentication (MFA) is used?",
+            "ai_answer": "The minimum password length requirement is 8 characters for accounts using Multi-Factor Authentication (MFA), according to the provided context.",
+            "expected": "When using MFA, the minimum password length is 8 characters. For accounts not using MFA, the minimum password length is 14 characters[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there were no irrelevant statements in the actual output to reduce the score further."
+                },
+                "Faithfulness": {
+                    "score": 0.0,
+                    "passed": false,
+                    "reason": "The score is 0.00 because the actual output incorrectly states that accounts using MFA have a 8-character password minimum, contradicting the retrieval context which specifies an 8-character minimum for all accounts, not just those using MFA."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) are ranked higher than the irrelevant nodes (nodes 3, 4, and 5), directly providing the required information about minimum password length based on MFA usage."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the human correction accurately reflects the original expected output without any discrepancies, providing clear guidelines on minimum password lengths based on MFA usage."
+                }
+            }
+        },
+        {
+            "id": 20,
+            "question": "What is the main difference in focus between Control 5 (Account Management) and Control 6 (Access Control Management)?",
+            "ai_answer": "Control 5 focuses on managing the assignment of authorization to credentials for user accounts, including administrator and service accounts, while Control 6 specifically deals with ensuring users only have access to appropriate data or assets based on their role, emphasizing strong authentication for critical or sensitive functions.",
+            "expected": "Control 5 focuses specifically on assigning and managing authorization to credentials (the existence of accounts), while Control 6 focuses on managing what access those accounts have, ensuring users only have access to the data or assets appropriate for their role[cite: 1].",
+            "failed_before": {
+                "Faithfulness": {
+                    "score": 0.6666666666666666,
+                    "success": false,
+                    "reason": "The score is 0.67 because the actual output incorrectly attributes aspects of CIS Control 5 to CIS Control 6."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 0.3333333333333333,
+                    "passed": false,
+                    "reason": "The score is 0.33 because while some irrelevant statements are present, they do not significantly detract from addressing the core question about the differences in focus between Control 5 and Control 6."
+                },
+                "Faithfulness": {
+                    "score": 0.6666666666666666,
+                    "passed": false,
+                    "reason": "The score is 0.67 because the actual output incorrectly claims that CIS Control 6 assigns authorization to credentials, contradicting the retrieval context which states it focuses on managing access for accounts."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) correctly explain the focus of Control 5 and Control 6, respectively, while node 3, which is irrelevant, is ranked last."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the human correction accurately captures the key points from both nodes in the retrieval context, clearly differentiating between Control 5 and Control 6."
+                }
+            }
+        },
+        {
+            "id": 21,
+            "question": "Why might disabling an account be preferred over deleting it when an employee leaves the enterprise?",
+            "ai_answer": "Disabling an account instead of deleting it may be necessary to preserve audit trails, as stated in the context.",
+            "expected": "Disabling accounts instead of deleting them immediately upon termination may be necessary in order to preserve audit trails[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the question without any irrelevant statements, making it fully relevant and comprehensive."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (ranked 1) directly address the question, explaining why disabling an account is preferred over deleting it when an employee leaves the enterprise. Irrelevant nodes (ranks 2-5) do not provide this specific information."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all information from the expected output directly aligns with the second node in the retrieval context, emphasizing the necessity of disabling accounts to preserve audit trails."
+                }
+            }
+        },
+        {
+            "id": 22,
+            "question": "Which types of access explicitly require Multi-Factor Authentication (MFA) according to Control 6?",
+            "ai_answer": "According to Control 6, MFA is required for externally-exposed applications, remote network access, and administrative access.",
+            "expected": "MFA is explicitly required for externally-exposed applications, remote network access, and all administrative access accounts[cite: 1].",
+            "failed_before": {
+                "Faithfulness": {
+                    "score": 0.6666666666666666,
+                    "success": false,
+                    "reason": "The score is 0.67 because the actual output implies a more flexible policy, contradicting the requirement for MFA on all enterprise assets."
+                },
+                "Contextual Precision": {
+                    "score": 0.3666666666666667,
+                    "success": false,
+                    "reason": "The score is 0.37 because the first three nodes are ranked lower as they do not explicitly mention which types of access require MFA, while the fourth and fifth nodes rank higher by directly stating relevant requirements."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that would lower this score."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 0.5888888888888889,
+                    "passed": false,
+                    "reason": "The score is 0.59 because the first and fourth nodes are ranked higher than relevant ones (1st and 3rd), which should be lower. Specifically, 'no' verdicts for externally-exposed applications (4th node) and non-direct mentions of MFA requirements (1st node) are ranked before 'yes' verdicts that explicitly state the need for MFA in remote network access (2nd node) and administrative access accounts (3rd node)."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output aligns perfectly with the provided supportive reasons, specifically mentioning MFA requirements for remote network access and administrative accounts, which are directly related to nodes in retrieval context."
+                }
+            }
+        },
+        {
+            "id": 23,
+            "question": "What is a zero-day exploit and why does it complicate vulnerability management?",
+            "ai_answer": "A zero-day exploit takes advantage of previously unknown vulnerabilities that have yet to have a patch released from the software vendor, complicating vulnerability management because defenders must use other controls to mitigate risks until patches are available.",
+            "expected": "A zero-day exploit takes advantage of a vulnerability that is not yet known within the security community or by the software vendor, meaning an exploit exists before a patch is released[cite: 1]. This requires defenders to use other controls to mitigate the unpatchable vulnerability[cite: 1].",
+            "failed_before": {
+                "Faithfulness": {
+                    "score": 0.3333333333333333,
+                    "success": false,
+                    "reason": "The score is 0.33 because the actual output incorrectly states that zero-day exploits are involved, while the context indicates known vulnerabilities may exist before public disclosure. Additionally, it claims no further controls are necessary, contradicting the need for maintaining an up-to-date software inventory and using other mitigations."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no irrelevant statements in the output that would lower this score."
+                },
+                "Faithfulness": {
+                    "score": 0.6666666666666666,
+                    "passed": false,
+                    "reason": "The score is 0.67 because the actual output incorrectly suggests that zero-day exploits are not used before a vulnerability is known, contradicting the retrieval context."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes ranked 1 and 2) are correctly identified as 'yes' and are directly related to the input, while irrelevant nodes (nodes ranked 3 to 5) are appropriately marked as 'no'. These irrelevant nodes do not provide direct explanations for why zero-day exploits complicate vulnerability management, but they still support the concept indirectly."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all sentences in the expected output are directly aligned with and supported by the information in the node(s) in retrieval context, emphasizing the urgency for defenders to take action due to the existence of unknown vulnerabilities."
+                }
+            }
+        },
+        {
+            "id": 24,
+            "question": "How often should automated operating system and application patch management occur?",
+            "ai_answer": "Automated operating system and application patch management should occur on a monthly, or more frequent, basis.",
+            "expected": "Operating system and application updates on enterprise assets should be performed through automated patch management on a monthly, or more frequent, basis[cite: 1].",
+            "failed_before": {
+                "Contextual Recall": {
+                    "score": 0.6,
+                    "success": false,
+                    "reason": "The score is 0.60 because the node(s) in retrieval context primarily focuses on performing updates through automated patch management, which is consistently mentioned in the supportive reasons but not explicitly stated in the unsupportive ones."
+                }
+            },
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the frequency query without any irrelevant statements, achieving a perfect relevancy."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions present."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes ranked 1-3) directly address the question about patch management frequency and are ranked higher than irrelevant nodes (nodes ranked 4-5), which discuss unrelated topics such as service providers and network device configuration."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output clearly states the requirement for performing operating system and application updates through automated patch management on a monthly or more frequent basis, which aligns perfectly with the node in retrieval context."
+                }
+            }
+        },
+        {
+            "id": 25,
+            "question": "What type of scans should be conducted for internal enterprise assets, and how often?",
+            "ai_answer": "Automated vulnerability scans for internal enterprise assets should be conducted on a quarterly, or more frequent, basis using both authenticated and unauthenticated scans with a SCAP-compliant vulnerability scanning tool.",
+            "expected": "Automated vulnerability scans of internal enterprise assets should be performed on a quarterly, or more frequent, basis. These must include both authenticated and unauthenticated scans using a SCAP-compliant tool[cite: 1].",
+            "failed_before": {},
+            "hitl_metrics": {
+                "Answer Relevancy": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the response directly addresses the query about types of scans and their frequency for internal enterprise assets without including any irrelevant statements."
+                },
+                "Faithfulness": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because there are no contradictions in the actual output."
+                },
+                "Contextual Precision": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because all relevant nodes (nodes 1 and 2) are ranked higher than irrelevant ones, with nodes 3-5 providing less pertinent information or being directly unrelated to the input."
+                },
+                "Contextual Recall": {
+                    "score": 1.0,
+                    "passed": true,
+                    "reason": "The score is 1.00 because the expected output aligns perfectly with the content of the first node in retrieval context, which recommends performing automated vulnerability scans on a quarterly basis and using SCAP-compliant tools for both authenticated and unauthenticated scans."
+                }
+            }
+        }
+    ]
+}

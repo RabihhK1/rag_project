@@ -1,0 +1,988 @@
+{
+    "timestamp": "2026-07-17 13:08:24.559718",
+    "before": "C:\\Users\\Rabih Kiwan\\Desktop\\Dar.Intern\\Rag\\rag_setup\\rag_setup\\evaluation\\deepeval_results.json",
+    "after": "C:\\Users\\Rabih Kiwan\\Desktop\\Dar.Intern\\Rag\\rag_setup\\rag_setup\\evaluation\\hitl_deepeval_results.json",
+    "total_cases": 25,
+    "summary": {
+        "Answer Relevancy": {
+            "before_average": 0.9116666666666667,
+            "after_average": 0.8883333333333333,
+            "improvement": -0.023333333333333428,
+            "fixed_cases": 1,
+            "regressed_cases": 1
+        },
+        "Faithfulness": {
+            "before_average": 0.85,
+            "after_average": 0.7833333333333333,
+            "improvement": -0.06666666666666665,
+            "fixed_cases": 2,
+            "regressed_cases": 3
+        },
+        "Contextual Precision": {
+            "before_average": 0.8906666666666666,
+            "after_average": 0.9535555555555555,
+            "improvement": 0.06288888888888888,
+            "fixed_cases": 1,
+            "regressed_cases": 0
+        },
+        "Contextual Recall": {
+            "before_average": 0.818,
+            "after_average": 1.0,
+            "improvement": 0.18200000000000005,
+            "fixed_cases": 7,
+            "regressed_cases": 0
+        }
+    },
+    "details": [
+        {
+            "id": 1,
+            "question": "What are the three Implementation Groups (IGs) defined in the CIS Controls, and how do they differ?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.5833333333333333,
+                    "after_score": 0.41666666666666663,
+                    "score_change": -0.16666666666666663,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 2,
+            "question": "What are the core design principles used to guide the creation of CIS Controls Version 8?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 0.5,
+                    "after_score": 0.5,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.5,
+                    "after_score": 0.5,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.5,
+                    "after_score": 1.0,
+                    "score_change": 0.5,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 3,
+            "question": "Why is the inventory and control of enterprise assets considered a critical first step?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 4,
+            "question": "How frequently should an enterprise review and update its detailed enterprise asset inventory?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 0.8333333333333333,
+                    "score_change": -0.16666666666666674,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.6,
+                    "after_score": 1.0,
+                    "score_change": 0.4,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 5,
+            "question": "What is the recommended timeframe for addressing unauthorized assets on the network?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.5,
+                    "after_score": 1.0,
+                    "score_change": 0.5,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 6,
+            "question": "Why is it important to track and manage software assets even if a patch is not yet available?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.3333333333333333,
+                    "after_score": 1.0,
+                    "score_change": 0.6666666666666667,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "question": "If unsupported software is necessary for the enterprise's mission, what must be done to remain compliant with CIS Controls?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 0.0,
+                    "score_change": -1.0,
+                    "before_pass": true,
+                    "after_pass": false,
+                    "status_change": "REGRESSED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.9166666666666666,
+                    "after_score": 1.0,
+                    "score_change": 0.08333333333333337,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 8,
+            "question": "What frequency is required for allowlisting authorized software libraries and scripts?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 0.5,
+                    "after_score": 0.5,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.5,
+                    "after_score": 0.0,
+                    "score_change": -0.5,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.7000000000000001,
+                    "after_score": 1.0,
+                    "score_change": 0.29999999999999993,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 9,
+            "question": "Why is data protection not exclusively about data encryption?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 0.6666666666666666,
+                    "after_score": 1.0,
+                    "score_change": 0.33333333333333337,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.5,
+                    "after_score": 0.5,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 10,
+            "question": "What timelines must be included when enforcing data retention?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.2,
+                    "after_score": 1.0,
+                    "score_change": 0.8,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 11,
+            "question": "How should an enterprise deploy storage-layer encryption for sensitive data at rest?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.4,
+                    "after_score": 1.0,
+                    "score_change": 0.6,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 12,
+            "question": "What is a recommended technological implementation for encrypting data on end-user devices?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.4,
+                    "after_score": 1.0,
+                    "score_change": 0.6,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 13,
+            "question": "Why do service providers pose a challenge to secure configuration of enterprise assets?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 0.125,
+                    "after_score": 0.125,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 0.5,
+                    "score_change": -0.5,
+                    "before_pass": true,
+                    "after_pass": false,
+                    "status_change": "REGRESSED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.7,
+                    "after_score": 1.0,
+                    "score_change": 0.30000000000000004,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 14,
+            "question": "What are the automatic session locking limits for general purpose operating systems versus mobile end-user devices?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 15,
+            "question": "What is the maximum allowed number of failed authentication attempts before lockout on laptops compared to tablets/smartphones?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.2,
+                    "after_score": 1.0,
+                    "score_change": 0.8,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 16,
+            "question": "How should default accounts on enterprise assets and software be managed?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.8333333333333333,
+                    "after_score": 1.0,
+                    "score_change": 0.16666666666666674,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 17,
+            "question": "What are the common ways attackers can covertly obtain access to user accounts?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 0.75,
+                    "score_change": -0.25,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.75,
+                    "after_score": 0.75,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.9166666666666666,
+                    "after_score": 1.0,
+                    "score_change": 0.08333333333333337,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 18,
+            "question": "What is the policy for dormant accounts under Control 5?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.8333333333333333,
+                    "after_score": 1.0,
+                    "score_change": 0.16666666666666674,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.75,
+                    "after_score": 1.0,
+                    "score_change": 0.25,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 19,
+            "question": "What are the minimum password length requirements depending on whether Multi-Factor Authentication (MFA) is used?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 0.0,
+                    "score_change": -1.0,
+                    "before_pass": true,
+                    "after_pass": false,
+                    "status_change": "REGRESSED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 20,
+            "question": "What is the main difference in focus between Control 5 (Account Management) and Control 6 (Access Control Management)?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 0.3333333333333333,
+                    "score_change": -0.6666666666666667,
+                    "before_pass": true,
+                    "after_pass": false,
+                    "status_change": "REGRESSED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.6666666666666666,
+                    "after_score": 0.6666666666666666,
+                    "score_change": 0.0,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 21,
+            "question": "Why might disabling an account be preferred over deleting it when an employee leaves the enterprise?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 22,
+            "question": "Which types of access explicitly require Multi-Factor Authentication (MFA) according to Control 6?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.6666666666666666,
+                    "after_score": 1.0,
+                    "score_change": 0.33333333333333337,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.3666666666666667,
+                    "after_score": 0.5888888888888889,
+                    "score_change": 0.2222222222222222,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 23,
+            "question": "What is a zero-day exploit and why does it complicate vulnerability management?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 0.3333333333333333,
+                    "after_score": 0.6666666666666666,
+                    "score_change": 0.3333333333333333,
+                    "before_pass": false,
+                    "after_pass": false,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        },
+        {
+            "id": 24,
+            "question": "How often should automated operating system and application patch management occur?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.6,
+                    "after_score": 1.0,
+                    "score_change": 0.4,
+                    "before_pass": false,
+                    "after_pass": true,
+                    "status_change": "FIXED"
+                }
+            }
+        },
+        {
+            "id": 25,
+            "question": "What type of scans should be conducted for internal enterprise assets, and how often?",
+            "metrics": {
+                "Answer Relevancy": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Faithfulness": {
+                    "before_score": 1.0,
+                    "after_score": 1.0,
+                    "score_change": 0.0,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Precision": {
+                    "before_score": 0.9166666666666666,
+                    "after_score": 1.0,
+                    "score_change": 0.08333333333333337,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                },
+                "Contextual Recall": {
+                    "before_score": 0.8,
+                    "after_score": 1.0,
+                    "score_change": 0.19999999999999996,
+                    "before_pass": true,
+                    "after_pass": true,
+                    "status_change": "UNCHANGED"
+                }
+            }
+        }
+    ]
+}

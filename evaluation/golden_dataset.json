@@ -1,0 +1,779 @@
+[
+  {
+    "question": "What are the three Implementation Groups (IGs) defined in the CIS Controls, and how do they differ?",
+    "expected_answer": "The CIS Controls are categorized into three Implementation Groups. IG1 is designed for small to medium-sized enterprises with limited IT and cybersecurity expertise, focusing on essential cyber hygiene[cite: 1]. IG2 includes all IG1 safeguards and is intended for enterprises managing IT infrastructure and sensitive data, capable of withstanding short interruptions[cite: 1]. IG3 includes all IG1 and IG2 safeguards and is meant for enterprises with specialized security experts protecting sensitive functions against targeted, sophisticated attacks[cite: 1].",
+    "relevant_sections": [
+      "Introduction",
+      "Implementation Groups"
+    ],
+    "keywords": [
+      "Implementation Groups",
+      "IG1",
+      "IG2",
+      "IG3",
+      "cyber hygiene"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What are the core design principles used to guide the creation of CIS Controls Version 8?",
+    "expected_answer": "The design principles for Version 8 include: Offense Informs Defense (based on data and attacker behavior), Focus (identifying the most critical actions), Feasible (practical to implement), Measurable (avoiding ambiguous language), and Align (co-existing peacefully with other frameworks like NIST and ISO)[cite: 1].",
+    "relevant_sections": [
+      "Introduction",
+      "This Version of the CIS Controls"
+    ],
+    "keywords": [
+      "design principles",
+      "Offense Informs Defense",
+      "Measurable",
+      "Align"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why is the inventory and control of enterprise assets considered a critical first step?",
+    "expected_answer": "Enterprises cannot defend what they do not know they have[cite: 1]. External attackers continuously scan for unprotected assets, and internal unidentified assets can have weak security configurations that are vulnerable to malware or lateral movement[cite: 1]. Asset management also supports incident response, system backup, and recovery[cite: 1].",
+    "relevant_sections": [
+      "Control 01 Inventory and Control of Enterprise Assets",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 01",
+      "asset management",
+      "inventory",
+      "unprotected assets"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "How frequently should an enterprise review and update its detailed enterprise asset inventory?",
+    "expected_answer": "An enterprise must review and update the inventory of all enterprise assets bi-annually, or more frequently[cite: 1].",
+    "relevant_sections": [
+      "Control 01",
+      "Safeguards",
+      "1.1"
+    ],
+    "keywords": [
+      "asset inventory",
+      "bi-annually",
+      "update frequency"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the recommended timeframe for addressing unauthorized assets on the network?",
+    "expected_answer": "A process must exist to address unauthorized assets on a weekly basis, which may involve removing, denying remote connection, or quarantining the asset[cite: 1].",
+    "relevant_sections": [
+      "Control 01",
+      "Safeguards",
+      "1.2"
+    ],
+    "keywords": [
+      "unauthorized assets",
+      "weekly",
+      "quarantine"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why is it important to track and manage software assets even if a patch is not yet available?",
+    "expected_answer": "If a patch is not yet available (such as with zero-day exploits), a complete software inventory allows an enterprise to guard against known attacks by implementing temporary mitigation measures until the patch is released by the software vendor[cite: 1].",
+    "relevant_sections": [
+      "Control 02 Inventory and Control of Software Assets",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 02",
+      "software inventory",
+      "zero-day exploits",
+      "mitigation"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "If unsupported software is necessary for the enterprise's mission, what must be done to remain compliant with CIS Controls?",
+    "expected_answer": "If unsupported software is necessary, the enterprise must document an exception detailing mitigating controls and residual risk acceptance[cite: 1]. Without this documentation, it must be designated as unauthorized[cite: 1].",
+    "relevant_sections": [
+      "Control 02",
+      "Safeguards",
+      "2.2"
+    ],
+    "keywords": [
+      "unsupported software",
+      "exception",
+      "mitigating controls"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What frequency is required for allowlisting authorized software libraries and scripts?",
+    "expected_answer": "Technical controls for allowlisting authorized libraries (like .dll or .so files) and scripts (like .ps1 or .py files) must be reassessed bi-annually, or more frequently[cite: 1].",
+    "relevant_sections": [
+      "Control 02",
+      "Safeguards",
+      "2.6",
+      "2.7"
+    ],
+    "keywords": [
+      "allowlist",
+      "libraries",
+      "scripts",
+      "bi-annually"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why is data protection not exclusively about data encryption?",
+    "expected_answer": "Data privacy is about the appropriate use and management of data throughout its entire life cycle, including identifying, classifying, securely handling, retaining, and disposing of data[cite: 1].",
+    "relevant_sections": [
+      "Control 03 Data Protection",
+      "Overview",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 03",
+      "data privacy",
+      "life cycle",
+      "management"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What timelines must be included when enforcing data retention?",
+    "expected_answer": "Data retention enforcement must include both minimum and maximum timelines[cite: 1].",
+    "relevant_sections": [
+      "Control 03",
+      "Safeguards",
+      "3.4"
+    ],
+    "keywords": [
+      "data retention",
+      "minimum",
+      "maximum"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "How should an enterprise deploy storage-layer encryption for sensitive data at rest?",
+    "expected_answer": "Storage-layer encryption, or server-side encryption, meets the minimum requirement for encrypting sensitive data at rest on servers, applications, and databases[cite: 1]. Additional methods can include application-layer encryption[cite: 1].",
+    "relevant_sections": [
+      "Control 03",
+      "Safeguards",
+      "3.11"
+    ],
+    "keywords": [
+      "encryption",
+      "data at rest",
+      "storage-layer",
+      "server-side"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is a recommended technological implementation for encrypting data on end-user devices?",
+    "expected_answer": "Example implementations for encrypting data on end-user devices include Windows BitLocker, Apple FileVault, or Linux dm-crypt[cite: 1].",
+    "relevant_sections": [
+      "Control 03",
+      "Safeguards",
+      "3.6"
+    ],
+    "keywords": [
+      "BitLocker",
+      "FileVault",
+      "dm-crypt",
+      "end-user devices"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "Why do service providers pose a challenge to secure configuration of enterprise assets?",
+    "expected_answer": "Service providers are often not set up by default in the most secure configuration, but rather to provide flexibility for customers to apply their own policies[cite: 1]. This leaves default accounts, excessive access, or unnecessary services that the using enterprise is responsible for mitigating[cite: 1].",
+    "relevant_sections": [
+      "Control 04 Secure Configuration of Enterprise Assets and Software",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 04",
+      "service providers",
+      "default configuration",
+      "responsibility"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What are the automatic session locking limits for general purpose operating systems versus mobile end-user devices?",
+    "expected_answer": "For general purpose operating systems, the automatic session locking period must not exceed 15 minutes, whereas for mobile end-user devices, it must not exceed 2 minutes[cite: 1].",
+    "relevant_sections": [
+      "Control 04",
+      "Safeguards",
+      "4.3"
+    ],
+    "keywords": [
+      "session locking",
+      "15 minutes",
+      "2 minutes",
+      "mobile"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the maximum allowed number of failed authentication attempts before lockout on laptops compared to tablets/smartphones?",
+    "expected_answer": "For laptops, no more than 20 failed authentication attempts are allowed, while for tablets and smartphones, the threshold is no more than 10 failed authentication attempts[cite: 1].",
+    "relevant_sections": [
+      "Control 04",
+      "Safeguards",
+      "4.10"
+    ],
+    "keywords": [
+      "device lockout",
+      "failed attempts",
+      "laptops",
+      "smartphones"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How should default accounts on enterprise assets and software be managed?",
+    "expected_answer": "Default accounts, such as root, administrator, and pre-configured vendor accounts, should be managed by either disabling them or making them unusable[cite: 1].",
+    "relevant_sections": [
+      "Control 04",
+      "Safeguards",
+      "4.7"
+    ],
+    "keywords": [
+      "default accounts",
+      "root",
+      "disable",
+      "unusable"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are the common ways attackers can covertly obtain access to user accounts?",
+    "expected_answer": "Attackers can obtain access through weak passwords, dormant accounts still valid after a user leaves, shared accounts with unchanged passwords, embedded service accounts in scripts, reused passwords compromised in public dumps, social engineering, or using malware to capture credentials[cite: 1].",
+    "relevant_sections": [
+      "Control 05 Account Management",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 05",
+      "account access",
+      "password dump",
+      "social engineering"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the policy for dormant accounts under Control 5?",
+    "expected_answer": "Dormant accounts should be deleted or disabled after a period of 45 days of inactivity, where supported[cite: 1].",
+    "relevant_sections": [
+      "Control 05",
+      "Safeguards",
+      "5.3"
+    ],
+    "keywords": [
+      "dormant accounts",
+      "45 days",
+      "inactivity"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are the minimum password length requirements depending on whether Multi-Factor Authentication (MFA) is used?",
+    "expected_answer": "When using MFA, the minimum password length is 8 characters. For accounts not using MFA, the minimum password length is 14 characters[cite: 1].",
+    "relevant_sections": [
+      "Control 05",
+      "Safeguards",
+      "5.2"
+    ],
+    "keywords": [
+      "password length",
+      "MFA",
+      "8-character",
+      "14-character"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the main difference in focus between Control 5 (Account Management) and Control 6 (Access Control Management)?",
+    "expected_answer": "Control 5 focuses specifically on assigning and managing authorization to credentials (the existence of accounts), while Control 6 focuses on managing what access those accounts have, ensuring users only have access to the data or assets appropriate for their role[cite: 1].",
+    "relevant_sections": [
+      "Control 06 Access Control Management",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 05",
+      "Control 06",
+      "credentials",
+      "access rights",
+      "role"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why might disabling an account be preferred over deleting it when an employee leaves the enterprise?",
+    "expected_answer": "Disabling accounts instead of deleting them immediately upon termination may be necessary in order to preserve audit trails[cite: 1].",
+    "relevant_sections": [
+      "Control 06",
+      "Safeguards",
+      "6.2"
+    ],
+    "keywords": [
+      "disable accounts",
+      "delete accounts",
+      "audit trails"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which types of access explicitly require Multi-Factor Authentication (MFA) according to Control 6?",
+    "expected_answer": "MFA is explicitly required for externally-exposed applications, remote network access, and all administrative access accounts[cite: 1].",
+    "relevant_sections": [
+      "Control 06",
+      "Safeguards",
+      "6.3",
+      "6.4",
+      "6.5"
+    ],
+    "keywords": [
+      "MFA",
+      "externally-exposed",
+      "remote network access",
+      "administrative access"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is a zero-day exploit and why does it complicate vulnerability management?",
+    "expected_answer": "A zero-day exploit takes advantage of a vulnerability that is not yet known within the security community or by the software vendor, meaning an exploit exists before a patch is released[cite: 1]. This requires defenders to use other controls to mitigate the unpatchable vulnerability[cite: 1].",
+    "relevant_sections": [
+      "Control 07 Continuous Vulnerability Management",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 07",
+      "zero-day",
+      "exploit",
+      "patch"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How often should automated operating system and application patch management occur?",
+    "expected_answer": "Operating system and application updates on enterprise assets should be performed through automated patch management on a monthly, or more frequent, basis[cite: 1].",
+    "relevant_sections": [
+      "Control 07",
+      "Safeguards",
+      "7.3",
+      "7.4"
+    ],
+    "keywords": [
+      "patch management",
+      "automated",
+      "monthly"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What type of scans should be conducted for internal enterprise assets, and how often?",
+    "expected_answer": "Automated vulnerability scans of internal enterprise assets should be performed on a quarterly, or more frequent, basis. These must include both authenticated and unauthenticated scans using a SCAP-compliant tool[cite: 1].",
+    "relevant_sections": [
+      "Control 07",
+      "Safeguards",
+      "7.5"
+    ],
+    "keywords": [
+      "internal assets",
+      "quarterly",
+      "authenticated",
+      "unauthenticated",
+      "SCAP"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How often should vulnerability scans of externally-exposed enterprise assets be performed?",
+    "expected_answer": "Automated vulnerability scans of externally-exposed enterprise assets should be performed on a monthly, or more frequent, basis using a SCAP-compliant vulnerability scanning tool[cite: 1].",
+    "relevant_sections": [
+      "Control 07",
+      "Safeguards",
+      "7.6"
+    ],
+    "keywords": [
+      "externally-exposed",
+      "monthly",
+      "SCAP"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the primary difference between system logs and audit logs?",
+    "expected_answer": "System logs provide system-level events (like process start/end times and crashes) and are native and easier to turn on, whereas audit logs typically include user-level events (like logins and file accesses) and take more planning and effort to set up[cite: 1].",
+    "relevant_sections": [
+      "Control 08 Audit Log Management",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 08",
+      "system logs",
+      "audit logs",
+      "user-level events"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the minimum retention period required for audit logs across enterprise assets?",
+    "expected_answer": "Audit logs must be retained across enterprise assets for a minimum of 90 days[cite: 1].",
+    "relevant_sections": [
+      "Control 08",
+      "Safeguards",
+      "8.10"
+    ],
+    "keywords": [
+      "retain",
+      "audit logs",
+      "90 days"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What elements must be included in detailed audit logs for enterprise assets containing sensitive data?",
+    "expected_answer": "Detailed audit logs for assets with sensitive data must include event source, date, username, timestamp, source addresses, destination addresses, and other useful elements for forensic investigations[cite: 1].",
+    "relevant_sections": [
+      "Control 08",
+      "Safeguards",
+      "8.5"
+    ],
+    "keywords": [
+      "detailed logs",
+      "sensitive data",
+      "event source",
+      "timestamp"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How should an enterprise standardize time synchronization across its assets for logging purposes?",
+    "expected_answer": "An enterprise must configure at least two synchronized time sources across enterprise assets, where supported, to standardize time synchronization[cite: 1].",
+    "relevant_sections": [
+      "Control 08",
+      "Safeguards",
+      "8.4"
+    ],
+    "keywords": [
+      "time synchronization",
+      "two sources"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why are email and web browsers considered prime targets for attackers?",
+    "expected_answer": "They are the main means by which users interact with external and untrusted environments. Because they involve direct human interaction, attackers can use social engineering or malicious content to entice users to disclose credentials or install malware[cite: 1].",
+    "relevant_sections": [
+      "Control 09 Email and Web Browser Protections",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 09",
+      "email",
+      "web browsers",
+      "social engineering"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What standards should be implemented alongside DMARC to prevent spoofed emails?",
+    "expected_answer": "To implement DMARC policy and verification, enterprises should start with implementing the Sender Policy Framework (SPF) and the DomainKeys Identified Mail (DKIM) standards[cite: 1].",
+    "relevant_sections": [
+      "Control 09",
+      "Safeguards",
+      "9.5"
+    ],
+    "keywords": [
+      "DMARC",
+      "spoofed",
+      "SPF",
+      "DKIM"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "How can an enterprise protect users from known malicious websites at the network level?",
+    "expected_answer": "The enterprise can use DNS filtering services on all enterprise assets to block access to known malicious domains[cite: 1].",
+    "relevant_sections": [
+      "Control 09",
+      "Safeguards",
+      "9.2"
+    ],
+    "keywords": [
+      "malicious websites",
+      "DNS filtering",
+      "block access"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What does a \"living-off-the-land\" (LotL) approach mean in the context of malware defenses?",
+    "expected_answer": "A \"living-off-the-land\" approach refers to attacker behavior that uses tools or features that already exist natively in the target environment, in order to minimize the likelihood of being caught by anti-malware tools[cite: 1].",
+    "relevant_sections": [
+      "Control 10 Malware Defenses",
+      "Procedures and tools"
+    ],
+    "keywords": [
+      "Control 10",
+      "living-off-the-land",
+      "LotL",
+      "native tools"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What physical media functionality must be disabled to prevent malware spread?",
+    "expected_answer": "Autorun and autoplay auto-execute functionality must be disabled for removable media[cite: 1]. Additionally, anti-malware software should automatically scan removable media[cite: 1].",
+    "relevant_sections": [
+      "Control 10",
+      "Safeguards",
+      "10.3",
+      "10.4"
+    ],
+    "keywords": [
+      "removable media",
+      "autorun",
+      "autoplay"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "Provide examples of anti-exploitation features that should be enabled on enterprise assets.",
+    "expected_answer": "Examples of anti-exploitation features include Microsoft Data Execution Prevention (DEP), Windows Defender Exploit Guard (WDEG), or Apple System Integrity Protection (SIP) and Gatekeeper[cite: 1].",
+    "relevant_sections": [
+      "Control 10",
+      "Safeguards",
+      "10.5"
+    ],
+    "keywords": [
+      "anti-exploitation",
+      "DEP",
+      "WDEG",
+      "SIP"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Why is restoring from backups not a complete solution against modern ransomware attacks?",
+    "expected_answer": "Modern ransomware has evolved into an extortion technique where data is often exfiltrated before being encrypted. Attackers demand payment not just for decryption, but to keep the data from being sold or publicized. Therefore, restoring backups only solves the problem of returning systems to a trusted state, not the confidentiality breach[cite: 1].",
+    "relevant_sections": [
+      "Control 11 Data Recovery",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 11",
+      "ransomware",
+      "extortion",
+      "exfiltrated"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "How frequently should automated backups be performed?",
+    "expected_answer": "Automated backups of in-scope enterprise assets should be run weekly, or more frequently, based on the sensitivity of the data[cite: 1].",
+    "relevant_sections": [
+      "Control 11",
+      "Safeguards",
+      "11.2"
+    ],
+    "keywords": [
+      "automated backups",
+      "weekly",
+      "frequency"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "How often should backup recovery be tested?",
+    "expected_answer": "Backup recovery should be tested quarterly, or more frequently, for a sampling of in-scope enterprise assets[cite: 1].",
+    "relevant_sections": [
+      "Control 11",
+      "Safeguards",
+      "11.5"
+    ],
+    "keywords": [
+      "test backup",
+      "quarterly",
+      "sampling"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What must be done with End-of-Life (EOL) network components if they cannot be immediately upgraded?",
+    "expected_answer": "If EOL network components cannot be upgraded before the date they are out of vendor support, the enterprise must apply mitigating controls to isolate them[cite: 1].",
+    "relevant_sections": [
+      "Control 12 Network Infrastructure Management",
+      "Procedures and tools"
+    ],
+    "keywords": [
+      "Control 12",
+      "End-of-Life",
+      "EOL",
+      "mitigating controls",
+      "isolate"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the security requirement for dedicated computing resources used for administrative tasks?",
+    "expected_answer": "Dedicated computing resources for administrative tasks must be either physically or logically separated from the primary network and must not be allowed internet access[cite: 1].",
+    "relevant_sections": [
+      "Control 12",
+      "Safeguards",
+      "12.8"
+    ],
+    "keywords": [
+      "administrative tasks",
+      "dedicated resources",
+      "no internet access"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What protocols must remote devices utilize before accessing enterprise resources?",
+    "expected_answer": "Remote devices must require users to authenticate to enterprise-managed VPN and authentication services prior to accessing enterprise resources[cite: 1].",
+    "relevant_sections": [
+      "Control 12",
+      "Safeguards",
+      "12.7"
+    ],
+    "keywords": [
+      "remote devices",
+      "VPN",
+      "authenticate"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "Why shouldn't an enterprise rely exclusively on a purely technology-driven approach for network monitoring and defense?",
+    "expected_answer": "A purely technology-driven approach leads to more false positives due to over-reliance on tool alerts[cite: 1]. Effective monitoring requires human expertise and intuition to understand enterprise risk posture, configure tools correctly, and proactively identify and respond to threats[cite: 1].",
+    "relevant_sections": [
+      "Control 13 Network Monitoring and Defense",
+      "Why is this Control critical?",
+      "Procedures and tools"
+    ],
+    "keywords": [
+      "Control 13",
+      "technology-driven",
+      "false positives",
+      "human expertise"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What criteria should determine the amount of access granted to a remote asset connecting to the network?",
+    "expected_answer": "Access levels for remote assets should be based on whether up-to-date anti-malware software is installed, compliance with the enterprise's secure configuration process, and ensuring the OS and applications are up-to-date[cite: 1].",
+    "relevant_sections": [
+      "Control 13",
+      "Safeguards",
+      "13.5"
+    ],
+    "keywords": [
+      "remote asset",
+      "access control",
+      "compliance",
+      "anti-malware"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the recommended tool for centralizing security event alerting for log correlation and analysis?",
+    "expected_answer": "The best practice implementation is to use a Security Information and Event Management (SIEM) solution, or a log analytics platform configured with security-relevant correlation alerts[cite: 1].",
+    "relevant_sections": [
+      "Control 13",
+      "Safeguards",
+      "13.1"
+    ],
+    "keywords": [
+      "alerting",
+      "SIEM",
+      "correlation"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "How often should security awareness training be conducted for the workforce?",
+    "expected_answer": "Security awareness training must be conducted upon hire and, at a minimum, annually[cite: 1].",
+    "relevant_sections": [
+      "Control 14 Security Awareness and Skills Training",
+      "Safeguards",
+      "14.1"
+    ],
+    "keywords": [
+      "Control 14",
+      "training frequency",
+      "hire",
+      "annually"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are some examples of role-specific security awareness and skills training?",
+    "expected_answer": "Examples include secure system administration courses for IT professionals, OWASP Top 10 training for web application developers, and advanced social engineering awareness training for high-profile roles (like executives)[cite: 1].",
+    "relevant_sections": [
+      "Control 14",
+      "Safeguards",
+      "14.9"
+    ],
+    "keywords": [
+      "role-specific",
+      "OWASP",
+      "system administration",
+      "high-profile"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What specific actions regarding physical and virtual workspace security must be included in workforce data handling training?",
+    "expected_answer": "Workforce members must be trained on clear screen and desk best practices, such as locking their screen when stepping away, erasing physical and virtual whiteboards at the end of meetings, and storing data and assets securely[cite: 1].",
+    "relevant_sections": [
+      "Control 14",
+      "Safeguards",
+      "14.4"
+    ],
+    "keywords": [
+      "data handling",
+      "clear screen",
+      "whiteboards"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What are the common compliance frameworks that mandate third-party service provider protection?",
+    "expected_answer": "Common compliance frameworks that require protection extended to third-party providers include HIPAA (Business Associate agreements in healthcare), FFIEC requirements (financial industry), and the U.K. Cyber Essentials[cite: 1].",
+    "relevant_sections": [
+      "Control 15 Service Provider Management",
+      "Why is this Control critical?"
+    ],
+    "keywords": [
+      "Control 15",
+      "HIPAA",
+      "FFIEC",
+      "U.K. Cyber Essentials",
+      "compliance"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "question": "What characteristics should be considered when classifying service providers?",
+    "expected_answer": "Classification considerations may include data sensitivity, data volume, availability requirements, applicable regulations, inherent risk, and mitigated risk[cite: 1].",
+    "relevant_sections": [
+      "Control 15",
+      "Safeguards",
+      "15.3"
+    ],
+    "keywords": [
+      "classify",
+      "service providers",
+      "data sensitivity",
+      "inherent risk"
+    ],
+    "difficulty": "medium"
+  }
+]
