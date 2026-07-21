@@ -1,10 +1,25 @@
+import { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 
 
 function MessageList({
-messages,
-loading
+    messages,
+    loading
 }){
+
+
+const bottomRef = useRef(null);
+
+
+
+useEffect(()=>{
+
+    bottomRef.current?.scrollIntoView({
+        behavior:"smooth"
+    });
+
+},[messages,loading]);
+
 
 
 return (
@@ -41,6 +56,9 @@ loading &&
 </div>
 
 }
+
+
+<div ref={bottomRef}/>
 
 
 </div>

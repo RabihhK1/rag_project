@@ -1,35 +1,37 @@
-import {useState} from "react";
+import { useState } from "react";
 
 
 function useChat(){
 
 
-const [messages,setMessages]=useState([
+const [messages,setMessages] = useState([
 
 {
-role:"assistant",
-content:
-"Hello, I am your cybersecurity assistant. Ask me anything about CIS Controls."
+    role:"assistant",
+    content:
+    "Hello, I am your cybersecurity assistant. Ask me anything about CIS Controls.",
+    sources:[]
 }
 
 ]);
 
 
-const [loading,setLoading]=useState(false);
+
+const [loading,setLoading] = useState(false);
 
 
 
 async function sendMessage(text){
 
 
-setMessages(prev=>[
+setMessages(prev => [
 
-...prev,
+    ...prev,
 
-{
-role:"user",
-content:text
-}
+    {
+        role:"user",
+        content:text
+    }
 
 ]);
 
@@ -42,8 +44,7 @@ setLoading(true);
 try{
 
 
-const response =
-await fetch(
+const response = await fetch(
 "http://127.0.0.1:8000/chat",
 {
 
@@ -65,23 +66,23 @@ message:text
 
 
 
-const data =
-await response.json();
+const data = await response.json();
 
 
 
-setMessages(prev=>[
+setMessages(prev => [
 
-...prev,
+    ...prev,
 
-{
+    {
 
-role:"assistant",
+        role:"assistant",
 
-content:
-data.answer
+        content:data.answer,
 
-}
+        sources:data.sources || []
+
+    }
 
 ]);
 
@@ -92,18 +93,19 @@ data.answer
 catch(error){
 
 
-setMessages(prev=>[
+setMessages(prev => [
 
-...prev,
+    ...prev,
 
-{
+    {
 
-role:"assistant",
+        role:"assistant",
 
-content:
-"Backend connection failed."
+        content:"Backend connection failed.",
 
-}
+        sources:[]
+
+    }
 
 ]);
 

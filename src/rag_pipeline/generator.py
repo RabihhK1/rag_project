@@ -65,9 +65,8 @@ choose the safeguard that directly answers the user's question.
 -If multiple frequencies are mentioned,
 return the frequency that applies to the exact safeguard asked.
 
--If the answer cannot be found,
-say:
-"I could not find the answer in the provided documents."
+-If the answer is partially available in the context, explain using the available information.
+-Only say "I could not find the answer in the provided documents." when there is truly no related information.
 
 -Give a concise answer.
 

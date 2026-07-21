@@ -1,72 +1,58 @@
-import {useState} from "react";
+import { useState } from "react";
 
 
-function ChatInput({
-sendMessage
-}){
+function ChatInput({ sendMessage }) {
+
+    const [text, setText] = useState("");
 
 
-const [text,setText]=useState("");
+    function submit() {
+
+        if (!text.trim()) return;
+
+        sendMessage(text);
+
+        setText("");
+
+    }
 
 
+    return (
 
-function submit(){
+        <div className="input-area">
 
+            <input
 
-if(!text.trim())
-return;
+                value={text}
 
+                onChange={(e) => setText(e.target.value)}
 
-sendMessage(text);
+                onKeyDown={(e) => {
 
-setText("");
+                    if (e.key === "Enter") {
 
-}
+                        submit();
 
+                    }
 
+                }}
 
-return (
+                placeholder="Ask about CIS Controls..."
 
-<div className="input-area">
-
-
-<input
-
-value={text}
-
-onChange={
-e=>setText(e.target.value)
-}
+            />
 
 
-onKeyDown={
-e=>{
-if(e.key==="Enter")
-submit();
-}
-}
+            <button
+                className="send"
+                onClick={submit}
+            >
+                Send
+            </button>
 
 
-placeholder="Ask about CIS Controls..."
+        </div>
 
-/>
-
-
-
-<button
-className="send"
-onClick={submit}
->
-
-Send
-
-</button>
-
-
-
-</div>
-
-)
+    );
 
 }
 
