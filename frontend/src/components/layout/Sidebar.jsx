@@ -1,6 +1,6 @@
 import {
-useEffect,
-useState
+    useEffect,
+    useState
 }
 from "react";
 
@@ -42,7 +42,11 @@ setTitle
 
 
 
+
 async function fetchConversations(){
+
+
+try{
 
 
 const response = await fetch(
@@ -58,17 +62,25 @@ setConversations(data);
 
 }
 
+catch(error){
+
+console.error(error);
+
+}
+
+
+}
+
 
 
 
 
 useEffect(()=>{
 
-
 fetchConversations();
 
-
 },[refreshKey]);
+
 
 
 
@@ -111,6 +123,46 @@ title:title
 
 setEditing(null);
 
+fetchConversations();
+
+
+}
+
+
+
+
+
+
+
+
+async function deleteChat(id){
+
+
+const confirmDelete =
+window.confirm(
+"Delete this conversation?"
+);
+
+
+
+if(!confirmDelete)
+return;
+
+
+
+await fetch(
+
+`${API}/conversations/${id}`,
+
+{
+
+method:"DELETE"
+
+}
+
+);
+
+
 
 fetchConversations();
 
@@ -140,13 +192,7 @@ return (
 
 className="new-chat"
 
-onClick={()=>{
-
-newChat();
-
-fetchConversations();
-
-}}
+onClick={newChat}
 
 >
 
@@ -167,6 +213,10 @@ Chats
 
 
 
+
+<div className="chat-list">
+
+
 {
 
 conversations.map(chat=>(
@@ -184,9 +234,10 @@ key={chat.conversation_id}
 
 {
 
-editing===chat.conversation_id
+editing === chat.conversation_id
 
 ?
+
 
 <input
 
@@ -209,14 +260,20 @@ renameChat(chat.conversation_id)
 
 }
 
+
 />
+
 
 
 :
 
+
 <>
 
+
 <span
+
+className="chat-title"
 
 onClick={()=>loadConversation(
 chat.conversation_id
@@ -227,6 +284,7 @@ chat.conversation_id
 {chat.title}
 
 </span>
+
 
 
 <button
@@ -252,7 +310,24 @@ chat.title
 </button>
 
 
+
+<button
+
+className="delete-btn"
+
+onClick={()=>deleteChat(
+chat.conversation_id
+)}
+
+>
+
+🗑
+
+</button>
+
+
 </>
+
 
 }
 
@@ -263,12 +338,15 @@ chat.title
 
 ))
 
-
 }
 
 
 
 </div>
+
+
+</div>
+
 
 
 
@@ -282,6 +360,7 @@ Cyber RAG
 
 
 </div>
+
 
 )
 

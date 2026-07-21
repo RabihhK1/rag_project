@@ -703,3 +703,111 @@ color:white;
 outline:none;
 
 }
+/* =====================
+   Sidebar Chat History
+===================== */
+
+
+.chat-history {
+
+margin-top:25px;
+
+height:calc(100vh - 170px);
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+
+
+.chat-list {
+
+overflow-y:auto;
+
+padding-right:5px;
+
+flex:1;
+
+}
+
+
+
+.chat-list::-webkit-scrollbar {
+
+width:6px;
+
+}
+
+
+.chat-list::-webkit-scrollbar-thumb {
+
+background:#333;
+
+border-radius:10px;
+
+}
+
+
+
+.chat-item {
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
+
+}
+
+
+
+.chat-title {
+
+flex:1;
+
+overflow:hidden;
+
+white-space:nowrap;
+
+text-overflow:ellipsis;
+
+cursor:pointer;
+
+}
+
+
+
+.rename-btn,
+.delete-btn {
+
+
+background:none;
+
+border:none;
+
+cursor:pointer;
+
+font-size:14px;
+
+opacity:0.7;
+
+}
+
+
+
+.rename-btn:hover,
+.delete-btn:hover {
+
+opacity:1;
+
+}
+
+
+
+.delete-btn:hover {
+
+color:#ef4444;
+
+}

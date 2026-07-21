@@ -14,7 +14,7 @@ router = APIRouter(
 
 
 # =========================
-# Rename model
+# Models
 # =========================
 
 class RenameRequest(BaseModel):
@@ -24,13 +24,13 @@ class RenameRequest(BaseModel):
 
 # =========================
 # Get all conversations
-# Sidebar
 # =========================
 
 @router.get("")
 async def get_conversations():
 
     conversations = []
+
 
     cursor = conversations_collection.find(
         {}
@@ -166,5 +166,50 @@ async def rename_conversation(
 
         "title":
             request.title
+
+    }
+
+
+
+
+
+# =========================
+# Delete conversation
+# =========================
+
+@router.delete("/{conversation_id}")
+async def delete_conversation(
+    conversation_id: str
+):
+
+
+    # Delete chat from sidebar
+
+    await conversations_collection.delete_one(
+
+        {
+            "conversation_id":
+                conversation_id
+        }
+
+    )
+
+
+
+    # Delete all messages belonging to chat
+
+    await messages_collection.delete_many(
+
+        {
+            "conversation_id":
+                conversation_id
+        }
+
+    )
+
+
+    return {
+
+        "success": True
 
     }
