@@ -1,38 +1,35 @@
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
-import {useChat} from "../../hooks/useChat";
 
 
-export default function ChatWindow(){
-
-
-const chat = useChat();
+function ChatWindow({
+messages,
+sendMessage,
+loading
+}){
 
 
 return (
 
-<section className="flex flex-col flex-1">
+<div className="chat-window">
 
 
 <MessageList
-messages={chat.messages}
-loading={chat.loading}
+messages={messages}
+loading={loading}
 />
 
 
 <ChatInput
-
-input={chat.input}
-
-setInput={chat.setInput}
-
-sendMessage={chat.sendMessage}
-
+sendMessage={sendMessage}
 />
 
 
-</section>
+</div>
 
 )
 
 }
+
+
+export default ChatWindow;

@@ -1,7 +1,7 @@
 import MessageBubble from "./MessageBubble";
 
 
-export default function MessageList({
+function MessageList({
 messages,
 loading
 }){
@@ -9,27 +9,15 @@ loading
 
 return (
 
-<div
-className="
-flex-1
-overflow-y-auto
-p-8
-space-y-5
-"
->
+<div className="messages">
 
 
 {
 messages.map((msg,index)=>(
 
 <MessageBubble
-
 key={index}
-
-role={msg.role}
-
-text={msg.text}
-
+message={msg}
 />
 
 ))
@@ -40,16 +28,19 @@ text={msg.text}
 {
 loading &&
 
-<MessageBubble
+<div className="message assistant">
 
-role="assistant"
+<div className="bubble typing">
 
-text="Thinking..."
+<span className="dot"></span>
+<span className="dot"></span>
+<span className="dot"></span>
 
-/>
+</div>
+
+</div>
 
 }
-
 
 
 </div>
@@ -57,3 +48,6 @@ text="Thinking..."
 )
 
 }
+
+
+export default MessageList;

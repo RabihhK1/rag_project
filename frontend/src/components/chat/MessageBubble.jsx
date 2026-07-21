@@ -1,40 +1,16 @@
-export default function MessageBubble({
-role,
-text
-}){
-
-
-const user = role==="user";
+function MessageBubble({message}){
 
 
 return (
 
 <div
-className={`
-flex
-${user ? "justify-end":"justify-start"}
-`}
+className={`message ${message.role}`}
 >
 
 
-<div
-className={`
-max-w-xl
-rounded-2xl
-px-5
-py-3
+<div className="bubble">
 
-${user
-?
-"bg-black text-white"
-:
-"bg-white border"
-}
-
-`}
->
-
-{text}
+{message.content}
 
 </div>
 
@@ -44,3 +20,6 @@ ${user
 )
 
 }
+
+
+export default MessageBubble;

@@ -1,26 +1,36 @@
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import ChatWindow from "./components/chat/ChatWindow";
+import useChat from "./hooks/useChat";
+
+function App() {
+
+  const {
+    messages,
+    sendMessage,
+    loading
+  } = useChat();
 
 
-export default function App(){
+  return (
+    <div className="app">
 
-return (
+      <Sidebar />
 
-<div className="flex h-screen bg-neutral-100">
-
-    <Sidebar />
-
-    <div className="flex flex-col flex-1">
+      <div className="main">
 
         <Header />
 
-        <ChatWindow />
+        <ChatWindow
+          messages={messages}
+          sendMessage={sendMessage}
+          loading={loading}
+        />
+
+      </div>
 
     </div>
-
-</div>
-
-)
-
+  );
 }
+
+export default App;

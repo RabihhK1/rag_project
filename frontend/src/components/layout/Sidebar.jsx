@@ -1,64 +1,46 @@
-export default function Sidebar(){
+function Sidebar(){
 
 return (
 
-<aside className="
-w-72
-bg-neutral-900
-text-white
-flex
-flex-col
-p-5
-">
+<div className="sidebar">
 
 
-<h1 className="text-xl font-semibold">
-RAG Security Assistant
-</h1>
+<div className="logo">
+⚡ Cyber RAG
+</div>
 
 
-<p className="
-text-sm
-text-neutral-400
-mt-2
-">
-Local LLM + Retrieval Augmented Generation
-</p>
-
-
-<button
-className="
-mt-8
-rounded-lg
-bg-white
-text-black
-py-2
-hover:bg-neutral-200
-"
->
+<button className="new-chat">
 + New Chat
 </button>
 
 
-<div className="mt-8 space-y-4 text-neutral-300">
+<div className="sidebar-info">
 
-<div>
-History
+<p>
+🤖 Local AI Assistant
+</p>
+
+<p>
+📚 CIS Controls v8
+</p>
+
+<p>
+🔎 Vector Search
+</p>
+
+<p>
+🧠 Qwen2.5 7B
+</p>
+
 </div>
 
-<div>
-Documents
-</div>
-
-<div>
-Settings
-</div>
 
 </div>
-
-
-</aside>
 
 )
 
 }
+
+
+export default Sidebar;

@@ -1,73 +1,136 @@
-import { useState } from "react";
+import {useState} from "react";
 
 
-export function useChat(){
-
-    const [messages,setMessages] = useState([
-        {
-            role:"assistant",
-            text:"Hello 👋 I am your RAG assistant. Ask me anything about the security documents."
-        }
-    ]);
+function useChat(){
 
 
-    const [input,setInput] = useState("");
+const [messages,setMessages]=useState([
 
-    const [loading,setLoading] = useState(false);
+{
+role:"assistant",
+content:
+"Hello, I am your cybersecurity assistant. Ask me anything about CIS Controls."
+}
 
-
-
-    const sendMessage = async()=>{
-
-        if(!input.trim()) return;
-
-
-        const userMessage={
-            role:"user",
-            text:input
-        };
+]);
 
 
-        setMessages(prev=>[
-            ...prev,
-            userMessage
-        ]);
+const [loading,setLoading]=useState(false);
 
 
-        setInput("");
+
+async function sendMessage(text){
 
 
-        // temporary AI response
-        setLoading(true);
+setMessages(prev=>[
+
+...prev,
+
+{
+role:"user",
+content:text
+}
+
+]);
 
 
-        setTimeout(()=>{
 
-            setMessages(prev=>[
-                ...prev,
-                {
-                    role:"assistant",
-                    text:"I received your question. Backend connection will be added next."
-                }
-            ]);
-
-            setLoading(false);
+setLoading(true);
 
 
-        },1200);
+
+try{
 
 
-    };
+const response =
+await fetch(
+"http://127.0.0.1:8000/chat",
+{
 
+method:"POST",
 
-    return {
+headers:{
+"Content-Type":"application/json"
+},
 
-        messages,
-        input,
-        setInput,
-        sendMessage,
-        loading
+body:JSON.stringify({
 
-    };
+message:text
+
+})
 
 }
+
+);
+
+
+
+const data =
+await response.json();
+
+
+
+setMessages(prev=>[
+
+...prev,
+
+{
+
+role:"assistant",
+
+content:
+data.answer
+
+}
+
+]);
+
+
+
+}
+
+catch(error){
+
+
+setMessages(prev=>[
+
+...prev,
+
+{
+
+role:"assistant",
+
+content:
+"Backend connection failed."
+
+}
+
+]);
+
+
+}
+
+
+
+setLoading(false);
+
+
+}
+
+
+
+return {
+
+messages,
+
+sendMessage,
+
+loading
+
+};
+
+
+}
+
+
+export default useChat;

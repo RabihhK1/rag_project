@@ -1,65 +1,61 @@
-export default function ChatInput({
+import {useState} from "react";
 
-input,
-setInput,
+
+function ChatInput({
 sendMessage
-
 }){
+
+
+const [text,setText]=useState("");
+
+
+
+function submit(){
+
+
+if(!text.trim())
+return;
+
+
+sendMessage(text);
+
+setText("");
+
+}
+
 
 
 return (
 
-<div
-className="
-border-t
-bg-white
-p-4
-flex
-gap-3
-"
->
+<div className="input-area">
 
 
 <input
 
-value={input}
+value={text}
 
-onChange={(e)=>setInput(e.target.value)}
+onChange={
+e=>setText(e.target.value)
+}
 
-onKeyDown={(e)=>{
 
+onKeyDown={
+e=>{
 if(e.key==="Enter")
-sendMessage();
+submit();
+}
+}
 
-}}
 
-className="
-flex-1
-border
-rounded-xl
-px-4
-py-3
-outline-none
-"
-
-placeholder="Ask your question..."
+placeholder="Ask about CIS Controls..."
 
 />
 
 
 
 <button
-
-onClick={sendMessage}
-
-className="
-bg-black
-text-white
-px-6
-rounded-xl
-hover:bg-neutral-800
-"
-
+className="send"
+onClick={submit}
 >
 
 Send
@@ -67,8 +63,12 @@ Send
 </button>
 
 
+
 </div>
 
 )
 
 }
+
+
+export default ChatInput;

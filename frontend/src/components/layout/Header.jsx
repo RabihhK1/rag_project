@@ -1,23 +1,25 @@
-export default function Header(){
+function Header(){
 
 return (
 
-<header
-className="
-h-16
-bg-white
-border-b
-flex
-items-center
-px-6
-font-medium
-"
->
+<div className="header">
 
-Security Knowledge Assistant
 
-</header>
+<div className="header-title">
+Cybersecurity RAG Assistant
+</div>
+
+
+<div className="status">
+● Online
+</div>
+
+
+</div>
 
 )
 
 }
+
+
+export default Header;
