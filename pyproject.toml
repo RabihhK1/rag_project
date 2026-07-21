@@ -31,3 +31,8 @@ dependencies = [
     "pydantic>=2.13.4",
 ]
 
+[tool.uv.workspace]
+members = [
+    "backend",
+]
+
