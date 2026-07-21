@@ -1,71 +1,37 @@
 import { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 
+function MessageList({ messages, loading }) {
+  const bottomRef = useRef(null);
 
-function MessageList({
-    messages,
-    loading
-}){
-
-
-const bottomRef = useRef(null);
-
-
-
-useEffect(()=>{
-
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({
-        behavior:"smooth"
+      behavior: "smooth",
     });
+  }, [messages, loading]);
 
-},[messages,loading]);
+  return (
+    <div className="messages">
+      {messages.map((message, index) => (
+        <MessageBubble
+          key={index}
+          message={message}
+        />
+      ))}
 
+      {loading && (
+        <div className="message assistant">
+          <div className="bubble typing">
+            <span className="dot"></span>
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+        </div>
+      )}
 
-
-return (
-
-<div className="messages">
-
-
-{
-messages.map((msg,index)=>(
-
-<MessageBubble
-key={index}
-message={msg}
-/>
-
-))
+      <div ref={bottomRef}></div>
+    </div>
+  );
 }
-
-
-
-{
-loading &&
-
-<div className="message assistant">
-
-<div className="bubble typing">
-
-<span className="dot"></span>
-<span className="dot"></span>
-<span className="dot"></span>
-
-</div>
-
-</div>
-
-}
-
-
-<div ref={bottomRef}/>
-
-
-</div>
-
-)
-
-}
-
 
 export default MessageList;

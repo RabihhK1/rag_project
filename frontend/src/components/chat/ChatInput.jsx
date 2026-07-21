@@ -1,60 +1,73 @@
 import { useState } from "react";
 
+function ChatInput({
+  sendMessage,
+  loading
+}) {
 
-function ChatInput({ sendMessage }) {
-
-    const [text, setText] = useState("");
-
-
-    function submit() {
-
-        if (!text.trim()) return;
-
-        sendMessage(text);
-
-        setText("");
-
-    }
+  const [text, setText] = useState("");
 
 
-    return (
+  function submit() {
 
-        <div className="input-area">
-
-            <input
-
-                value={text}
-
-                onChange={(e) => setText(e.target.value)}
-
-                onKeyDown={(e) => {
-
-                    if (e.key === "Enter") {
-
-                        submit();
-
-                    }
-
-                }}
-
-                placeholder="Ask about CIS Controls..."
-
-            />
+    if (!text.trim() || loading)
+      return;
 
 
-            <button
-                className="send"
-                onClick={submit}
-            >
-                Send
-            </button>
+    sendMessage(text);
+
+    setText("");
+
+  }
 
 
-        </div>
+  return (
 
-    );
+    <div className="input-area">
+
+      <input
+
+        value={text}
+
+        disabled={loading}
+
+        onChange={(e) => setText(e.target.value)}
+
+        onKeyDown={(e) => {
+
+          if (e.key === "Enter")
+            submit();
+
+        }}
+
+        placeholder={
+          loading
+            ? "AI is thinking..."
+            : "Ask anything about CIS Controls..."
+        }
+
+      />
+
+
+      <button
+
+        className="send"
+
+        disabled={loading}
+
+        onClick={submit}
+
+      >
+
+        {loading ? "Thinking..." : "Send"}
+
+      </button>
+
+
+    </div>
+
+  );
 
 }
-
 
 export default ChatInput;

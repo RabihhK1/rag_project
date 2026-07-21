@@ -20,10 +20,11 @@ loading={loading}
 />
 
 
-<ChatInput
-sendMessage={sendMessage}
-/>
 
+<ChatInput
+  sendMessage={sendMessage}
+  loading={loading}
+/>
 
 </div>
 

@@ -1,19 +1,36 @@
 import { useState } from "react";
 
 
+const API = "http://127.0.0.1:8000";
+
+
+
+const initialMessage = {
+
+    role: "assistant",
+
+    content:
+    "Hello, I am your cybersecurity assistant. Ask me anything about CIS Controls.",
+
+    sources: []
+
+};
+
+
+
+
+
 function useChat(){
 
 
+
 const [messages,setMessages] = useState([
-
-{
-    role:"assistant",
-    content:
-    "Hello, I am your cybersecurity assistant. Ask me anything about CIS Controls.",
-    sources:[]
-}
-
+    initialMessage
 ]);
+
+
+
+const [conversationId,setConversationId] = useState(null);
 
 
 
@@ -21,118 +38,284 @@ const [loading,setLoading] = useState(false);
 
 
 
+const [refreshKey,setRefreshKey] = useState(0);
+
+
+
+
+
+function refreshConversations(){
+
+    setRefreshKey(prev => prev + 1);
+
+}
+
+
+
+
+
+
+
 async function sendMessage(text){
 
 
-setMessages(prev => [
+    if(loading)
+        return;
 
-    ...prev,
 
-    {
-        role:"user",
-        content:text
+
+    setMessages(prev => [
+
+        ...prev,
+
+        {
+
+            role:"user",
+
+            content:text,
+
+            sources:[]
+
+        }
+
+    ]);
+
+
+
+    setLoading(true);
+
+
+
+
+    try{
+
+
+        const response = await fetch(
+
+            `${API}/chat`,
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":"application/json"
+
+                },
+
+
+                body:JSON.stringify({
+
+                    message:text,
+
+                    conversation_id:conversationId
+
+                })
+
+            }
+
+        );
+
+
+
+
+        const data = await response.json();
+
+
+
+
+        if(data.conversation_id){
+
+            setConversationId(
+                data.conversation_id
+            );
+
+        }
+
+
+
+
+
+
+        setMessages(prev => [
+
+            ...prev,
+
+
+            {
+
+                role:"assistant",
+
+                content:data.answer,
+
+                sources:data.sources || []
+
+            }
+
+        ]);
+
+
+
+
+        // refresh sidebar chats
+
+        refreshConversations();
+
+
+
     }
 
-]);
+    catch(error){
 
 
 
-setLoading(true);
+        console.error(error);
 
 
 
-try{
+        setMessages(prev => [
+
+            ...prev,
 
 
-const response = await fetch(
-"http://127.0.0.1:8000/chat",
-{
+            {
 
-method:"POST",
+                role:"assistant",
 
-headers:{
-"Content-Type":"application/json"
-},
+                content:
+                "Backend connection failed.",
 
-body:JSON.stringify({
+                sources:[]
 
-message:text
+            }
 
-})
-
-}
-
-);
-
-
-
-const data = await response.json();
-
-
-
-setMessages(prev => [
-
-    ...prev,
-
-    {
-
-        role:"assistant",
-
-        content:data.answer,
-
-        sources:data.sources || []
+        ]);
 
     }
 
-]);
 
+
+    setLoading(false);
 
 
 }
 
-catch(error){
 
 
-setMessages(prev => [
 
-    ...prev,
 
-    {
 
-        role:"assistant",
 
-        content:"Backend connection failed.",
 
-        sources:[]
+
+async function loadConversation(id){
+
+
+    try{
+
+
+        const response = await fetch(
+
+            `${API}/conversations/${id}/messages`
+
+        );
+
+
+
+        const data = await response.json();
+
+
+
+
+        setMessages(data);
+
+
+
+        setConversationId(id);
+
+
 
     }
 
-]);
+
+    catch(error){
+
+
+        console.error(
+            "Failed loading conversation:",
+            error
+        );
+
+
+    }
 
 
 }
 
 
 
-setLoading(false);
+
+
+
+
+
+
+
+function newChat(){
+
+
+    setMessages([
+
+        initialMessage
+
+    ]);
+
+
+
+    setConversationId(null);
+
 
 
 }
+
+
+
+
+
 
 
 
 return {
 
-messages,
 
-sendMessage,
+    messages,
 
-loading
+
+    sendMessage,
+
+
+    loading,
+
+
+    newChat,
+
+
+    loadConversation,
+
+
+    refreshConversations,
+
+
+    refreshKey
+
+
 
 };
 
 
 }
+
 
 
 export default useChat;

@@ -545,3 +545,161 @@ border:1px solid #303030;
 }
 
 }
+
+.input-area input:disabled {
+
+    opacity: 0.6;
+    cursor: not-allowed;
+
+}
+
+
+.send:disabled {
+
+    opacity: 0.5;
+    cursor: not-allowed;
+
+}
+.chat-history {
+    margin-top:25px;
+}
+
+
+.chat-history h4 {
+
+    color:#888;
+
+    font-size:13px;
+
+    margin-bottom:12px;
+
+}
+
+
+
+.chat-item {
+
+    padding:12px;
+
+    border-radius:10px;
+
+    margin-bottom:8px;
+
+    color:#ddd;
+
+    background:#151515;
+
+    border:1px solid #242424;
+
+    cursor:pointer;
+
+    transition:0.2s;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+    text-overflow:ellipsis;
+
+}
+
+
+
+.chat-item:hover {
+
+    background:#252525;
+
+}
+.sidebar-footer{
+
+position:absolute;
+
+bottom:20px;
+
+color:#888;
+
+font-size:13px;
+
+}
+
+
+.sidebar-footer span{
+
+display:block;
+
+margin-top:5px;
+
+font-size:12px;
+
+}
+
+.chat-item{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:8px;
+
+}
+
+
+.chat-item span{
+
+flex:1;
+
+overflow:hidden;
+
+white-space:nowrap;
+
+text-overflow:ellipsis;
+
+cursor:pointer;
+
+}
+
+
+
+.rename-btn{
+
+background:none;
+
+border:none;
+
+color:#888;
+
+cursor:pointer;
+
+font-size:14px;
+
+}
+
+
+
+.rename-btn:hover{
+
+color:white;
+
+}
+
+
+
+.chat-item input{
+
+width:100%;
+
+background:#222;
+
+border:1px solid #555;
+
+border-radius:6px;
+
+padding:6px;
+
+color:white;
+
+outline:none;
+
+}

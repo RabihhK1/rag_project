@@ -13,16 +13,22 @@ router = APIRouter(
 rag_service = RAGService()
 
 
+
+from pydantic import BaseModel, Field
+
 class ChatRequest(BaseModel):
-    message: str
+    message:str
+    conversation_id:str | None = None
 
 
 
 @router.post("")
 async def chat(request: ChatRequest):
 
-    result = rag_service.ask(
-        request.message
+    result = await rag_service.ask(
+        request.message,
+        request.conversation_id
     )
 
     return result
+
