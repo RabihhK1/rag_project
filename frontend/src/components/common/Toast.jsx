@@ -1,18 +1,45 @@
-function Toast({ message }) {
+function Toast({ toast }) {
 
-    if (!message)
+
+    if (!toast)
         return null;
+
 
 
     return (
 
-        <div className="toast">
+        <div 
+        className={`toast ${toast.type}`}
+        >
 
-            ⚠ {message}
+            {
+                toast.type === "error"
+                &&
+                "⚠ "
+            }
+
+
+            {
+                toast.type === "success"
+                &&
+                "✓ "
+            }
+
+
+            {
+                toast.type === "info"
+                &&
+                "ℹ "
+            }
+
+
+            {toast.message}
+
 
         </div>
 
     );
+
 
 }
 

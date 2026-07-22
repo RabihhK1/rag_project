@@ -10,82 +10,103 @@ import useChat from "./hooks/useChat";
 function App(){
 
 
-const {
+    const {
 
-messages,
+        messages,
 
-sendMessage,
+        sendMessage,
 
-loading,
+        loading,
 
-newChat,
+        newChat,
 
-loadConversation,
+        loadConversation,
 
-refreshKey,
+        refreshKey,
 
-refreshConversations,
+        refreshConversations,
 
-toast
-
-}=useChat();
+        toast
 
 
-
-
-return (
-
-
-<div className="app">
-
-
-<Sidebar
-
-newChat={newChat}
-
-loadConversation={loadConversation}
-
-refreshKey={refreshKey}
-
-refreshConversations={refreshConversations}
-
-/>
+    } = useChat();
 
 
 
-<div className="main">
 
 
-<Header />
+    return (
 
 
-
-<ChatWindow
-
-messages={messages}
-
-sendMessage={sendMessage}
-
-loading={loading}
-
-/>
-
-
-</div>
+        <div className="app">
 
 
 
-<Toast message={toast}/>
+            <Sidebar
+
+                newChat={newChat}
+
+                loadConversation={loadConversation}
+
+                refreshKey={refreshKey}
+
+                refreshConversations={
+                    refreshConversations
+                }
+
+            />
 
 
 
-</div>
 
 
-);
+            <div className="main">
+
+
+
+                <Header />
+
+
+
+
+
+                <ChatWindow
+
+                    messages={messages}
+
+                    sendMessage={sendMessage}
+
+                    loading={loading}
+
+                />
+
+
+
+            </div>
+
+
+
+
+
+
+            <Toast
+
+                toast={toast}
+
+            />
+
+
+
+
+
+        </div>
+
+
+    );
 
 
 }
+
 
 
 export default App;

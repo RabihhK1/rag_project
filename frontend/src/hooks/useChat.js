@@ -45,6 +45,10 @@ function useChat(){
     const [refreshKey,setRefreshKey] = useState(0);
 
 
+    const [toast,setToast] = useState(null);
+
+
+
 
 
 
@@ -53,6 +57,35 @@ function useChat(){
         setRefreshKey(
             prev => prev + 1
         );
+
+    }
+
+
+
+
+
+    function showToast(
+        message,
+        type="error"
+    ){
+
+
+        setToast({
+
+            message,
+
+            type
+
+        });
+
+
+
+        setTimeout(()=>{
+
+            setToast(null);
+
+        },3000);
+
 
     }
 
@@ -97,6 +130,7 @@ function useChat(){
 
 
 
+
         try{
 
 
@@ -132,6 +166,17 @@ function useChat(){
 
 
 
+            if(!response.ok){
+
+                throw new Error(
+                    "Streaming failed"
+                );
+
+            }
+
+
+
+
 
             const reader =
                 response.body.getReader();
@@ -149,9 +194,8 @@ function useChat(){
 
 
 
-            // Create empty assistant bubble
-
             setMessages(prev => [
+
 
                 ...prev,
 
@@ -177,6 +221,7 @@ function useChat(){
                     feedback:null
 
                 }
+
 
             ]);
 
@@ -232,7 +277,6 @@ function useChat(){
 
 
 
-
                     const raw =
                         line
                         .replace(
@@ -261,16 +305,9 @@ function useChat(){
 
 
 
-
-
-                    // ======================
-                    // Receive token
-                    // ======================
-
                     if(
                         event.type === "token"
                     ){
-
 
 
                         setMessages(prev => {
@@ -278,7 +315,6 @@ function useChat(){
 
                             const updated =
                                 [...prev];
-
 
 
                             const index =
@@ -314,12 +350,10 @@ function useChat(){
 
 
 
-
                             return updated;
 
 
                         });
-
 
 
                     }
@@ -329,13 +363,6 @@ function useChat(){
 
 
 
-
-
-
-                    // ======================
-                    // Finished response
-                    // ======================
-
                     if(
                         event.type === "done"
                     ){
@@ -343,12 +370,8 @@ function useChat(){
 
 
                         setConversationId(
-
                             event.conversation_id
-
                         );
-
-
 
 
 
@@ -370,8 +393,6 @@ function useChat(){
 
 
 
-
-
                             if(index !== -1){
 
 
@@ -381,25 +402,22 @@ function useChat(){
                                     ...updated[index],
 
 
-
                                     message_id:
                                         event.message_id,
-
 
 
                                     conversation_id:
                                         event.conversation_id,
 
 
-
                                     sources:
                                         event.sources || []
+
 
                                 };
 
 
                             }
-
 
 
 
@@ -411,18 +429,14 @@ function useChat(){
 
 
 
-
                         refreshConversations();
-
 
 
                     }
 
 
 
-
                 }
-
 
 
 
@@ -431,9 +445,7 @@ function useChat(){
 
 
 
-
         }
-
 
 
         catch(error){
@@ -441,10 +453,14 @@ function useChat(){
 
 
             console.error(
-
                 "Streaming error:",
                 error
+            );
 
+
+
+            showToast(
+                "Streaming connection failed"
             );
 
 
@@ -462,12 +478,11 @@ function useChat(){
                     message_id:null,
 
                     conversation_id:
-
                     conversationId,
 
 
                     content:
-                    "Backend connection failed.",
+                    "Sorry, something went wrong while generating the response.",
 
 
                     sources:[],
@@ -491,12 +506,7 @@ function useChat(){
         setLoading(false);
 
 
-
     }
-
-
-
-
 
 
 
@@ -527,6 +537,7 @@ function useChat(){
 
 
 
+
             setMessages(
 
                 data.map(message => ({
@@ -548,14 +559,18 @@ function useChat(){
         }
 
 
+
         catch(error){
 
 
             console.error(
-
                 "Failed loading conversation:",
                 error
+            );
 
+
+            showToast(
+                "Failed loading conversation"
             );
 
 
@@ -599,7 +614,6 @@ function useChat(){
 
 
 
-
     return {
 
 
@@ -621,7 +635,10 @@ function useChat(){
         refreshKey,
 
 
-        refreshConversations
+        refreshConversations,
+
+
+        toast
 
 
     };
