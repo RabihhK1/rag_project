@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 const API = "http://127.0.0.1:8000";
@@ -29,6 +29,7 @@ const initialMessage = {
 function useChat(){
 
 
+
     const [messages,setMessages] = useState(
         [
             initialMessage
@@ -36,17 +37,24 @@ function useChat(){
     );
 
 
+
     const [conversationId,setConversationId] = useState(null);
+
 
 
     const [loading,setLoading] = useState(false);
 
 
+
     const [refreshKey,setRefreshKey] = useState(0);
+
 
 
     const [toast,setToast] = useState(null);
 
+
+
+    const toastTimer = useRef(null);
 
 
 
@@ -54,11 +62,14 @@ function useChat(){
 
     function refreshConversations(){
 
+
         setRefreshKey(
             prev => prev + 1
         );
 
+
     }
+
 
 
 
@@ -80,11 +91,25 @@ function useChat(){
 
 
 
-        setTimeout(()=>{
+        if(toastTimer.current){
 
-            setToast(null);
+            clearTimeout(
+                toastTimer.current
+            );
 
-        },3000);
+        }
+
+
+
+        toastTimer.current =
+            setTimeout(()=>{
+
+
+                setToast(null);
+
+
+            },4000);
+
 
 
     }
@@ -100,16 +125,25 @@ function useChat(){
     async function sendMessage(text){
 
 
-        if(loading)
+
+        if(
+            loading ||
+            !text.trim()
+        )
             return;
 
 
 
-        setMessages(prev => [
+
+
+        setMessages(prev=>[
+
 
             ...prev,
 
+
             {
+
 
                 role:"user",
 
@@ -119,9 +153,13 @@ function useChat(){
 
                 feedback:null
 
+
             }
 
+
         ]);
+
+
 
 
 
@@ -134,45 +172,59 @@ function useChat(){
         try{
 
 
+
             const response = await fetch(
 
                 `${API}/chat/stream`,
 
                 {
 
+
                     method:"POST",
+
 
                     headers:{
 
+
                         "Content-Type":
                         "application/json"
+
 
                     },
 
 
                     body:JSON.stringify({
 
+
                         message:text,
+
 
                         conversation_id:
                             conversationId
 
+
                     })
 
+
                 }
+
 
             );
 
 
 
 
+
             if(!response.ok){
 
+
                 throw new Error(
-                    "Streaming failed"
+                    "Backend request failed"
                 );
 
+
             }
+
 
 
 
@@ -182,8 +234,11 @@ function useChat(){
                 response.body.getReader();
 
 
+
             const decoder =
                 new TextDecoder();
+
+
 
 
 
@@ -194,7 +249,8 @@ function useChat(){
 
 
 
-            setMessages(prev => [
+
+            setMessages(prev=>[
 
 
                 ...prev,
@@ -202,7 +258,9 @@ function useChat(){
 
                 {
 
+
                     role:"assistant",
+
 
                     message_id:
                         assistantTempId,
@@ -220,6 +278,7 @@ function useChat(){
 
                     feedback:null
 
+
                 }
 
 
@@ -231,31 +290,48 @@ function useChat(){
 
 
 
+
+
             while(true){
 
 
+
                 const {
+
                     value,
+
                     done
+
                 } =
                 await reader.read();
 
 
 
 
+
                 if(done)
+
                     break;
+
+
 
 
 
 
                 const chunk =
                     decoder.decode(
+
                         value,
+
                         {
+
                             stream:true
+
                         }
+
                     );
+
+
 
 
 
@@ -267,13 +343,19 @@ function useChat(){
 
 
 
+
+
                 for(const line of lines){
+
 
 
                     if(
                         !line.startsWith("data:")
                     )
                         continue;
+
+
+
 
 
 
@@ -289,6 +371,8 @@ function useChat(){
 
 
 
+
+
                     if(
                         raw === "[DONE]"
                     )
@@ -298,11 +382,36 @@ function useChat(){
 
 
 
-                    const event =
+
+                    let event;
+
+
+
+                    try{
+
+
+                        event =
                         JSON.parse(raw);
 
 
+                    }
 
+
+                    catch(error){
+
+
+                        continue;
+
+
+                    }
+
+
+
+
+
+
+
+                    // TOKEN STREAM
 
 
                     if(
@@ -310,30 +419,37 @@ function useChat(){
                     ){
 
 
-                        setMessages(prev => {
+
+                        setMessages(prev=>{
 
 
                             const updated =
                                 [...prev];
 
 
+
                             const index =
                                 updated.findIndex(
 
-                                    msg =>
+
+                                    msg=>
                                     msg.message_id === assistantTempId
 
+
                                 );
+
 
 
 
                             if(index !== -1){
 
 
-                                updated[index] = {
+
+                                updated[index]={
 
 
                                     ...updated[index],
+
 
 
                                     content:
@@ -350,10 +466,14 @@ function useChat(){
 
 
 
+
+
                             return updated;
 
 
+
                         });
+
 
 
                     }
@@ -363,6 +483,12 @@ function useChat(){
 
 
 
+
+
+
+                    // FINAL RESPONSE
+
+
                     if(
                         event.type === "done"
                     ){
@@ -370,12 +496,16 @@ function useChat(){
 
 
                         setConversationId(
+
                             event.conversation_id
+
                         );
 
 
 
-                        setMessages(prev => {
+
+
+                        setMessages(prev=>{
 
 
                             const updated =
@@ -386,38 +516,52 @@ function useChat(){
                             const index =
                                 updated.findIndex(
 
-                                    msg =>
+
+                                    msg=>
                                     msg.message_id === assistantTempId
 
+
                                 );
+
+
+
 
 
 
                             if(index !== -1){
 
 
-                                updated[index] = {
+
+                                updated[index]={
+
 
 
                                     ...updated[index],
+
 
 
                                     message_id:
                                         event.message_id,
 
 
+
                                     conversation_id:
                                         event.conversation_id,
+
 
 
                                     sources:
                                         event.sources || []
 
 
+
                                 };
 
 
+
                             }
+
+
 
 
 
@@ -429,14 +573,20 @@ function useChat(){
 
 
 
+
                         refreshConversations();
+
 
 
                     }
 
 
 
+
+
+
                 }
+
 
 
 
@@ -445,7 +595,12 @@ function useChat(){
 
 
 
+
         }
+
+
+
+
 
 
         catch(error){
@@ -453,36 +608,54 @@ function useChat(){
 
 
             console.error(
+
                 "Streaming error:",
+
                 error
+
             );
+
+
 
 
 
             showToast(
-                "Streaming connection failed"
+
+                "Backend server unavailable. Please check the connection.",
+
+                "error"
+
             );
 
 
 
-            setMessages(prev => [
+
+
+
+            setMessages(prev=>[
+
 
 
                 ...prev,
 
 
+
                 {
+
 
                     role:"assistant",
 
+
                     message_id:null,
 
+
                     conversation_id:
-                    conversationId,
+                        conversationId,
 
 
                     content:
-                    "Sorry, something went wrong while generating the response.",
+                    "⚠ Unable to connect to the AI server.",
+
 
 
                     sources:[],
@@ -490,7 +663,9 @@ function useChat(){
 
                     feedback:null
 
+
                 }
+
 
 
             ]);
@@ -503,7 +678,15 @@ function useChat(){
 
 
 
-        setLoading(false);
+
+        finally{
+
+
+            setLoading(false);
+
+
+        }
+
 
 
     }
@@ -519,7 +702,9 @@ function useChat(){
     async function loadConversation(id){
 
 
+
         try{
+
 
 
             const response =
@@ -531,6 +716,25 @@ function useChat(){
 
 
 
+
+
+
+            if(!response.ok){
+
+
+                throw new Error(
+                    "Failed loading conversation"
+                );
+
+
+            }
+
+
+
+
+
+
+
             const data =
                 await response.json();
 
@@ -538,17 +742,28 @@ function useChat(){
 
 
 
+
+
             setMessages(
 
-                data.map(message => ({
+                data.map(message=>({
+
 
                     ...message,
 
+
                     conversation_id:id
+
+
 
                 }))
 
+
             );
+
+
+
+
 
 
 
@@ -556,25 +771,41 @@ function useChat(){
 
 
 
+
+
         }
+
+
 
 
 
         catch(error){
 
 
+
             console.error(
-                "Failed loading conversation:",
+
+                "Conversation loading error:",
+
                 error
+
             );
+
+
 
 
             showToast(
-                "Failed loading conversation"
+
+                "Failed loading conversation.",
+
+                "error"
+
             );
 
 
+
         }
+
 
 
     }
@@ -588,6 +819,7 @@ function useChat(){
 
 
     function newChat(){
+
 
 
         setMessages(
@@ -605,6 +837,7 @@ function useChat(){
         setConversationId(null);
 
 
+
     }
 
 
@@ -615,6 +848,7 @@ function useChat(){
 
 
     return {
+
 
 
         messages,
@@ -641,10 +875,14 @@ function useChat(){
         toast
 
 
+
     };
 
 
+
 }
+
+
 
 
 

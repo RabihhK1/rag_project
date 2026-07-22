@@ -5,6 +5,7 @@ import {
 from "react";
 
 
+
 const API="http://127.0.0.1:8000";
 
 
@@ -15,7 +16,9 @@ newChat,
 
 loadConversation,
 
-refreshKey
+refreshKey,
+
+openAnalytics
 
 }){
 
@@ -43,18 +46,21 @@ setTitle
 
 
 
+
 async function fetchConversations(){
 
 
 try{
 
 
-const response = await fetch(
+const response =
+await fetch(
 `${API}/conversations`
 );
 
 
-const data = await response.json();
+const data =
+await response.json();
 
 
 setConversations(data);
@@ -64,12 +70,16 @@ setConversations(data);
 
 catch(error){
 
-console.error(error);
+console.error(
+"Conversation loading failed",
+error
+);
 
 }
 
 
 }
+
 
 
 
@@ -77,9 +87,12 @@ console.error(error);
 
 useEffect(()=>{
 
+
 fetchConversations();
 
+
 },[refreshKey]);
+
 
 
 
@@ -105,7 +118,8 @@ method:"PATCH",
 
 headers:{
 
-"Content-Type":"application/json"
+"Content-Type":
+"application/json"
 
 },
 
@@ -134,18 +148,12 @@ fetchConversations();
 
 
 
-
 async function deleteChat(id){
 
 
-const confirmDelete =
-window.confirm(
+if(!window.confirm(
 "Delete this conversation?"
-);
-
-
-
-if(!confirmDelete)
+))
 return;
 
 
@@ -174,7 +182,10 @@ fetchConversations();
 
 
 
+
+
 return (
+
 
 <div className="sidebar">
 
@@ -184,6 +195,7 @@ return (
 ⚡ Cyber RAG
 
 </div>
+
 
 
 
@@ -199,6 +211,26 @@ onClick={newChat}
 + New Chat
 
 </button>
+
+
+
+
+
+
+<button
+
+className="analytics-button"
+
+onClick={openAnalytics}
+
+>
+
+📊 Feedback Analytics
+
+</button>
+
+
+
 
 
 
@@ -232,9 +264,11 @@ key={chat.conversation_id}
 
 
 
+
 {
 
 editing === chat.conversation_id
+
 
 ?
 
@@ -254,7 +288,10 @@ onKeyDown={
 e=>{
 
 if(e.key==="Enter")
-renameChat(chat.conversation_id)
+
+renameChat(
+chat.conversation_id
+)
 
 }
 
@@ -287,6 +324,8 @@ chat.conversation_id
 
 
 
+
+
 <button
 
 className="rename-btn"
@@ -308,6 +347,8 @@ chat.title
 ✏
 
 </button>
+
+
 
 
 
@@ -338,6 +379,7 @@ chat.conversation_id
 
 ))
 
+
 }
 
 
@@ -346,6 +388,8 @@ chat.conversation_id
 
 
 </div>
+
+
 
 
 
@@ -362,7 +406,7 @@ Cyber RAG
 </div>
 
 
-)
+);
 
 
 }

@@ -2,6 +2,8 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import FeedbackModal from "../common/FeedbackModal";
+
 
 const API = "http://127.0.0.1:8000";
 
@@ -13,18 +15,17 @@ function MessageBubble({ message }) {
     const [showSources, setShowSources] = useState(false);
 
 
-    const [feedback, setFeedback] = useState(
-        message.feedback || null
-    );
-
-
-    const [copied, setCopied] = useState(false);
+    const [feedback, setFeedback] =
+        useState(message.feedback || null);
 
 
 
-    // ============================
-    // Feedback Modal State
-    // ============================
+    const [copied, setCopied] =
+        useState(false);
+
+
+
+    // Feedback modal
 
     const [showFeedbackModal, setShowFeedbackModal] =
         useState(false);
@@ -38,8 +39,6 @@ function MessageBubble({ message }) {
 
     const [feedbackComment, setFeedbackComment] =
         useState("");
-
-
 
 
 
@@ -70,6 +69,7 @@ function MessageBubble({ message }) {
 
         }
 
+
         catch(error){
 
             console.error(
@@ -79,9 +79,8 @@ function MessageBubble({ message }) {
 
         }
 
+
     }
-
-
 
 
 
@@ -94,11 +93,14 @@ function MessageBubble({ message }) {
 
         try{
 
+
             await navigator.clipboard.writeText(
                 code
             );
 
+
         }
+
 
         catch(error){
 
@@ -109,8 +111,8 @@ function MessageBubble({ message }) {
 
         }
 
-    }
 
+    }
 
 
 
@@ -129,57 +131,81 @@ function MessageBubble({ message }) {
         try{
 
 
-            const response = await fetch(
+            const response =
+                await fetch(
 
-                `${API}/feedback`,
+                    `${API}/feedback`,
 
-                {
-
-                    method:"POST",
-
-                    headers:{
-
-                        "Content-Type":
-                        "application/json"
-
-                    },
+                    {
 
 
-                    body:JSON.stringify({
-
-                        conversation_id:
-                            message.conversation_id,
+                        method:"POST",
 
 
-                        message_id:
-                            message.message_id,
+                        headers:{
 
 
-                        rating:
-                            type,
+                            "Content-Type":
+                            "application/json"
 
 
-                        reason,
+                        },
 
-                        comment
 
-                    })
+                        body:JSON.stringify({
 
-                }
 
-            );
+                            conversation_id:
+                                message.conversation_id,
+
+
+
+                            message_id:
+                                message.message_id,
+
+
+
+                            rating:
+                                type,
+
+
+
+                            reasons:
+                                reason
+                                ?
+                                [reason]
+                                :
+                                [],
+
+
+
+                            comment:
+                                comment
+
+
+                        })
+
+
+                    }
+
+                );
+
 
 
 
             if(!response.ok){
 
+
                 console.error(
                     await response.text()
                 );
 
+
                 return;
 
+
             }
+
 
 
 
@@ -191,12 +217,15 @@ function MessageBubble({ message }) {
         }
 
 
+
         catch(error){
 
 
             console.error(
+
                 "Feedback failed:",
                 error
+
             );
 
 
@@ -212,8 +241,8 @@ function MessageBubble({ message }) {
 
 
 
-
     function submitNegativeFeedback(){
+
 
 
         sendFeedback(
@@ -227,7 +256,15 @@ function MessageBubble({ message }) {
         );
 
 
+
         setShowFeedbackModal(false);
+
+
+
+        setFeedbackReason("");
+
+        setFeedbackComment("");
+
 
 
     }
@@ -250,7 +287,9 @@ function MessageBubble({ message }) {
             remarkPlugins={[remarkGfm]}
 
 
+
             components={{
+
 
 
                 code({
@@ -263,12 +302,14 @@ function MessageBubble({ message }) {
 
                     ...props
 
+
                 }){
 
 
                     const codeText =
-                    String(children)
-                    .replace(/\n$/,"");
+                        String(children)
+                        .replace(/\n$/,"");
+
 
 
 
@@ -276,6 +317,7 @@ function MessageBubble({ message }) {
 
 
                         return (
+
 
                             <code
 
@@ -287,9 +329,12 @@ function MessageBubble({ message }) {
 
                                 {children}
 
+
                             </code>
 
+
                         );
+
 
                     }
 
@@ -297,7 +342,9 @@ function MessageBubble({ message }) {
 
 
 
+
                     return (
+
 
                         <div className="code-block">
 
@@ -310,6 +357,7 @@ function MessageBubble({ message }) {
                                 </span>
 
 
+
                                 <button
 
                                 onClick={()=>
@@ -320,14 +368,19 @@ function MessageBubble({ message }) {
 
                                     Copy
 
+
                                 </button>
+
 
 
                             </div>
 
 
 
+
+
                             <pre>
+
 
                                 <code
 
@@ -339,12 +392,16 @@ function MessageBubble({ message }) {
 
                                     {children}
 
+
                                 </code>
+
 
                             </pre>
 
 
+
                         </div>
+
 
                     );
 
@@ -355,6 +412,7 @@ function MessageBubble({ message }) {
             }}
 
 
+
             >
 
                 {message.content}
@@ -362,10 +420,12 @@ function MessageBubble({ message }) {
 
             </ReactMarkdown>
 
+
         );
 
 
     }
+
 
 
 
@@ -381,8 +441,11 @@ function MessageBubble({ message }) {
 
 
     const isThinking =
+
         message.role === "assistant" &&
+
         message.content === "" &&
+
         !isWelcome;
 
 
@@ -407,12 +470,16 @@ function MessageBubble({ message }) {
 
 
 
-                {
+                    {
 
-                    isThinking ?
+                    isThinking
+
+
+                    ?
 
 
                     <div className="typing">
+
 
                         <span className="dot"></span>
 
@@ -431,17 +498,22 @@ function MessageBubble({ message }) {
 
                     message.role === "assistant"
 
+
                     ?
+
 
                     renderMarkdown()
 
 
+
                     :
+
+
 
                     message.content
 
 
-                }
+                    }
 
 
 
@@ -456,25 +528,39 @@ function MessageBubble({ message }) {
 
 
                 {
+
                 message.role === "assistant" &&
+
                 !isWelcome &&
+
                 message.content !== "" &&
+
 
 
                 <div className="message-actions">
 
 
 
+
+
                     <button
+
                     onClick={copyMessage}
+
                     >
 
                         {
+
                         copied
+
                         ?
+
                         "Copied ✓"
+
                         :
+
                         "📋 Copy"
+
                         }
 
 
@@ -485,24 +571,42 @@ function MessageBubble({ message }) {
 
 
 
+
+
+
                     <button
 
+
                     className={
+
                         feedback === "up"
+
                         ?
+
                         "active-feedback"
+
                         :
+
                         ""
+
                     }
 
 
-                    onClick={()=>sendFeedback("up")}
+
+                    onClick={()=>
+                        sendFeedback("up")
+                    }
+
 
                     >
 
                         👍
 
+
                     </button>
+
+
+
 
 
 
@@ -511,26 +615,40 @@ function MessageBubble({ message }) {
 
                     <button
 
+
                     className={
+
                         feedback === "down"
+
                         ?
+
                         "active-feedback"
+
                         :
+
                         ""
+
                     }
 
 
-                    onClick={()=>setShowFeedbackModal(true)}
+
+                    onClick={()=>
+                        setShowFeedbackModal(true)
+                    }
+
 
                     >
 
                         👎
 
+
                     </button>
 
 
 
+
                 </div>
+
 
                 }
 
@@ -538,11 +656,8 @@ function MessageBubble({ message }) {
 
 
 
-
-
-
-
                 {
+
 
                 message.role === "assistant" &&
 
@@ -555,23 +670,38 @@ function MessageBubble({ message }) {
                 <div className="sources-wrapper">
 
 
+
+
+
                     <button
 
+
                     className="sources-button"
+
+
 
                     onClick={()=>
                         setShowSources(!showSources)
                     }
 
+
                     >
 
+
                         {
+
                         showSources
+
                         ?
+
                         "Hide Sources"
+
                         :
+
                         `View Sources (${message.sources.length})`
+
                         }
+
 
 
                     </button>
@@ -580,17 +710,26 @@ function MessageBubble({ message }) {
 
 
 
+
+
                     {
+
+
                     showSources &&
+
 
 
                     <div className="sources-drawer">
 
 
+
                     {
+
+
                     message.sources.map(
 
                     (src,index)=>(
+
 
 
                         <div
@@ -601,47 +740,76 @@ function MessageBubble({ message }) {
 
                         >
 
+
+
                             <strong>
+
                                 Source {index+1}
+
                             </strong>
 
 
+
+
                             <p>
-                                📄 Page: {src.page}
+
+                                📄 Page:
+                                {" "}
+                                {src.page}
+
                             </p>
 
 
+
+
+
                             <p>
-                                📌 {src.section}
+
+                                📌
+                                {" "}
+                                {src.section}
+
                             </p>
 
 
+
+
+
                             <p>
+
                                 🔎 Score:
                                 {" "}
                                 {Number(src.score).toFixed(3)}
+
                             </p>
+
 
 
                         </div>
 
 
+
                     )
 
 
                     )
+
 
                     }
+
 
 
                     </div>
 
 
+
                     }
 
 
 
+
                 </div>
+
 
 
                 }
@@ -657,132 +825,57 @@ function MessageBubble({ message }) {
 
 
 
+            <FeedbackModal
 
-            {/* ============================
-                FEEDBACK MODAL
-            ============================ */}
 
+                isOpen={
+                    showFeedbackModal
+                }
 
-            {
 
-            showFeedbackModal &&
 
+                reason={
+                    feedbackReason
+                }
 
-            <div className="feedback-overlay">
 
 
-                <div className="feedback-modal">
+                setReason={
+                    setFeedbackReason
+                }
 
 
-                    <h3>
-                        Help improve the answer
-                    </h3>
 
+                comment={
+                    feedbackComment
+                }
 
-                    <p>
-                        What was wrong?
-                    </p>
 
 
+                setComment={
+                    setFeedbackComment
+                }
 
-                    <select
 
-                    value={feedbackReason}
 
-                    onChange={(e)=>
-                        setFeedbackReason(e.target.value)
-                    }
+                onClose={()=>{
 
-                    >
+                    setShowFeedbackModal(false);
 
+                }}
 
-                        <option value="">
-                            Select reason
-                        </option>
 
 
-                        <option value="incorrect">
-                            Incorrect answer
-                        </option>
+                onSubmit={
+                    submitNegativeFeedback
+                }
 
 
-                        <option value="not_relevant">
-                            Not relevant
-                        </option>
 
+            />
 
-                        <option value="missing_information">
-                            Missing information
-                        </option>
 
 
-                        <option value="other">
-                            Other
-                        </option>
-
-
-                    </select>
-
-
-
-
-                    <textarea
-
-                    placeholder="Optional comment"
-
-                    value={feedbackComment}
-
-                    onChange={(e)=>
-                        setFeedbackComment(e.target.value)
-                    }
-
-                    />
-
-
-
-
-
-                    <div className="feedback-buttons">
-
-
-                        <button
-
-                        onClick={()=>
-                            setShowFeedbackModal(false)
-                        }
-
-                        >
-
-                            Cancel
-
-                        </button>
-
-
-
-
-                        <button
-
-                        onClick={submitNegativeFeedback}
-
-                        >
-
-                            Submit
-
-                        </button>
-
-
-
-                    </div>
-
-
-
-                </div>
-
-
-            </div>
-
-
-            }
 
 
 
@@ -793,6 +886,7 @@ function MessageBubble({ message }) {
 
 
 }
+
 
 
 export default MessageBubble;

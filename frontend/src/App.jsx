@@ -1,16 +1,25 @@
+import { useState } from "react";
+
+
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import ChatWindow from "./components/chat/ChatWindow";
 import Toast from "./components/common/Toast";
 
+import Analytics from "./pages/Analytics";
+
 import useChat from "./hooks/useChat";
+
+
 
 
 
 function App(){
 
 
+
     const {
+
 
         messages,
 
@@ -29,7 +38,47 @@ function App(){
         toast
 
 
+
     } = useChat();
+
+
+
+
+
+
+
+    const [page,setPage] =
+        useState("chat");
+
+
+
+
+
+
+
+
+
+    if(page === "analytics"){
+
+
+        return (
+
+            <Analytics
+
+                goBack={()=>
+                    setPage("chat")
+                }
+
+            />
+
+        );
+
+
+    }
+
+
+
+
 
 
 
@@ -38,23 +87,46 @@ function App(){
     return (
 
 
+
         <div className="app">
+
+
+
 
 
 
             <Sidebar
 
+
                 newChat={newChat}
 
-                loadConversation={loadConversation}
 
-                refreshKey={refreshKey}
+                loadConversation={
+                    loadConversation
+                }
+
+
+                refreshKey={
+                    refreshKey
+                }
+
 
                 refreshConversations={
                     refreshConversations
                 }
 
+
+
+                openAnalytics={()=>
+                    setPage("analytics")
+                }
+
+
             />
+
+
+
+
 
 
 
@@ -72,13 +144,25 @@ function App(){
 
                 <ChatWindow
 
-                    messages={messages}
 
-                    sendMessage={sendMessage}
+                    messages={
+                        messages
+                    }
 
-                    loading={loading}
+
+                    sendMessage={
+                        sendMessage
+                    }
+
+
+                    loading={
+                        loading
+                    }
+
 
                 />
+
+
 
 
 
@@ -88,18 +172,17 @@ function App(){
 
 
 
+<Toast toast={toast}/>
 
-            <Toast
+      
 
-                toast={toast}
-
-            />
 
 
 
 
 
         </div>
+
 
 
     );

@@ -207,3 +207,127 @@ async def delete_feedback(
             "Feedback deleted"
 
     }
+
+# =========================
+# Feedback Analytics
+# =========================
+
+@router.get("/stats")
+async def feedback_stats():
+
+
+    total_feedback = await feedback_collection.count_documents({})
+
+
+
+    positive_feedback = await feedback_collection.count_documents(
+
+        {
+            "rating":
+                "up"
+        }
+
+    )
+
+
+
+    negative_feedback = await feedback_collection.count_documents(
+
+        {
+            "rating":
+                "down"
+        }
+
+    )
+
+
+
+    satisfaction = 0
+
+
+    if total_feedback > 0:
+
+        satisfaction = round(
+
+            (positive_feedback / total_feedback) * 100,
+
+            2
+
+        )
+
+
+
+
+    return {
+
+
+        "total_feedback":
+            total_feedback,
+
+
+        "positive":
+            positive_feedback,
+
+
+        "negative":
+            negative_feedback,
+
+
+        "satisfaction_rate":
+            satisfaction
+
+    }
+# =========================
+# Feedback List
+# =========================
+
+@router.get("")
+async def get_feedback():
+
+    feedbacks = []
+
+
+    cursor = feedback_collection.find(
+        {}
+    ).sort(
+        "created_at",
+        -1
+    )
+
+
+    async for item in cursor:
+
+
+        feedbacks.append({
+
+            "feedback_id":
+                item.get("feedback_id"),
+
+
+            "conversation_id":
+                item.get("conversation_id"),
+
+
+            "message_id":
+                item.get("message_id"),
+
+
+            "rating":
+                item.get("rating"),
+
+
+            "comment":
+                item.get("comment"),
+
+
+            "reasons":
+                item.get("reasons", []),
+
+
+            "created_at":
+                item.get("created_at")
+
+        })
+
+
+    return feedbacks

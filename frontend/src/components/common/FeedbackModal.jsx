@@ -39,33 +39,22 @@ function FeedbackModal({
 
 
 
-
     return (
 
-
         <div className="modal-overlay">
-
 
 
             <div className="feedback-modal">
 
 
-
                 <h2>
-
                     Tell us what went wrong
-
                 </h2>
 
 
-
                 <p>
-
                     Help improve the cybersecurity assistant.
-
                 </p>
-
-
 
 
 
@@ -73,9 +62,7 @@ function FeedbackModal({
 
 
                 {
-
                     reasons.map(item => (
-
 
                         <button
 
@@ -84,9 +71,9 @@ function FeedbackModal({
                         className={
                             reason === item
                             ?
-                            "reason active"
+                            "selected-reason"
                             :
-                            "reason"
+                            ""
                         }
 
 
@@ -102,7 +89,6 @@ function FeedbackModal({
 
 
                     ))
-
                 }
 
 
@@ -111,22 +97,20 @@ function FeedbackModal({
 
 
 
-
-
                 <textarea
 
 
-                value={comment}
+                    value={comment}
 
 
-                onChange={
-                    e =>
-                    setComment(e.target.value)
-                }
+                    onChange={
+                        e =>
+                        setComment(e.target.value)
+                    }
 
 
-                placeholder=
-                "Additional comments (optional)"
+                    placeholder=
+                    "Additional comments (optional)"
 
 
                 />
@@ -135,9 +119,7 @@ function FeedbackModal({
 
 
 
-
                 <div className="modal-actions">
-
 
 
                     <button
@@ -151,7 +133,6 @@ function FeedbackModal({
                         Cancel
 
                     </button>
-
 
 
 
@@ -176,11 +157,7 @@ function FeedbackModal({
 
 
 
-
-
-
             </div>
-
 
 
         </div>
