@@ -1,12 +1,6 @@
 import { useState } from "react";
-
 import ReactMarkdown from "react-markdown";
-
 import remarkGfm from "remark-gfm";
-
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 
 const API = "http://127.0.0.1:8000";
@@ -25,6 +19,28 @@ function MessageBubble({ message }) {
 
 
     const [copied, setCopied] = useState(false);
+
+
+
+    // ============================
+    // Feedback Modal State
+    // ============================
+
+    const [showFeedbackModal, setShowFeedbackModal] =
+        useState(false);
+
+
+
+    const [feedbackReason, setFeedbackReason] =
+        useState("");
+
+
+
+    const [feedbackComment, setFeedbackComment] =
+        useState("");
+
+
+
 
 
 
@@ -51,6 +67,7 @@ function MessageBubble({ message }) {
             },1500);
 
 
+
         }
 
         catch(error){
@@ -62,8 +79,10 @@ function MessageBubble({ message }) {
 
         }
 
-
     }
+
+
+
 
 
 
@@ -75,11 +94,9 @@ function MessageBubble({ message }) {
 
         try{
 
-
             await navigator.clipboard.writeText(
                 code
             );
-
 
         }
 
@@ -92,7 +109,6 @@ function MessageBubble({ message }) {
 
         }
 
-
     }
 
 
@@ -101,7 +117,13 @@ function MessageBubble({ message }) {
 
 
 
-    async function sendFeedback(type){
+
+
+    async function sendFeedback(
+        type,
+        reason=null,
+        comment=null
+    ){
 
 
         try{
@@ -133,7 +155,13 @@ function MessageBubble({ message }) {
                             message.message_id,
 
 
-                        rating:type
+                        rating:
+                            type,
+
+
+                        reason,
+
+                        comment
 
                     })
 
@@ -155,7 +183,9 @@ function MessageBubble({ message }) {
 
 
 
+
             setFeedback(type);
+
 
 
         }
@@ -163,15 +193,46 @@ function MessageBubble({ message }) {
 
         catch(error){
 
+
             console.error(
                 "Feedback failed:",
                 error
             );
 
+
         }
 
 
     }
+
+
+
+
+
+
+
+
+
+    function submitNegativeFeedback(){
+
+
+        sendFeedback(
+
+            "down",
+
+            feedbackReason,
+
+            feedbackComment
+
+        );
+
+
+        setShowFeedbackModal(false);
+
+
+    }
+
+
 
 
 
@@ -202,14 +263,12 @@ function MessageBubble({ message }) {
 
                     ...props
 
-
                 }){
 
 
                     const codeText =
                     String(children)
                     .replace(/\n$/,"");
-
 
 
 
@@ -232,23 +291,7 @@ function MessageBubble({ message }) {
 
                         );
 
-
                     }
-
-
-
-
-
-                    const language = className
-
-                    ? className.replace(
-                        "language-",
-                        ""
-                    )
-
-                    : "text";
-
-
 
 
 
@@ -256,18 +299,15 @@ function MessageBubble({ message }) {
 
                     return (
 
-
                         <div className="code-block">
-
 
 
                             <div className="code-header">
 
 
                                 <span>
-                                    {language}
+                                    Code
                                 </span>
-
 
 
                                 <button
@@ -287,44 +327,24 @@ function MessageBubble({ message }) {
 
 
 
+                            <pre>
 
+                                <code
 
-                            <SyntaxHighlighter
+                                className={className}
 
+                                {...props}
 
-                            language={language}
+                                >
 
+                                    {children}
 
-                            style={vscDarkPlus}
+                                </code>
 
-
-
-                            customStyle={{
-
-                                margin:0,
-
-                                borderRadius:
-                                "0 0 12px 12px",
-
-                                fontSize:"14px"
-
-                            }}
-
-
-
-                            >
-
-                                {codeText}
-
-
-                            </SyntaxHighlighter>
-
-
-
+                            </pre>
 
 
                         </div>
-
 
                     );
 
@@ -353,6 +373,8 @@ function MessageBubble({ message }) {
 
 
 
+
+
     const isWelcome =
         message.message_id === "welcome";
 
@@ -362,6 +384,7 @@ function MessageBubble({ message }) {
         message.role === "assistant" &&
         message.content === "" &&
         !isWelcome;
+
 
 
 
@@ -383,17 +406,13 @@ function MessageBubble({ message }) {
                 <div className="message-content">
 
 
-                    {
 
+                {
 
-                    isThinking
-
-
-                    ?
+                    isThinking ?
 
 
                     <div className="typing">
-
 
                         <span className="dot"></span>
 
@@ -412,22 +431,17 @@ function MessageBubble({ message }) {
 
                     message.role === "assistant"
 
-
                     ?
-
 
                     renderMarkdown()
 
 
-
                     :
-
 
                     message.content
 
 
-
-                    }
+                }
 
 
 
@@ -463,7 +477,9 @@ function MessageBubble({ message }) {
                         "📋 Copy"
                         }
 
+
                     </button>
+
 
 
 
@@ -480,15 +496,14 @@ function MessageBubble({ message }) {
                     }
 
 
-                    onClick={()=>
-                        sendFeedback("up")
-                    }
+                    onClick={()=>sendFeedback("up")}
 
                     >
 
                         👍
 
                     </button>
+
 
 
 
@@ -505,15 +520,14 @@ function MessageBubble({ message }) {
                     }
 
 
-                    onClick={()=>
-                        sendFeedback("down")
-                    }
+                    onClick={()=>setShowFeedbackModal(true)}
 
                     >
 
                         👎
 
                     </button>
+
 
 
                 </div>
@@ -529,13 +543,16 @@ function MessageBubble({ message }) {
 
 
                 {
+
                 message.role === "assistant" &&
+
                 message.sources &&
+
                 message.sources.length > 0 &&
 
 
-                <div className="sources-wrapper">
 
+                <div className="sources-wrapper">
 
 
                     <button
@@ -563,7 +580,6 @@ function MessageBubble({ message }) {
 
 
 
-
                     {
                     showSources &&
 
@@ -584,7 +600,6 @@ function MessageBubble({ message }) {
                         key={index}
 
                         >
-
 
                             <strong>
                                 Source {index+1}
@@ -613,6 +628,7 @@ function MessageBubble({ message }) {
 
                     )
 
+
                     )
 
                     }
@@ -620,17 +636,154 @@ function MessageBubble({ message }) {
 
                     </div>
 
+
                     }
 
 
 
                 </div>
 
+
                 }
 
 
 
             </div>
+
+
+
+
+
+
+
+
+
+            {/* ============================
+                FEEDBACK MODAL
+            ============================ */}
+
+
+            {
+
+            showFeedbackModal &&
+
+
+            <div className="feedback-overlay">
+
+
+                <div className="feedback-modal">
+
+
+                    <h3>
+                        Help improve the answer
+                    </h3>
+
+
+                    <p>
+                        What was wrong?
+                    </p>
+
+
+
+                    <select
+
+                    value={feedbackReason}
+
+                    onChange={(e)=>
+                        setFeedbackReason(e.target.value)
+                    }
+
+                    >
+
+
+                        <option value="">
+                            Select reason
+                        </option>
+
+
+                        <option value="incorrect">
+                            Incorrect answer
+                        </option>
+
+
+                        <option value="not_relevant">
+                            Not relevant
+                        </option>
+
+
+                        <option value="missing_information">
+                            Missing information
+                        </option>
+
+
+                        <option value="other">
+                            Other
+                        </option>
+
+
+                    </select>
+
+
+
+
+                    <textarea
+
+                    placeholder="Optional comment"
+
+                    value={feedbackComment}
+
+                    onChange={(e)=>
+                        setFeedbackComment(e.target.value)
+                    }
+
+                    />
+
+
+
+
+
+                    <div className="feedback-buttons">
+
+
+                        <button
+
+                        onClick={()=>
+                            setShowFeedbackModal(false)
+                        }
+
+                        >
+
+                            Cancel
+
+                        </button>
+
+
+
+
+                        <button
+
+                        onClick={submitNegativeFeedback}
+
+                        >
+
+                            Submit
+
+                        </button>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+            }
+
 
 
         </div>

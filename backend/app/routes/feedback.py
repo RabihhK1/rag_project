@@ -14,7 +14,7 @@ router = APIRouter(
 
 
 # =========================
-# Feedback Model
+# Feedback Request Model
 # =========================
 
 class FeedbackRequest(BaseModel):
@@ -23,7 +23,12 @@ class FeedbackRequest(BaseModel):
 
     message_id: str
 
-    rating: str   # "up" or "down"
+    rating: str  
+    # "up" or "down"
+
+    comment: str | None = None
+
+    reasons: list[str] = []
 
 
 
@@ -39,22 +44,18 @@ async def submit_feedback(
 ):
 
 
-    # Check if this message already has feedback
-
     existing_feedback = await feedback_collection.find_one(
-
         {
-
             "message_id":
                 request.message_id
-
         }
-
     )
 
 
 
-    # If exists -> update rating
+    # =========================
+    # Update existing feedback
+    # =========================
 
     if existing_feedback:
 
@@ -62,10 +63,8 @@ async def submit_feedback(
         await feedback_collection.update_one(
 
             {
-
                 "message_id":
                     request.message_id
-
             },
 
 
@@ -79,6 +78,14 @@ async def submit_feedback(
                         request.rating,
 
 
+                    "comment":
+                        request.comment,
+
+
+                    "reasons":
+                        request.reasons,
+
+
                     "updated_at":
                         datetime.now(timezone.utc)
 
@@ -87,7 +94,6 @@ async def submit_feedback(
             }
 
         )
-
 
 
         return {
@@ -102,7 +108,9 @@ async def submit_feedback(
 
 
 
-    # First time feedback
+    # =========================
+    # Create new feedback
+    # =========================
 
     await feedback_collection.insert_one(
 
@@ -112,20 +120,24 @@ async def submit_feedback(
                 str(uuid4()),
 
 
-
             "conversation_id":
                 request.conversation_id,
-
 
 
             "message_id":
                 request.message_id,
 
 
-
             "rating":
                 request.rating,
 
+
+            "comment":
+                request.comment,
+
+
+            "reasons":
+                request.reasons,
 
 
             "created_at":
@@ -142,5 +154,56 @@ async def submit_feedback(
         "success": True,
 
         "action": "created"
+
+    }
+
+
+
+
+
+
+
+# =========================
+# Delete Feedback
+# =========================
+
+@router.delete("/{message_id}")
+async def delete_feedback(
+    message_id: str
+):
+
+
+    result = await feedback_collection.delete_one(
+
+        {
+
+            "message_id":
+                message_id
+
+        }
+
+    )
+
+
+
+    if result.deleted_count == 0:
+
+        return {
+
+            "success": False,
+
+            "message":
+                "Feedback not found"
+
+        }
+
+
+
+    return {
+
+        "success": True,
+
+        "message":
+            "Feedback deleted"
 
     }
