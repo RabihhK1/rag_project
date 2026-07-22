@@ -1,7 +1,10 @@
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import ChatWindow from "./components/chat/ChatWindow";
+import Toast from "./components/common/Toast";
+
 import useChat from "./hooks/useChat";
+
 
 
 function App(){
@@ -21,14 +24,17 @@ loadConversation,
 
 refreshKey,
 
-refreshConversations
+refreshConversations,
 
+toast
 
 }=useChat();
 
 
 
+
 return (
+
 
 <div className="app">
 
@@ -50,7 +56,8 @@ refreshConversations={refreshConversations}
 <div className="main">
 
 
-<Header/>
+<Header />
+
 
 
 <ChatWindow
@@ -67,7 +74,13 @@ loading={loading}
 </div>
 
 
+
+<Toast message={toast}/>
+
+
+
 </div>
+
 
 );
 

@@ -3,7 +3,8 @@ from pydantic import BaseModel
 
 from app.database import (
     conversations_collection,
-    messages_collection
+    messages_collection,
+    feedback_collection
 )
 
 
@@ -13,17 +14,20 @@ router = APIRouter(
 )
 
 
+
 # =========================
 # Models
 # =========================
 
 class RenameRequest(BaseModel):
+
     title: str
 
 
 
 # =========================
 # Get all conversations
+# Sidebar
 # =========================
 
 @router.get("")
@@ -40,7 +44,9 @@ async def get_conversations():
     )
 
 
+
     async for conversation in cursor:
+
 
         conversations.append({
 
@@ -49,16 +55,19 @@ async def get_conversations():
                     "conversation_id"
                 ),
 
+
             "title":
                 conversation.get(
                     "title",
                     "New Chat"
                 ),
 
+
             "created_at":
                 conversation.get(
                     "created_at"
                 ),
+
 
             "updated_at":
                 conversation.get(
@@ -73,6 +82,7 @@ async def get_conversations():
 
 
 
+
 # =========================
 # Load messages
 # =========================
@@ -82,7 +92,9 @@ async def get_messages(
     conversation_id: str
 ):
 
+
     messages = []
+
 
 
     cursor = messages_collection.find({
@@ -98,30 +110,80 @@ async def get_messages(
     )
 
 
+
     async for message in cursor:
 
+
+
+        feedback = None
+
+
+        # Check if this message already has feedback
+
+        if message.get("role") == "assistant":
+
+
+            saved_feedback = await feedback_collection.find_one(
+
+                {
+
+                    "message_id":
+                        message.get(
+                            "message_id"
+                        )
+
+                }
+
+            )
+
+
+            if saved_feedback:
+
+                feedback = saved_feedback.get(
+                    "rating"
+                )
+
+
+
+
+
         messages.append({
+
+            "message_id":
+                message.get(
+                    "message_id"
+                ),
+
 
             "role":
                 message.get(
                     "role"
                 ),
 
+
             "content":
                 message.get(
                     "content"
                 ),
 
+
             "sources":
                 message.get(
                     "sources",
                     []
-                )
+                ),
+
+
+            "feedback":
+                feedback
 
         })
 
 
+
     return messages
+
+
 
 
 
@@ -141,13 +203,17 @@ async def rename_conversation(
     await conversations_collection.update_one(
 
         {
+
             "conversation_id":
                 conversation_id
+
         },
+
 
         {
 
             "$set":
+
             {
 
                 "title":
@@ -173,6 +239,8 @@ async def rename_conversation(
 
 
 
+
+
 # =========================
 # Delete conversation
 # =========================
@@ -183,29 +251,49 @@ async def delete_conversation(
 ):
 
 
-    # Delete chat from sidebar
+    # Delete conversation
 
     await conversations_collection.delete_one(
 
         {
+
             "conversation_id":
                 conversation_id
+
         }
 
     )
 
 
 
-    # Delete all messages belonging to chat
+    # Delete messages
 
     await messages_collection.delete_many(
 
         {
+
             "conversation_id":
                 conversation_id
+
         }
 
     )
+
+
+
+    # Delete feedback related to chat
+
+    await feedback_collection.delete_many(
+
+        {
+
+            "conversation_id":
+                conversation_id
+
+        }
+
+    )
+
 
 
     return {

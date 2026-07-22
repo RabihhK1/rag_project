@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import client
 from app.routes.chat import router as chat_router
 from app.routes.conversations import router as conversations_router
-
+from app.routes.feedback import router as feedback_router
 app = FastAPI(
     title="RAG Backend API",
     version="1.0.0"
@@ -30,7 +30,7 @@ app.add_middleware(
 # API Routes
 # -------------------------
 app.include_router(chat_router)
-
+app.include_router(feedback_router)
 app.include_router(conversations_router)
 # -------------------------
 # MongoDB Check

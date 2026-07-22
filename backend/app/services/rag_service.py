@@ -37,95 +37,87 @@ class RAGService:
 
 
 
-    async def ask(
+
+
+    async def _create_conversation(
         self,
-        question: str,
-        conversation_id: str | None = None
+        question: str
     ):
 
 
-        # ==========================
-        # Create conversation
-        # ==========================
-
-        if not conversation_id:
-
-
-            conversation_id = str(
-                uuid4()
-            )
-
-
-            await conversations_collection.insert_one(
-
-                {
-
-                    "conversation_id": conversation_id,
-
-                    "title": question[:40],
-
-                    "created_at":
-                        datetime.now(timezone.utc),
-
-                    "updated_at":
-                        datetime.now(timezone.utc)
-
-                }
-
-            )
-
-
-
-        # ==========================
-        # Save user message
-        # ==========================
-
-        await messages_collection.insert_one(
-
-            {
-
-                "conversation_id": conversation_id,
-
-                "role": "user",
-
-                "content": question,
-
-                "created_at":
-                    datetime.now(timezone.utc)
-
-            }
-
+        conversation_id = str(
+            uuid4()
         )
 
 
+        await conversations_collection.insert_one({
 
-        # ==========================
-        # RAG Pipeline
-        # ==========================
+            "conversation_id":
+                conversation_id,
 
-        documents = self.retriever.search(
+            "title":
+                question[:40],
 
-            question,
+            "created_at":
+                datetime.now(timezone.utc),
 
-            limit=5
+            "updated_at":
+                datetime.now(timezone.utc)
 
+        })
+
+
+        return conversation_id
+
+
+
+
+
+
+    async def _save_user_message(
+        self,
+        conversation_id: str,
+        question: str
+    ):
+
+
+        message_id = str(
+            uuid4()
         )
 
 
+        await messages_collection.insert_one({
 
-        answer = self.generator.generate(
+            "message_id":
+                message_id,
 
-            question,
+            "conversation_id":
+                conversation_id,
 
-            documents
+            "role":
+                "user",
 
-        )
+            "content":
+                question,
+
+            "created_at":
+                datetime.now(timezone.utc)
+
+        })
+
+
+        return message_id
 
 
 
-        # ==========================
-        # Prepare sources
-        # ==========================
+
+
+
+    def _prepare_sources(
+        self,
+        documents
+    ):
+
 
         sources = []
 
@@ -133,73 +125,101 @@ class RAGService:
         for doc in documents:
 
 
-            sources.append(
+            sources.append({
 
-                {
-
-                    "page":
-                        doc.metadata.get(
-                            "page_number"
-                        ),
+                "page":
+                    doc.metadata.get(
+                        "page_number"
+                    ),
 
 
-                    "section":
-                        doc.metadata.get(
-                            "section_title"
-                        ),
+                "section":
+                    doc.metadata.get(
+                        "section_title"
+                    ),
 
 
-                    "source":
-                        doc.metadata.get(
-                            "source"
-                        ),
+                "source":
+                    doc.metadata.get(
+                        "source"
+                    ),
 
 
-                    "score":
-                        doc.metadata.get(
-                            "rerank_score"
-                        )
+                "score":
+                    doc.metadata.get(
+                        "rerank_score"
+                    )
 
-                }
-
-            )
+            })
 
 
+        return sources
 
-        # ==========================
-        # Save assistant message
-        # ==========================
 
-        await messages_collection.insert_one(
 
-            {
 
-                "conversation_id": conversation_id,
 
-                "role": "assistant",
 
-                "content": answer,
+    async def _save_assistant_message(
+        self,
+        conversation_id: str,
+        answer: str,
+        sources: list
+    ):
 
-                "sources": sources,
 
-                "created_at":
-                    datetime.now(timezone.utc)
-
-            }
-
+        message_id = str(
+            uuid4()
         )
 
 
+        await messages_collection.insert_one({
 
-        # ==========================
-        # Update conversation timestamp
-        # ==========================
+            "message_id":
+                message_id,
+
+
+            "conversation_id":
+                conversation_id,
+
+
+            "role":
+                "assistant",
+
+
+            "content":
+                answer,
+
+
+            "sources":
+                sources,
+
+
+            "created_at":
+                datetime.now(timezone.utc)
+
+        })
+
+
+        return message_id
+
+
+
+
+
+
+    async def _update_conversation(
+        self,
+        conversation_id: str
+    ):
+
 
         await conversations_collection.update_one(
 
             {
 
-                "conversation_id": conversation_id
+                "conversation_id":
+                    conversation_id
 
             },
 
@@ -221,6 +241,89 @@ class RAGService:
 
 
 
+
+
+
+
+
+    # ==================================
+    # Existing normal generation
+    # DO NOT REMOVE
+    # ==================================
+
+    async def ask(
+        self,
+        question: str,
+        conversation_id: str | None = None
+    ):
+
+
+        if not conversation_id:
+
+            conversation_id = await self._create_conversation(
+                question
+            )
+
+
+
+        await self._save_user_message(
+
+            conversation_id,
+
+            question
+
+        )
+
+
+
+        documents = self.retriever.search(
+
+            question,
+
+            limit=5
+
+        )
+
+
+
+        answer = self.generator.generate(
+
+            question,
+
+            documents
+
+        )
+
+
+
+        sources = self._prepare_sources(
+
+            documents
+
+        )
+
+
+
+        message_id = await self._save_assistant_message(
+
+            conversation_id,
+
+            answer,
+
+            sources
+
+        )
+
+
+
+        await self._update_conversation(
+
+            conversation_id
+
+        )
+
+
+
         return {
 
 
@@ -228,8 +331,134 @@ class RAGService:
                 conversation_id,
 
 
+            "message_id":
+                message_id,
+
+
             "answer":
                 answer,
+
+
+            "sources":
+                sources
+
+        }
+
+
+
+
+
+
+
+    # ==================================
+    # NEW SSE STREAMING GENERATION
+    # ==================================
+
+    async def ask_stream(
+        self,
+        question: str,
+        conversation_id: str | None = None
+    ):
+
+
+        if not conversation_id:
+
+            conversation_id = await self._create_conversation(
+                question
+            )
+
+
+
+        await self._save_user_message(
+
+            conversation_id,
+
+            question
+
+        )
+
+
+
+        documents = self.retriever.search(
+
+            question,
+
+            limit=5
+
+        )
+
+
+
+        sources = self._prepare_sources(
+
+            documents
+
+        )
+
+
+        full_answer = ""
+
+
+
+        for token in self.generator.stream_generate(
+
+            question,
+
+            documents
+
+        ):
+
+
+            full_answer += token
+
+
+            yield {
+
+                "type":
+                    "token",
+
+
+                "content":
+                    token
+
+            }
+
+
+
+
+
+        message_id = await self._save_assistant_message(
+
+            conversation_id,
+
+            full_answer,
+
+            sources
+
+        )
+
+
+        await self._update_conversation(
+
+            conversation_id
+
+        )
+
+
+
+        yield {
+
+
+            "type":
+                "done",
+
+
+            "conversation_id":
+                conversation_id,
+
+
+            "message_id":
+                message_id,
 
 
             "sources":
