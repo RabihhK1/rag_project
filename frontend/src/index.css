@@ -926,13 +926,9 @@ transform:translateY(0);
 ===================== */
 
 
-.code-block{
+.code-block {
 
 margin:15px 0;
-
-background:#0d0d0d;
-
-border:1px solid #333;
 
 border-radius:12px;
 
@@ -940,6 +936,16 @@ overflow:hidden;
 
 }
 
+
+.code-block code {
+
+font-family:
+"Fira Code",
+monospace;
+
+font-size:14px;
+
+}
 
 
 .code-header{

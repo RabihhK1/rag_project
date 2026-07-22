@@ -1,6 +1,12 @@
 import { useState } from "react";
+
 import ReactMarkdown from "react-markdown";
+
 import remarkGfm from "remark-gfm";
+
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 
 const API = "http://127.0.0.1:8000";
@@ -56,8 +62,8 @@ function MessageBubble({ message }) {
 
         }
 
-    }
 
+    }
 
 
 
@@ -69,9 +75,11 @@ function MessageBubble({ message }) {
 
         try{
 
+
             await navigator.clipboard.writeText(
                 code
             );
+
 
         }
 
@@ -84,8 +92,8 @@ function MessageBubble({ message }) {
 
         }
 
-    }
 
+    }
 
 
 
@@ -170,6 +178,7 @@ function MessageBubble({ message }) {
 
 
 
+
     function renderMarkdown(){
 
 
@@ -203,6 +212,7 @@ function MessageBubble({ message }) {
 
 
 
+
                     if(inline){
 
 
@@ -228,16 +238,34 @@ function MessageBubble({ message }) {
 
 
 
+
+                    const language = className
+
+                    ? className.replace(
+                        "language-",
+                        ""
+                    )
+
+                    : "text";
+
+
+
+
+
+
+
                     return (
 
+
                         <div className="code-block">
+
 
 
                             <div className="code-header">
 
 
                                 <span>
-                                    Code
+                                    {language}
                                 </span>
 
 
@@ -259,24 +287,44 @@ function MessageBubble({ message }) {
 
 
 
-                            <pre>
 
-                                <code
 
-                                className={className}
+                            <SyntaxHighlighter
 
-                                {...props}
 
-                                >
+                            language={language}
 
-                                    {children}
 
-                                </code>
+                            style={vscDarkPlus}
 
-                            </pre>
+
+
+                            customStyle={{
+
+                                margin:0,
+
+                                borderRadius:
+                                "0 0 12px 12px",
+
+                                fontSize:"14px"
+
+                            }}
+
+
+
+                            >
+
+                                {codeText}
+
+
+                            </SyntaxHighlighter>
+
+
+
 
 
                         </div>
+
 
                     );
 
@@ -305,8 +353,6 @@ function MessageBubble({ message }) {
 
 
 
-
-
     const isWelcome =
         message.message_id === "welcome";
 
@@ -316,6 +362,7 @@ function MessageBubble({ message }) {
         message.role === "assistant" &&
         message.content === "" &&
         !isWelcome;
+
 
 
 
@@ -334,7 +381,6 @@ function MessageBubble({ message }) {
 
 
                 <div className="message-content">
-
 
 
                     {
@@ -512,6 +558,7 @@ function MessageBubble({ message }) {
 
 
                     </button>
+
 
 
 
