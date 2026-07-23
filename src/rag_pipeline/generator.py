@@ -6,6 +6,7 @@ Responsible for:
 2. Building the prompt
 3. Combining retrieved documents into context
 4. Generating the final answer
+5. Streaming generated tokens for SSE
 """
 
 from langchain_ollama import ChatOllama
@@ -13,7 +14,9 @@ from langchain_ollama import ChatOllama
 from .logger import logger
 
 
+
 class Generator:
+
 
     def __init__(
         self,
@@ -21,34 +24,54 @@ class Generator:
         temperature: float = 0.0
     ):
 
-        logger.info("Initializing generator")
 
-        self.llm = ChatOllama(
-            model=model_name,
-            temperature=temperature
+        logger.info(
+            "Initializing generator"
         )
 
-        logger.info("Generator ready")
+
+        self.llm = ChatOllama(
+
+            model=model_name,
+
+            temperature=temperature,
+
+            streaming=True
+
+        )
 
 
-    def generate(
+        logger.info(
+            "Generator ready"
+        )
+
+
+
+
+    def _build_prompt(
         self,
         question: str,
         documents: list
     ) -> str:
 
-        logger.info("Building context")
+
+        logger.info(
+            "Building context"
+        )
+
 
         context = "\n\n".join(
+
             doc.page_content
+
             for doc in documents
+
         )
+
+
 
         prompt = f"""
 You are a cybersecurity assistant.
-
-You are a cybersecurity assistant.
-
 
 Answer the question using only the provided context.
 
@@ -57,33 +80,126 @@ Rules:
 - Include the subject being asked about.
 - Do not answer with only a short phrase.
 - Do not add information that is not in the context.
--When multiple safeguards discuss related topics,
+- When multiple safeguards discuss related topics,
 choose the safeguard that directly answers the user's question.
-
--Prefer the most specific safeguard over general explanations.
-
--If multiple frequencies are mentioned,
+- Prefer the most specific safeguard over general explanations.
+- If multiple frequencies are mentioned,
 return the frequency that applies to the exact safeguard asked.
+- If the answer is partially available in the context, explain using the available information.
+- Only say "I could not find the answer in the provided documents." when there is truly no related information.
+- Give a concise answer.
 
--If the answer cannot be found,
-say:
-"I could not find the answer in the provided documents."
-
--Give a concise answer.
 
 Context:
+
 {context}
 
+
 Question:
+
 {question}
+
 
 Answer:
 """
 
-        logger.info("Generating response")
 
-        response = self.llm.invoke(prompt)
+        return prompt
 
-        logger.info("Response generated")
+
+
+
+
+
+    # ==========================
+    # Normal Generation
+    # Keeps old pipeline working
+    # ==========================
+
+    def generate(
+        self,
+        question: str,
+        documents: list
+    ) -> str:
+
+
+        prompt = self._build_prompt(
+
+            question,
+
+            documents
+
+        )
+
+
+        logger.info(
+            "Generating response"
+        )
+
+
+
+        response = self.llm.invoke(
+
+            prompt
+
+        )
+
+
+
+        logger.info(
+            "Response generated"
+        )
+
+
 
         return response.content
+
+
+
+
+
+
+    # ==========================
+    # Streaming Generation
+    # Used by SSE
+    # ==========================
+
+    def stream_generate(
+        self,
+        question: str,
+        documents: list
+    ):
+
+
+        prompt = self._build_prompt(
+
+            question,
+
+            documents
+
+        )
+
+
+        logger.info(
+            "Starting streaming response"
+        )
+
+
+
+        for chunk in self.llm.stream(
+
+            prompt
+
+        ):
+
+
+            if chunk.content:
+
+
+                yield chunk.content
+
+
+
+        logger.info(
+            "Streaming completed"
+        )
