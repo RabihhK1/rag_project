@@ -12,6 +12,7 @@ Responsible for:
 from langchain_ollama import ChatOllama
 
 from .logger import logger
+from . import config
 
 
 
@@ -20,9 +21,17 @@ class Generator:
 
     def __init__(
         self,
-        model_name: str = "qwen2.5:7b",
-        temperature: float = 0.0
+        model_name: str | None = None,
+        temperature: float | None = None
     ):
+        self.model_name = (
+            model_name if model_name else config.LLM_MODEL
+        )
+        self.temperature = (
+            temperature
+            if temperature is not None
+            else config.LLM_TEMPERATURE
+        )
 
 
         logger.info(
@@ -32,9 +41,9 @@ class Generator:
 
         self.llm = ChatOllama(
 
-            model=model_name,
+            model=self.model_name,
 
-            temperature=temperature,
+            temperature=self.temperature,
 
             streaming=True
 

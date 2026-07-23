@@ -43,16 +43,46 @@ CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 200
 
 # --------------------------------------------------
+# Document Merger
+# --------------------------------------------------
+
+MAX_SECTION_CHARS = 4000
+
+# --------------------------------------------------
 # Embeddings
 # --------------------------------------------------
 
 EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+
+EMBEDDING_BATCH_SIZE = 32
+
+# --------------------------------------------------
+# Reranker
+# --------------------------------------------------
+
+RERANKER_MODEL = "BAAI/bge-reranker-base"
+
+# --------------------------------------------------
+# Generation (Local LLM via Ollama)
+# --------------------------------------------------
+
+LLM_MODEL = "qwen2.5:7b"
+
+LLM_TEMPERATURE = 0.0
 
 # --------------------------------------------------
 # Weaviate
 # --------------------------------------------------
 
 WEAVIATE_HOST = "http://localhost:8080"
+
+COLLECTION_NAME = "CISControls"
+
+# Retrieval defaults
+
+DEFAULT_SEARCH_LIMIT = 50
+
+DEFAULT_TOP_K = 5
 
 # --------------------------------------------------
 # Output Files
@@ -62,8 +92,6 @@ PARSED_JSON = PARSED_DIR / "cis_controls_parsed.json"
 
 CHUNK_JSON = CHUNK_DIR / "cis_controls_chunks.json"
 
-# Embedding model
+EMBEDDING_JSON = EMBEDDING_DIR / "cis_controls_embeddings.json"
 
-EMBEDDING_MODEL = (
-    "BAAI/bge-small-en-v1.5"
-)
+LOG_FILE = LOG_DIR / "rag.log"

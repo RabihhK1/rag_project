@@ -39,8 +39,13 @@ class DocumentEmbedder:
 
     def __init__(
         self,
-        batch_size: int = 32
+        batch_size: int | None = None
     ):
+        self.batch_size = (
+            batch_size
+            if batch_size
+            else config.EMBEDDING_BATCH_SIZE
+        )
 
         self.batch_size = batch_size
 

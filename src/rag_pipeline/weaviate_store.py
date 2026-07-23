@@ -1,116 +1,48 @@
-"""
-Weaviate Vector Store
-
-Stores document chunks and embeddings
-inside Weaviate.
-"""
-
-
-from typing import List
+"""Weaviate Vector Store"""
 
 import weaviate
-
-from langchain_core.documents import Document
-
-from langchain_weaviate import WeaviateVectorStore
-
 from weaviate.classes.config import Configure
-
 
 from .logger import logger
 from . import config
 
 
-
 class WeaviateStore:
+    """
+    Stores document chunks and embeddings into Weaviate.
+    """
 
-
-    def __init__(self):
-
-
-        logger.info(
-            "Connecting to Weaviate"
+    def __init__(self, collection_name: str | None = None):
+        self.collection_name = (
+            collection_name if collection_name else config.COLLECTION_NAME
         )
-
-
+        logger.info("Connecting to Weaviate")
         self.client = weaviate.connect_to_local()
+        logger.info("Connected to Weaviate")
 
+    def store(self, documents, vectors):
+        logger.info(f"Uploading {len(documents)} vectors")
 
-        logger.info(
-            "Connected to Weaviate"
-        )
-
-
-
-    def store(
-    self,
-    documents,
-    vectors
-):
-
-
-        logger.info(
-        f"Uploading {len(documents)} vectors"
-    )
-
-
-        collection_name = "CISControls"
-
-
-        if not self.client.collections.exists(collection_name):
-
+        if not self.client.collections.exists(self.collection_name):
             self.client.collections.create(
+                name=self.collection_name,
+                vector_config=Configure.Vectors.self_provided(),
+            )
 
-                name=collection_name,
+        collection = self.client.collections.get(self.collection_name)
 
-                vector_config=Configure.Vectors.self_provided()
-
-    )
-
-
-        collection = (
-        self.client.collections.get(
-            collection_name
-        )
-    )
-
-
-        for doc, vector in zip(
-        documents,
-        vectors
-    ):
-
-
+        for doc, vector in zip(documents, vectors):
             collection.data.insert(
+                properties={
+                    "text": doc.page_content,
+                    "metadata": str(doc.metadata),
+                },
+                vector={"default": vector},
+            )
 
-    properties={
-
-        "text":
-            doc.page_content,
-
-        "metadata":
-            str(doc.metadata)
-
-    },
-
-
-    vector={
-        "default": vector
-    }
-
-)
-
-
-    logger.info(
-        "Vector upload completed"
-    )
-
-
+        logger.info("Vector upload completed")
 
     def close(self):
-
-        self.client.close()
-
-        logger.info(
-            "Weaviate connection closed"
-        )
+        if self.client:
+            self.client.close()
+            logger.info("Weaviate connection closed")

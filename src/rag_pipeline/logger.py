@@ -30,7 +30,7 @@ def setup_logger() -> logging.Logger:
     console_handler.setFormatter(formatter)
 
     file_handler = logging.FileHandler(
-        config.LOG_DIR / "rag.log",
+        config.LOG_FILE,
         encoding="utf-8"
     )
 

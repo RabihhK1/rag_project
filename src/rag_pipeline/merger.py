@@ -16,6 +16,7 @@ from typing import List
 from langchain_core.documents import Document
 
 from .logger import logger
+from . import config
 
 
 
@@ -35,10 +36,14 @@ class DocumentMerger:
 
     def __init__(
         self,
-        max_section_chars: int = 4000
+        max_section_chars: int | None = None
     ):
 
-        self.max_section_chars = max_section_chars
+        self.max_section_chars = (
+            max_section_chars
+            if max_section_chars
+            else config.MAX_SECTION_CHARS
+        )
 
 
 
