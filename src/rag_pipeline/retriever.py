@@ -68,7 +68,7 @@ class Retriever:
     def search(
         self,
         query: str,
-        limit: int = 5,
+        limit: int = 8,
         search_limit: int = 50
     ):
 
