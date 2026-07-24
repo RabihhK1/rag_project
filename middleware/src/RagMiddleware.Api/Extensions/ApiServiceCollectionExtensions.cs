@@ -75,7 +75,7 @@ public static class ApiServiceCollectionExtensions
             {
                 options.ClientId = googleClientId;
                 options.ClientSecret = googleClientSecret;
-                options.SignInScheme = "ExternalCookie";
+                options.SignInScheme = IdentityConstants.ExternalScheme;
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
             });

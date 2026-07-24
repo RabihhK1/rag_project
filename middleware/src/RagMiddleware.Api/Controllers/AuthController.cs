@@ -44,7 +44,7 @@ public sealed class AuthController(
     [EnableRateLimiting("auth")]
     public async Task<IActionResult> GoogleCallback(CancellationToken cancellationToken)
     {
-        var externalResult = await HttpContext.AuthenticateAsync("ExternalCookie");
+        var externalResult = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
         var principal = externalResult.Principal;
         var providerKey = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
         var email = principal?.FindFirstValue(ClaimTypes.Email);
