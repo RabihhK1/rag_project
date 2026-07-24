@@ -68,7 +68,7 @@ RERANKER_MODEL = "BAAI/bge-reranker-base"
 
 LLM_MODEL = "qwen2.5:7b"
 
-LLM_TEMPERATURE = 0.0
+LLM_TEMPERATURE = 1.0
 
 # --------------------------------------------------
 # Weaviate
