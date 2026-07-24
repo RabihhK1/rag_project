@@ -22,11 +22,11 @@ public sealed class AdminController(ApplicationDbContext database) : ControllerB
     {
         if (page < 1 || pageSize is < 1 or > 100)
         {
-            return ValidationProblem(new Dictionary<string, string[]>
+            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
                 ["page"] = ["page must be at least 1."],
                 ["page_size"] = ["page_size must be between 1 and 100."],
-            });
+            }));
         }
 
         var query = database.AuditLogs.AsNoTracking();
