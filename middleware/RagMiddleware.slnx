@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RagMiddleware.Api/RagMiddleware.Api.csproj" />
+    <Project Path="src/RagMiddleware.Application/RagMiddleware.Application.csproj" />
+    <Project Path="src/RagMiddleware.Domain/RagMiddleware.Domain.csproj" />
+    <Project Path="src/RagMiddleware.Infrastructure/RagMiddleware.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RagMiddleware.IntegrationTests/RagMiddleware.IntegrationTests.csproj" />
+    <Project Path="tests/RagMiddleware.UnitTests/RagMiddleware.UnitTests.csproj" />
+  </Folder>
+</Solution>
