@@ -33,10 +33,21 @@ class Retriever:
             model_name if model_name else config.EMBEDDING_MODEL
         )
 
-        self.model = SentenceTransformer(self.model_name)
+        try:
+            self.model = SentenceTransformer(
+                self.model_name,
+                local_files_only=True,
+            )
+        except OSError:
+            # A new setup can still download the model when it is not cached.
+            self.model = SentenceTransformer(self.model_name)
         logger.info(f"Embedding model loaded: {self.model_name}")
 
-        self.client = weaviate.connect_to_local()
+        self.client = weaviate.connect_to_local(
+            host=config.WEAVIATE_HOST,
+            port=config.WEAVIATE_PORT,
+            grpc_port=config.WEAVIATE_GRPC_PORT,
+        )
         logger.info("Connected to Weaviate")
 
         self.collection = self.client.collections.get(self.collection_name)

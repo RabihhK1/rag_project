@@ -71,9 +71,9 @@ class Generator:
 
         context = "\n\n".join(
 
-            doc.page_content
+            f"[{index}] {doc.page_content}"
 
-            for doc in documents
+            for index, doc in enumerate(documents, start=1)
 
         )
 
@@ -97,6 +97,8 @@ return the frequency that applies to the exact safeguard asked.
 - If the answer is partially available in the context, explain using the available information.
 - Only say "I could not find the answer in the provided documents." when there is truly no related information.
 - Give a concise answer.
+- Cite factual statements using the matching bracketed source number, for example [1].
+- Use only source numbers that appear in the context and include at least one citation when you answer from the context.
 
 
 Context:

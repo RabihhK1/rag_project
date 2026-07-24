@@ -2,7 +2,8 @@ import { useState } from "react";
 
 function ChatInput({
   sendMessage,
-  loading
+  loading,
+  welcomeMode = false,
 }) {
 
   const [text, setText] = useState("");
@@ -23,7 +24,10 @@ function ChatInput({
 
   return (
 
-    <div className="input-area">
+    <div
+      className={`input-area${welcomeMode ? " input-area--welcome" : ""}`}
+      data-tour="chat-input"
+    >
 
       <input
 

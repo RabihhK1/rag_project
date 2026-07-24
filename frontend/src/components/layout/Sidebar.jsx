@@ -204,7 +204,7 @@ fetchConversations();
 return (
 
 
-<div className="sidebar">
+<div className="sidebar" data-tour="sidebar">
 
 
 <div className="logo">

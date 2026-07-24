@@ -6,6 +6,17 @@ import FeedbackModal from "../common/FeedbackModal";
 import { API_URL } from "../../services/api";
 
 
+function linkifyCitations(content, sources) {
+    return content.replace(/\[(\d+)\]/g, (citation, sourceNumber) => {
+        const sourceIndex = Number(sourceNumber) - 1;
+
+        return sources[sourceIndex]
+            ? `[${sourceNumber}](https://citation.local/${sourceNumber})`
+            : citation;
+    });
+}
+
+
 function MessageBubble({
     message,
     onRegenerate,
@@ -41,6 +52,9 @@ function MessageBubble({
 
     const [feedbackComment, setFeedbackComment] =
         useState("");
+
+    const [activeCitationIndex, setActiveCitationIndex] =
+        useState(null);
 
     const replyVersions = Array.isArray(message.versions) && message.versions.length
         ? message.versions
@@ -310,6 +324,61 @@ function MessageBubble({
             components={{
 
 
+                a({ href, children, ...props }) {
+                    const citationMatch = href?.match(
+                        /^https:\/\/citation\.local\/(\d+)$/
+                    );
+
+                    if (citationMatch) {
+                        const sourceNumber = Number(citationMatch[1]);
+                        const sourceIndex = sourceNumber - 1;
+                        const source = message.sources?.[sourceIndex];
+                        const isOpen = activeCitationIndex === sourceIndex;
+
+                        return (
+                            <span
+                                className="citation-wrapper"
+                                onMouseEnter={() => setActiveCitationIndex(sourceIndex)}
+                                onMouseLeave={() => setActiveCitationIndex(null)}
+                            >
+                                <button
+                                    type="button"
+                                    className="inline-citation"
+                                    aria-label={`View source ${sourceNumber}`}
+                                    aria-expanded={isOpen}
+                                    onFocus={() => setActiveCitationIndex(sourceIndex)}
+                                    onBlur={() => setActiveCitationIndex(null)}
+                                    onClick={() => setActiveCitationIndex(
+                                        isOpen ? null : sourceIndex
+                                    )}
+                                >
+                                    [{sourceNumber}]
+                                </button>
+
+                                {isOpen && source && (
+                                    <span className="citation-tooltip" role="tooltip">
+                                        <strong>Source {sourceNumber}</strong>
+                                        <span>
+                                            {source.section || "CIS Controls"}
+                                            {source.page ? ` · Page ${source.page}` : ""}
+                                        </span>
+                                        <span className="citation-snippet">
+                                            {source.snippet || "Open source details below for context."}
+                                        </span>
+                                    </span>
+                                )}
+                            </span>
+                        );
+                    }
+
+                    return (
+                        <a href={href} target="_blank" rel="noreferrer" {...props}>
+                            {children}
+                        </a>
+                    );
+                },
+
+
 
                 code({
 
@@ -434,7 +503,7 @@ function MessageBubble({
 
             >
 
-                {message.content}
+                {linkifyCitations(message.content, message.sources || [])}
 
 
             </ReactMarkdown>
@@ -754,6 +823,13 @@ function MessageBubble({
                                 {Number(src.score).toFixed(3)}
 
                             </p>
+
+
+                            {src.snippet && (
+                                <p className="source-snippet">
+                                    {src.snippet}
+                                </p>
+                            )}
 
 
 

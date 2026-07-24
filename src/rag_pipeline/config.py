@@ -74,7 +74,9 @@ LLM_TEMPERATURE = 1.0
 # Weaviate
 # --------------------------------------------------
 
-WEAVIATE_HOST = "http://localhost:8080"
+WEAVIATE_HOST = "127.0.0.1"
+WEAVIATE_PORT = 8080
+WEAVIATE_GRPC_PORT = 50051
 
 COLLECTION_NAME = "CISControls"
 

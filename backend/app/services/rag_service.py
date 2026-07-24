@@ -65,6 +65,7 @@ class RAGService:
                 "section": document.metadata.get("section_title"),
                 "source": document.metadata.get("source"),
                 "score": document.metadata.get("rerank_score"),
+                "snippet": " ".join(document.page_content.split())[:320],
             }
             for document in documents
         ]

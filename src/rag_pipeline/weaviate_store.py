@@ -17,7 +17,11 @@ class WeaviateStore:
             collection_name if collection_name else config.COLLECTION_NAME
         )
         logger.info("Connecting to Weaviate")
-        self.client = weaviate.connect_to_local()
+        self.client = weaviate.connect_to_local(
+            host=config.WEAVIATE_HOST,
+            port=config.WEAVIATE_PORT,
+            grpc_port=config.WEAVIATE_GRPC_PORT,
+        )
         logger.info("Connected to Weaviate")
 
     def store(self, documents, vectors):

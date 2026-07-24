@@ -5,11 +5,23 @@ import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import ChatWindow from "./components/chat/ChatWindow";
 import Toast from "./components/common/Toast";
+import GuidedTour from "./components/common/GuidedTour";
 
 import Analytics from "./pages/Analytics";
 
 import useChat from "./hooks/useChat";
 
+
+const TOUR_STORAGE_KEY = "cyber-rag-tour-completed";
+
+
+function shouldShowTour() {
+    try {
+        return !window.localStorage.getItem(TOUR_STORAGE_KEY);
+    } catch {
+        return false;
+    }
+}
 
 
 
@@ -39,6 +51,19 @@ function App() {
 
     const [page,setPage] =
         useState("chat");
+
+    const [showTour, setShowTour] =
+        useState(shouldShowTour);
+
+    function completeTour() {
+        try {
+            window.localStorage.setItem(TOUR_STORAGE_KEY, "true");
+        } catch {
+            // The tour still closes if browser storage is unavailable.
+        }
+
+        setShowTour(false);
+    }
 
 
 
@@ -89,7 +114,7 @@ function App() {
 
             <div className="main">
 
-                <Header />
+                <Header onStartTour={() => setShowTour(true)} />
 
                 <ChatWindow
                     messages={messages}
@@ -104,6 +129,10 @@ function App() {
             </div>
 
             <Toast toast={toast} />
+
+            {showTour && (
+                <GuidedTour isOpen={showTour} onComplete={completeTour} />
+            )}
 
         </div>
     );

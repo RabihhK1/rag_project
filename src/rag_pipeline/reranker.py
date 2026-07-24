@@ -16,7 +16,14 @@ class Reranker:
             model_name if model_name else config.RERANKER_MODEL
         )
         logger.info(f"Loading reranker model: {self.model_name}")
-        self.model = CrossEncoder(self.model_name)
+        try:
+            self.model = CrossEncoder(
+                self.model_name,
+                local_files_only=True,
+            )
+        except OSError:
+            # A new setup can still download the model when it is not cached.
+            self.model = CrossEncoder(self.model_name)
         logger.info("Reranker ready")
 
     def rerank(self, query, documents, top_k: int | None = None):
