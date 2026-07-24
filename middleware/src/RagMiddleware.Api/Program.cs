@@ -28,7 +28,7 @@ app.UseMiddleware<AuditLoggingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference("/scalar/{documentName}");
+    app.MapScalarApiReference("/scalar");
 }
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
