@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
-import { API_URL } from "../services/api";
+import { useEffect, useRef, useState } from "react";
+import { requestApi } from "../services/api";
+import { getConversationMessages } from "../services/conversationService";
 
 
 const initialMessage = {
@@ -162,6 +163,12 @@ function useChat() {
     const [toast, setToast] = useState(null);
     const toastTimer = useRef(null);
 
+    useEffect(() => () => {
+        if (toastTimer.current) {
+            clearTimeout(toastTimer.current);
+        }
+    }, []);
+
     function refreshConversations() {
         setRefreshKey((previous) => previous + 1);
     }
@@ -188,6 +195,7 @@ function useChat() {
             ...previous,
             {
                 role: "user",
+                client_id: crypto.randomUUID(),
                 content: text,
                 sources: [],
                 feedback: null,
@@ -206,7 +214,7 @@ function useChat() {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_URL}/chat/stream`, {
+            const response = await requestApi("/chat/stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -214,10 +222,6 @@ function useChat() {
                     conversation_id: conversationId,
                 }),
             });
-
-            if (!response.ok) {
-                throw new Error("Backend request failed");
-            }
 
             await readSseEvents(response, (event) => {
                 if (event.type === "token") {
@@ -247,8 +251,7 @@ function useChat() {
                     refreshConversations();
                 }
             });
-        } catch (error) {
-            console.error("Streaming error:", error);
+        } catch {
             showToast("Backend server unavailable. Please check the connection.", "error");
             setMessages((previous) => previous.map((message) => (
                 message.message_id === assistantTempId
@@ -273,19 +276,13 @@ function useChat() {
 
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/conversations/${id}/messages`);
-            if (!response.ok) {
-                throw new Error("Failed loading conversation");
-            }
-
-            const data = await response.json();
+            const data = await getConversationMessages(id);
             setMessages(data.map((message) => normaliseAssistantMessage({
                 ...message,
                 conversation_id: id,
             })));
             setConversationId(id);
-        } catch (error) {
-            console.error("Conversation loading error:", error);
+        } catch {
             showToast("Failed loading conversation.", "error");
         } finally {
             setLoading(false);
@@ -356,7 +353,7 @@ function useChat() {
         )));
 
         try {
-            const response = await fetch(`${API_URL}/chat/regenerate/stream`, {
+            const response = await requestApi("/chat/regenerate/stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -364,10 +361,6 @@ function useChat() {
                     conversation_id: requestedConversationId,
                 }),
             });
-
-            if (!response.ok) {
-                throw new Error("Regenerate request failed");
-            }
 
             await readSseEvents(response, (event) => {
                 if (event.type === "error") {
@@ -431,7 +424,6 @@ function useChat() {
                 throw new Error("Regeneration ended before a response was created.");
             }
         } catch (error) {
-            console.error("Regenerate error:", error);
             showToast(error.message || "Failed to regenerate response.", "error");
             setMessages((previous) => previous.map((message) => (
                 isSameResponseSlot(message, rootMessageId)

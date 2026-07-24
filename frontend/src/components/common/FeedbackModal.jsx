@@ -1,171 +1,78 @@
+const reasons = [
+    "Incorrect answer",
+    "Missing information",
+    "Wrong source",
+    "Not relevant",
+    "Other",
+];
+
+
 function FeedbackModal({
-
     isOpen,
-
     reason,
-
     setReason,
-
     comment,
-
     setComment,
-
     onClose,
-
-    onSubmit
-
+    onSubmit,
 }) {
-
-
-    if(!isOpen)
+    if (!isOpen) {
         return null;
-
-
-
-    const reasons = [
-
-        "Incorrect answer",
-
-        "Missing information",
-
-        "Wrong source",
-
-        "Not relevant",
-
-        "Other"
-
-    ];
-
-
-
+    }
 
     return (
+        <div className="modal-overlay" role="presentation">
+            <section
+                className="feedback-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="feedback-title"
+                aria-describedby="feedback-description"
+            >
+                <h2 id="feedback-title">Tell us what went wrong</h2>
+                <p id="feedback-description">Help improve the cybersecurity assistant.</p>
 
-        <div className="modal-overlay">
-
-
-            <div className="feedback-modal">
-
-
-                <h2>
-                    Tell us what went wrong
-                </h2>
-
-
-                <p>
-                    Help improve the cybersecurity assistant.
-                </p>
-
-
-
-                <div className="feedback-reasons">
-
-
-                {
-                    reasons.map(item => (
-
+                <div className="feedback-reasons" aria-label="Feedback reason">
+                    {reasons.map((item) => (
                         <button
-
-                        key={item}
-
-                        className={
-                            reason === item
-                            ?
-                            "selected-reason"
-                            :
-                            ""
-                        }
-
-
-                        onClick={()=>
-                            setReason(item)
-                        }
-
+                            key={item}
+                            type="button"
+                            className={reason === item ? "selected-reason" : ""}
+                            aria-pressed={reason === item}
+                            onClick={() => setReason(item)}
                         >
-
                             {item}
-
                         </button>
-
-
-                    ))
-                }
-
-
+                    ))}
                 </div>
 
-
-
-
+                <label className="sr-only" htmlFor="feedback-comment">
+                    Additional comments
+                </label>
                 <textarea
-
-
+                    id="feedback-comment"
                     value={comment}
-
-
-                    onChange={
-                        e =>
-                        setComment(e.target.value)
-                    }
-
-
-                    placeholder=
-                    "Additional comments (optional)"
-
-
+                    onChange={(event) => setComment(event.target.value)}
+                    placeholder="Additional comments (optional)"
                 />
 
-
-
-
-
                 <div className="modal-actions">
-
-
-                    <button
-
-                    className="cancel-btn"
-
-                    onClick={onClose}
-
-                    >
-
+                    <button className="cancel-btn" type="button" onClick={onClose}>
                         Cancel
-
                     </button>
-
-
-
 
                     <button
-
-                    className="submit-btn"
-
-                    disabled={!reason}
-
-                    onClick={onSubmit}
-
+                        className="submit-btn"
+                        type="button"
+                        disabled={!reason}
+                        onClick={onSubmit}
                     >
-
                         Submit
-
                     </button>
-
-
-
                 </div>
-
-
-
-            </div>
-
-
+            </section>
         </div>
-
-
     );
-
-
 }
 
 

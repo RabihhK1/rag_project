@@ -27,9 +27,9 @@ function MessageList({
 
     return (
         <div className="messages">
-            {messages.map((message, index) => (
+            {messages.map((message) => (
                 <MessageBubble
-                    key={message.root_message_id || message.message_id || index}
+                    key={message.root_message_id || message.message_id || message.client_id}
                     message={message}
                     onRegenerate={regenerateMessage}
                     regeneratingFor={regeneratingFor}

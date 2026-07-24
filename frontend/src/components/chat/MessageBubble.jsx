@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import FeedbackModal from "../common/FeedbackModal";
-import { API_URL } from "../../services/api";
+import { submitFeedback } from "../../services/feedbackService";
 
 
 function linkifyCitations(content, sources) {
@@ -160,80 +160,13 @@ function MessageBubble({
         try{
 
 
-            const response =
-                await fetch(
-
-                    `${API_URL}/feedback`,
-
-                    {
-
-
-                        method:"POST",
-
-
-                        headers:{
-
-
-                            "Content-Type":
-                            "application/json"
-
-
-                        },
-
-
-                        body:JSON.stringify({
-
-
-                            conversation_id:
-                                message.conversation_id,
-
-
-
-                            message_id:
-                                message.message_id,
-
-
-
-                            rating:
-                                type,
-
-
-
-                            reasons:
-                                reason
-                                ?
-                                [reason]
-                                :
-                                [],
-
-
-
-                            comment:
-                                comment
-
-
-                        })
-
-
-                    }
-
-                );
-
-
-
-
-            if(!response.ok){
-
-
-                console.error(
-                    await response.text()
-                );
-
-
-                return;
-
-
-            }
+            await submitFeedback({
+                conversation_id: message.conversation_id,
+                message_id: message.message_id,
+                rating: type,
+                reasons: reason ? [reason] : [],
+                comment,
+            });
 
 
 

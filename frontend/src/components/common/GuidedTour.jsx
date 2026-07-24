@@ -12,19 +12,19 @@ import {
 
 const steps = [
     {
-        target: "[data-tour='sidebar']",
+        target: "sidebar",
         title: "Your conversation workspace",
         description: "Start a new chat here, reopen saved conversations, or review feedback analytics.",
         icon: LayoutPanelTop,
     },
     {
-        target: "[data-tour='chat-viewport']",
+        target: "chatViewport",
         title: "Answers with evidence",
         description: "Responses stream here. Use inline source numbers such as [1] to preview the supporting CIS content.",
         icon: MessageSquareText,
     },
     {
-        target: "[data-tour='chat-input']",
+        target: "chatInput",
         title: "Ask a CIS Controls question",
         description: "Send a question to retrieve a grounded answer. After an answer arrives, you can inspect sources, rate it, or regenerate another version.",
         icon: SendHorizontal,
@@ -32,7 +32,7 @@ const steps = [
 ];
 
 
-function GuidedTour({ isOpen, onComplete }) {
+function GuidedTour({ isOpen, onComplete, targets }) {
     const [stepIndex, setStepIndex] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
     const cardRef = useRef(null);
@@ -46,7 +46,7 @@ function GuidedTour({ isOpen, onComplete }) {
         }
 
         const updateTarget = () => {
-            const target = document.querySelector(step.target);
+            const target = targets[step.target]?.current;
             if (!target) {
                 setTargetRect(null);
                 return;
@@ -70,7 +70,7 @@ function GuidedTour({ isOpen, onComplete }) {
             window.removeEventListener("resize", updateTarget);
             window.removeEventListener("scroll", updateTarget, true);
         };
-    }, [isOpen, step.target]);
+    }, [isOpen, step.target, targets]);
 
     useEffect(() => {
         if (isOpen) {

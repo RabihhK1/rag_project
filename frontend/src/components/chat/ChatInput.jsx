@@ -4,6 +4,7 @@ function ChatInput({
   sendMessage,
   loading,
   welcomeMode = false,
+  inputAreaRef,
 }) {
 
   const [text, setText] = useState("");
@@ -24,25 +25,28 @@ function ChatInput({
 
   return (
 
-    <div
+    <form
+      ref={inputAreaRef}
       className={`input-area${welcomeMode ? " input-area--welcome" : ""}`}
       data-tour="chat-input"
+      onSubmit={(event) => {
+        event.preventDefault();
+        submit();
+      }}
     >
+
+      <label className="sr-only" htmlFor="chat-message">
+        Ask a question about CIS Controls
+      </label>
 
       <input
 
+        id="chat-message"
         value={text}
 
         disabled={loading}
 
         onChange={(e) => setText(e.target.value)}
-
-        onKeyDown={(e) => {
-
-          if (e.key === "Enter")
-            submit();
-
-        }}
 
         placeholder={
           loading
@@ -57,9 +61,9 @@ function ChatInput({
 
         className="send"
 
-        disabled={loading}
+        type="submit"
 
-        onClick={submit}
+        disabled={loading}
 
       >
 
@@ -68,7 +72,7 @@ function ChatInput({
       </button>
 
 
-    </div>
+    </form>
 
   );
 
