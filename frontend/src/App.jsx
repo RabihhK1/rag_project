@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
@@ -9,6 +9,8 @@ import AppRouter from "./routes/AppRouter";
 import { APP_ROUTES } from "./routes/routeConfig";
 import useAppRoute from "./routes/useAppRoute";
 import useChat from "./hooks/useChat";
+import Login from "./pages/Login";
+import { useAuth } from "./auth/AuthContext";
 
 const Analytics = lazy(() => import("./pages/Analytics"));
 const TOUR_STORAGE_KEY = "cyber-rag-tour-completed";
@@ -21,7 +23,15 @@ function shouldShowTour() {
   }
 }
 
+function AuthCallback({ refresh, navigate }) {
+  useEffect(() => {
+    refresh().then((ok) => navigate(ok ? APP_ROUTES.chat : APP_ROUTES.login));
+  }, [navigate, refresh]);
+  return <main className="page-loading">Completing sign-in…</main>;
+}
+
 function App() {
+  const { user, initializing, login, logout, refresh } = useAuth();
   const {
     messages,
     sendMessage,
@@ -50,6 +60,12 @@ function App() {
     [],
   );
 
+  if (initializing) return <main className="page-loading">Restoring your secure session…</main>;
+  if (path === APP_ROUTES.authCallback) {
+    return <AuthCallback refresh={refresh} navigate={navigate} />;
+  }
+  if (!user) return <Login onLogin={login} />;
+
   function completeTour() {
     try {
       window.localStorage.setItem(TOUR_STORAGE_KEY, "true");
@@ -73,7 +89,7 @@ function App() {
       />
 
       <div className="main">
-        <Header onStartTour={() => setShowTour(true)} />
+        <Header onStartTour={() => setShowTour(true)} user={user} onLogout={logout} />
         <ChatWindow
           ref={chatViewportRef}
           messages={messages}
