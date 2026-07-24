@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends
 
-from app.database import client
+from app.database import client, ensure_indexes
 from app.routes.chat import router as chat_router
 from app.routes.conversations import router as conversations_router
 from app.routes.feedback import router as feedback_router
+from app.security import require_internal_request
 app = FastAPI(
     title="RAG Backend API",
     version="1.0.0"
@@ -12,26 +13,11 @@ app = FastAPI(
 
 
 # -------------------------
-# CORS (Frontend connection)
-# -------------------------
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# -------------------------
 # API Routes
 # -------------------------
-app.include_router(chat_router)
-app.include_router(feedback_router)
-app.include_router(conversations_router)
+app.include_router(chat_router, dependencies=[Depends(require_internal_request)])
+app.include_router(feedback_router, dependencies=[Depends(require_internal_request)])
+app.include_router(conversations_router, dependencies=[Depends(require_internal_request)])
 # -------------------------
 # MongoDB Check
 # -------------------------
@@ -40,6 +26,7 @@ async def startup_db():
 
     try:
         await client.admin.command("ping")
+        await ensure_indexes()
         print("MongoDB connection successful")
 
     except Exception as e:
@@ -58,3 +45,8 @@ async def root():
     return {
         "message": "RAG Backend is running"
     }
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}

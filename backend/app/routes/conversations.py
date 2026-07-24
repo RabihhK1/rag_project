@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from app.database import (
@@ -32,13 +32,14 @@ class RenameRequest(BaseModel):
 # =========================
 
 @router.get("")
-async def get_conversations():
+async def get_conversations(request: Request):
+    user_id = request.state.rag_context.user_id
 
     conversations = []
 
 
     cursor = conversations_collection.find(
-        {}
+        {"user_id": user_id}
     ).sort(
         "updated_at",
         -1
@@ -90,10 +91,14 @@ async def get_conversations():
 
 @router.get("/{conversation_id}/messages")
 async def get_messages(
-    conversation_id: str
+    conversation_id: str,
+    request: Request,
 ):
+    user_id = request.state.rag_context.user_id
+    if not await conversations_collection.find_one({"conversation_id": conversation_id, "user_id": user_id}):
+        raise HTTPException(status_code=404, detail="Conversation not found")
     raw_messages = await messages_collection.find(
-        {"conversation_id": conversation_id}
+        {"conversation_id": conversation_id, "user_id": user_id}
     ).sort("created_at", 1).to_list(length=None)
 
     feedback_by_message_id = {}
@@ -102,7 +107,7 @@ async def get_messages(
             continue
 
         saved_feedback = await feedback_collection.find_one(
-            {"message_id": message.get("message_id")}
+            {"message_id": message.get("message_id"), "user_id": user_id}
         )
         feedback_by_message_id[message.get("message_id")] = (
             saved_feedback.get("rating") if saved_feedback else None
@@ -213,16 +218,18 @@ async def get_messages(
 @router.patch("/{conversation_id}")
 async def rename_conversation(
     conversation_id: str,
-    request: RenameRequest
+    request: RenameRequest,
+    http_request: Request,
 ):
+    user_id = http_request.state.rag_context.user_id
 
 
     await conversations_collection.update_one(
 
         {
 
-            "conversation_id":
-                conversation_id
+            "conversation_id": conversation_id,
+            "user_id": user_id,
 
         },
 
@@ -242,6 +249,9 @@ async def rename_conversation(
 
     )
 
+
+    if (await conversations_collection.find_one({"conversation_id": conversation_id, "user_id": user_id})) is None:
+        raise HTTPException(status_code=404, detail="Conversation not found")
 
     return {
 
@@ -264,8 +274,10 @@ async def rename_conversation(
 
 @router.delete("/{conversation_id}")
 async def delete_conversation(
-    conversation_id: str
+    conversation_id: str,
+    request: Request,
 ):
+    user_id = request.state.rag_context.user_id
 
 
     # Delete conversation
@@ -274,8 +286,8 @@ async def delete_conversation(
 
         {
 
-            "conversation_id":
-                conversation_id
+            "conversation_id": conversation_id,
+            "user_id": user_id,
 
         }
 
@@ -289,8 +301,8 @@ async def delete_conversation(
 
         {
 
-            "conversation_id":
-                conversation_id
+            "conversation_id": conversation_id,
+            "user_id": user_id,
 
         }
 
@@ -304,8 +316,8 @@ async def delete_conversation(
 
         {
 
-            "conversation_id":
-                conversation_id
+            "conversation_id": conversation_id,
+            "user_id": user_id,
 
         }
 
