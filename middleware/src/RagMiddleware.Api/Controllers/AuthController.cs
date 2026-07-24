@@ -44,15 +44,19 @@ public sealed class AuthController(
     [EnableRateLimiting("auth")]
     public async Task<IActionResult> GoogleCallback(CancellationToken cancellationToken)
     {
-        var info = await signInManager.GetExternalLoginInfoAsync();
-        var email = info?.Principal.FindFirstValue(ClaimTypes.Email);
-        var isVerified = string.Equals(info?.Principal.FindFirstValue("email_verified"), "true", StringComparison.OrdinalIgnoreCase);
-        if (info is null || string.IsNullOrWhiteSpace(email) || !isVerified)
+        var externalResult = await HttpContext.AuthenticateAsync("ExternalCookie");
+        var principal = externalResult.Principal;
+        var providerKey = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var email = principal?.FindFirstValue(ClaimTypes.Email);
+        var isVerified = string.Equals(principal?.FindFirstValue("email_verified"), "true", StringComparison.OrdinalIgnoreCase);
+        if (!externalResult.Succeeded || principal is null || string.IsNullOrWhiteSpace(providerKey) || string.IsNullOrWhiteSpace(email) || !isVerified)
         {
             return Problem(statusCode: StatusCodes.Status401Unauthorized, title: "Unable to verify the Google account email.");
         }
 
-        var user = await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey)
+        var loginInfo = new UserLoginInfo("Google", providerKey, "Google");
+
+        var user = await userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey)
             ?? await userManager.FindByEmailAsync(email);
         if (user is null)
         {
@@ -61,8 +65,8 @@ public sealed class AuthController(
                 UserName = email,
                 Email = email,
                 EmailConfirmed = true,
-                DisplayName = info.Principal.FindFirstValue(ClaimTypes.Name) ?? email,
-                AvatarUrl = info.Principal.FindFirstValue("picture"),
+                DisplayName = principal.FindFirstValue(ClaimTypes.Name) ?? email,
+                AvatarUrl = principal.FindFirstValue("picture"),
                 LastLoginAtUtc = DateTimeOffset.UtcNow,
             };
             var createResult = await userManager.CreateAsync(user);
@@ -72,9 +76,9 @@ public sealed class AuthController(
             }
         }
 
-        if (await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey) is null)
+        if (await userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey) is null)
         {
-            var linkResult = await userManager.AddLoginAsync(user, info);
+            var linkResult = await userManager.AddLoginAsync(user, loginInfo);
             if (!linkResult.Succeeded)
             {
                 return Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Unable to link the Google account.");
@@ -82,8 +86,8 @@ public sealed class AuthController(
         }
 
         user.EmailConfirmed = true;
-        user.DisplayName = info.Principal.FindFirstValue(ClaimTypes.Name) ?? user.DisplayName;
-        user.AvatarUrl = info.Principal.FindFirstValue("picture") ?? user.AvatarUrl;
+        user.DisplayName = principal.FindFirstValue(ClaimTypes.Name) ?? user.DisplayName;
+        user.AvatarUrl = principal.FindFirstValue("picture") ?? user.AvatarUrl;
         user.LastLoginAtUtc = DateTimeOffset.UtcNow;
         await userManager.UpdateAsync(user);
         if (!await userManager.IsInRoleAsync(user, "User"))
