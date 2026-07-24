@@ -1,11 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request
 from typing import Literal
 
 from pydantic import BaseModel, Field
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from app.database import feedback_collection
+from app.database import feedback_collection, messages_collection
 
 
 router = APIRouter(
@@ -41,14 +41,18 @@ class FeedbackRequest(BaseModel):
 
 @router.post("")
 async def submit_feedback(
-    request: FeedbackRequest
+    request: FeedbackRequest,
+    http_request: Request,
 ):
+    user_id = http_request.state.rag_context.user_id
+    if not await messages_collection.find_one({"message_id": request.message_id, "user_id": user_id}):
+        raise HTTPException(status_code=404, detail="Message not found")
 
 
     existing_feedback = await feedback_collection.find_one(
         {
-            "message_id":
-                request.message_id
+            "message_id": request.message_id,
+            "user_id": user_id,
         }
     )
 
@@ -64,8 +68,8 @@ async def submit_feedback(
         await feedback_collection.update_one(
 
             {
-                "message_id":
-                    request.message_id
+                "message_id": request.message_id,
+                "user_id": user_id,
             },
 
 
@@ -120,6 +124,8 @@ async def submit_feedback(
             "feedback_id":
                 str(uuid4()),
 
+            "user_id": user_id,
+
 
             "conversation_id":
                 request.conversation_id,
@@ -170,16 +176,18 @@ async def submit_feedback(
 
 @router.delete("/{message_id}")
 async def delete_feedback(
-    message_id: str
+    message_id: str,
+    request: Request,
 ):
+    user_id = request.state.rag_context.user_id
 
 
     result = await feedback_collection.delete_one(
 
         {
 
-            "message_id":
-                message_id
+            "message_id": message_id,
+            "user_id": user_id,
 
         }
 
@@ -214,18 +222,19 @@ async def delete_feedback(
 # =========================
 
 @router.get("/stats")
-async def feedback_stats():
+async def feedback_stats(request: Request):
+    user_id = request.state.rag_context.user_id
 
 
-    total_feedback = await feedback_collection.count_documents({})
+    total_feedback = await feedback_collection.count_documents({"user_id": user_id})
 
 
 
     positive_feedback = await feedback_collection.count_documents(
 
         {
-            "rating":
-                "up"
+            "rating": "up",
+            "user_id": user_id,
         }
 
     )
@@ -235,8 +244,8 @@ async def feedback_stats():
     negative_feedback = await feedback_collection.count_documents(
 
         {
-            "rating":
-                "down"
+            "rating": "down",
+            "user_id": user_id,
         }
 
     )
@@ -283,13 +292,14 @@ async def feedback_stats():
 # =========================
 
 @router.get("")
-async def get_feedback():
+async def get_feedback(request: Request):
+    user_id = request.state.rag_context.user_id
 
     feedbacks = []
 
 
     cursor = feedback_collection.find(
-        {}
+        {"user_id": user_id}
     ).sort(
         "created_at",
         -1

@@ -73,3 +73,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# .NET / Visual Studio build artifacts
+**/bin/
+**/obj/
+.vs/

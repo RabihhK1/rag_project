@@ -24,13 +24,14 @@ class RAGService:
         self.generator = Generator()
         print("RAG pipeline ready")
 
-    async def _create_conversation(self, question: str) -> str:
+    async def _create_conversation(self, question: str, user_id: str) -> str:
         conversation_id = str(uuid4())
         now = datetime.now(timezone.utc)
 
         await conversations_collection.insert_one(
             {
                 "conversation_id": conversation_id,
+                "user_id": user_id,
                 "title": question[:40],
                 "created_at": now,
                 "updated_at": now,
@@ -43,6 +44,7 @@ class RAGService:
         self,
         conversation_id: str,
         question: str,
+        user_id: str,
     ) -> str:
         message_id = str(uuid4())
 
@@ -50,6 +52,7 @@ class RAGService:
             {
                 "message_id": message_id,
                 "conversation_id": conversation_id,
+                "user_id": user_id,
                 "role": "user",
                 "content": question,
                 "created_at": datetime.now(timezone.utc),
@@ -75,6 +78,7 @@ class RAGService:
         conversation_id: str,
         answer: str,
         sources: list,
+        user_id: str,
         user_message_id: str | None = None,
     ) -> str:
         """Save a normal answer as version 1 of a stable response group."""
@@ -86,6 +90,7 @@ class RAGService:
             {
                 "message_id": message_id,
                 "conversation_id": conversation_id,
+                "user_id": user_id,
                 "role": "assistant",
                 "content": answer,
                 "sources": sources,
@@ -100,9 +105,9 @@ class RAGService:
 
         return message_id
 
-    async def _update_conversation(self, conversation_id: str) -> None:
+    async def _update_conversation(self, conversation_id: str, user_id: str) -> None:
         await conversations_collection.update_one(
-            {"conversation_id": conversation_id},
+            {"conversation_id": conversation_id, "user_id": user_id},
             {"$set": {"updated_at": datetime.now(timezone.utc)}},
         )
 
@@ -110,11 +115,14 @@ class RAGService:
         self,
         question: str,
         conversation_id: str | None = None,
+        user_id: str = "",
     ) -> dict:
         if not conversation_id:
-            conversation_id = await self._create_conversation(question)
+            conversation_id = await self._create_conversation(question, user_id)
+        elif not await conversations_collection.find_one({"conversation_id": conversation_id, "user_id": user_id}):
+            raise ValueError("Conversation not found")
 
-        user_message_id = await self._save_user_message(conversation_id, question)
+        user_message_id = await self._save_user_message(conversation_id, question, user_id)
         documents = self.retriever.search(question, limit=5)
         answer = self.generator.generate(question, documents)
         sources = self._prepare_sources(documents)
@@ -122,9 +130,10 @@ class RAGService:
             conversation_id,
             answer,
             sources,
+            user_id,
             user_message_id,
         )
-        await self._update_conversation(conversation_id)
+        await self._update_conversation(conversation_id, user_id)
 
         return {
             "conversation_id": conversation_id,
@@ -139,11 +148,15 @@ class RAGService:
         self,
         question: str,
         conversation_id: str | None = None,
+        user_id: str = "",
     ):
         if not conversation_id:
-            conversation_id = await self._create_conversation(question)
+            conversation_id = await self._create_conversation(question, user_id)
+        elif not await conversations_collection.find_one({"conversation_id": conversation_id, "user_id": user_id}):
+            yield {"type": "error", "content": "Conversation not found."}
+            return
 
-        user_message_id = await self._save_user_message(conversation_id, question)
+        user_message_id = await self._save_user_message(conversation_id, question, user_id)
         documents = self.retriever.search(question, limit=5)
         sources = self._prepare_sources(documents)
         full_answer = ""
@@ -156,9 +169,10 @@ class RAGService:
             conversation_id,
             full_answer,
             sources,
+            user_id,
             user_message_id,
         )
-        await self._update_conversation(conversation_id)
+        await self._update_conversation(conversation_id, user_id)
 
         yield {
             "type": "done",
@@ -172,12 +186,14 @@ class RAGService:
     async def _get_response_group(
         self,
         message: dict,
+        user_id: str,
     ) -> tuple[str, dict, list[dict]]:
         """Resolve a selected version to its v1 root and every sibling."""
 
         assistant_messages = await messages_collection.find(
             {
                 "conversation_id": message["conversation_id"],
+                "user_id": user_id,
                 "role": "assistant",
             }
         ).to_list(length=None)
@@ -202,16 +218,16 @@ class RAGService:
 
         return root_message_id, root_message, versions
 
-    async def get_response_versions(self, message_id: str) -> dict | None:
+    async def get_response_versions(self, message_id: str, user_id: str) -> dict | None:
         """Return every version for a response group, regardless of selected id."""
 
         selected_message = await messages_collection.find_one(
-            {"message_id": message_id, "role": "assistant"}
+            {"message_id": message_id, "role": "assistant", "user_id": user_id}
         )
         if not selected_message:
             return None
 
-        root_message_id, _, versions = await self._get_response_group(selected_message)
+        root_message_id, _, versions = await self._get_response_group(selected_message, user_id)
         serialized_versions = []
 
         for version_number, version in enumerate(versions, start=1):
@@ -236,6 +252,7 @@ class RAGService:
         self,
         message_id: str,
         conversation_id: str,
+        user_id: str,
     ):
         """Generate a new variant without creating a new conversation turn."""
 
@@ -243,6 +260,7 @@ class RAGService:
             {
                 "message_id": message_id,
                 "conversation_id": conversation_id,
+                "user_id": user_id,
                 "role": "assistant",
             }
         )
@@ -254,7 +272,7 @@ class RAGService:
             return
 
         root_message_id, root_message, versions = await self._get_response_group(
-            selected_message
+            selected_message, user_id
         )
         user_message_id = (
             root_message.get("user_message_id")
@@ -267,6 +285,7 @@ class RAGService:
                 {
                     "message_id": user_message_id,
                     "conversation_id": conversation_id,
+                    "user_id": user_id,
                     "role": "user",
                 }
             )
@@ -281,6 +300,7 @@ class RAGService:
             user_message = await messages_collection.find_one(
                 {
                     "conversation_id": conversation_id,
+                    "user_id": user_id,
                     "role": "user",
                     "created_at": {"$lte": turn_created_at},
                 },
@@ -316,7 +336,7 @@ class RAGService:
                 fields["parent_message_id"] = root_message_id
 
             await messages_collection.update_one(
-                {"message_id": version["message_id"]},
+                {"message_id": version["message_id"], "user_id": user_id},
                 {"$set": fields},
             )
 
@@ -337,7 +357,8 @@ class RAGService:
             {
                 "message_id": {
                     "$in": [version["message_id"] for version in versions]
-                }
+                },
+                "user_id": user_id,
             },
             {"$set": {"is_active_version": False}},
         )
@@ -345,6 +366,7 @@ class RAGService:
             {
                 "message_id": new_message_id,
                 "conversation_id": conversation_id,
+                "user_id": user_id,
                 "role": "assistant",
                 "content": full_answer,
                 "sources": sources,
@@ -358,7 +380,7 @@ class RAGService:
                 "created_at": now,
             }
         )
-        await self._update_conversation(conversation_id)
+        await self._update_conversation(conversation_id, user_id)
 
         yield {
             "type": "done",
@@ -374,6 +396,7 @@ class RAGService:
         self,
         message_id: str,
         conversation_id: str,
+        user_id: str,
     ) -> dict:
         """Non-streaming wrapper around regenerate_stream."""
 
@@ -381,7 +404,7 @@ class RAGService:
         sources = []
         final_event = None
 
-        async for event in self.regenerate_stream(message_id, conversation_id):
+        async for event in self.regenerate_stream(message_id, conversation_id, user_id):
             if event["type"] == "token":
                 full_answer += event["content"]
             elif event["type"] == "sources":
