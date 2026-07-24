@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -74,13 +75,13 @@ public static class ApiServiceCollectionExtensions
             {
                 options.ClientId = googleClientId;
                 options.ClientSecret = googleClientSecret;
-                options.SignInScheme = "ExternalCookie";
+                options.SignInScheme = IdentityConstants.ExternalScheme;
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
             });
         }
 
-        services.AddAuthentication().AddCookie("ExternalCookie", options =>
+        services.AddAuthentication().AddCookie(IdentityConstants.ExternalScheme, options =>
         {
             options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
             options.Cookie.HttpOnly = true;
