@@ -1,176 +1,199 @@
 import { forwardRef, useEffect, useState } from "react";
 import {
-    deleteConversation,
-    getConversations,
-    renameConversation,
+  deleteConversation,
+  getConversations,
+  renameConversation,
 } from "../../services/conversationService";
 
-
 const Sidebar = forwardRef(function Sidebar(
-    {
-        newChat,
-        loadConversation,
-        refreshKey,
-        openAnalytics,
-        onConversationDeleted,
-        loading,
-    },
-    ref,
+  {
+    newChat,
+    loadConversation,
+    refreshKey,
+    openAnalytics,
+    onConversationDeleted,
+    loading,
+  },
+  ref,
 ) {
-    const [conversations, setConversations] = useState([]);
-    const [editingId, setEditingId] = useState(null);
-    const [title, setTitle] = useState("");
-    const [error, setError] = useState("");
+  const [conversations, setConversations] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        let isCurrent = true;
+  useEffect(() => {
+    let isCurrent = true;
 
-        async function loadConversations() {
-            try {
-                const data = await getConversations();
-                if (isCurrent) {
-                    setConversations(data);
-                    setError("");
-                }
-            } catch {
-                if (isCurrent) {
-                    setError("Could not load saved conversations.");
-                }
-            }
+    async function loadConversations() {
+      try {
+        const data = await getConversations();
+        if (isCurrent) {
+          setConversations(data);
+          setError("");
         }
-
-        void loadConversations();
-        return () => {
-            isCurrent = false;
-        };
-    }, [refreshKey]);
-
-    function startRenaming(conversation) {
-        setEditingId(conversation.conversation_id);
-        setTitle(conversation.title);
-        setError("");
+      } catch {
+        if (isCurrent) {
+          setError("Could not load saved conversations.");
+        }
+      }
     }
 
-    async function saveRename(conversationId) {
-        const nextTitle = title.trim();
-        if (!nextTitle) {
-            setError("A conversation title cannot be empty.");
-            return;
-        }
+    void loadConversations();
+    return () => {
+      isCurrent = false;
+    };
+  }, [refreshKey]);
 
-        try {
-            await renameConversation(conversationId, nextTitle);
-            setConversations((current) => current.map((conversation) => (
-                conversation.conversation_id === conversationId
-                    ? { ...conversation, title: nextTitle }
-                    : conversation
-            )));
-            setEditingId(null);
-            setError("");
-        } catch {
-            setError("Could not rename this conversation. Please try again.");
-        }
+  function startRenaming(conversation) {
+    setEditingId(conversation.conversation_id);
+    setTitle(conversation.title);
+    setError("");
+  }
+
+  async function saveRename(conversationId) {
+    const nextTitle = title.trim();
+    if (!nextTitle) {
+      setError("A conversation title cannot be empty.");
+      return;
     }
 
-    async function removeConversation(conversationId) {
-        if (!window.confirm("Delete this conversation?")) {
-            return;
-        }
+    try {
+      await renameConversation(conversationId, nextTitle);
+      setConversations((current) =>
+        current.map((conversation) =>
+          conversation.conversation_id === conversationId
+            ? { ...conversation, title: nextTitle }
+            : conversation,
+        ),
+      );
+      setEditingId(null);
+      setError("");
+    } catch {
+      setError("Could not rename this conversation. Please try again.");
+    }
+  }
 
-        try {
-            await deleteConversation(conversationId);
-            setConversations((current) => current.filter((conversation) => (
-                conversation.conversation_id !== conversationId
-            )));
-            onConversationDeleted?.(conversationId);
-            setError("");
-        } catch {
-            setError("Could not delete this conversation. Please try again.");
-        }
+  async function removeConversation(conversationId) {
+    if (!window.confirm("Delete this conversation?")) {
+      return;
     }
 
-    function handleRenameKeyDown(event, conversationId) {
-        if (event.key === "Enter") {
-            void saveRename(conversationId);
-        }
+    try {
+      await deleteConversation(conversationId);
+      setConversations((current) =>
+        current.filter(
+          (conversation) => conversation.conversation_id !== conversationId,
+        ),
+      );
+      onConversationDeleted?.(conversationId);
+      setError("");
+    } catch {
+      setError("Could not delete this conversation. Please try again.");
+    }
+  }
 
-        if (event.key === "Escape") {
-            setEditingId(null);
-            setError("");
-        }
+  function handleRenameKeyDown(event, conversationId) {
+    if (event.key === "Enter") {
+      void saveRename(conversationId);
     }
 
-    return (
-        <aside ref={ref} className="sidebar" data-tour="sidebar" aria-label="Conversation sidebar">
-            <div className="logo">⚡ Cyber RAG</div>
+    if (event.key === "Escape") {
+      setEditingId(null);
+      setError("");
+    }
+  }
 
-            <button className="new-chat" type="button" onClick={newChat} disabled={loading}>
-                + New Chat
-            </button>
+  return (
+    <aside
+      ref={ref}
+      className="sidebar"
+      data-tour="sidebar"
+      aria-label="Conversation sidebar"
+    >
+      <div className="logo">⚡ Cyber RAG</div>
 
-            <button className="analytics-button" type="button" onClick={openAnalytics}>
-                📊 Feedback Analytics
-            </button>
+      <button
+        className="new-chat"
+        type="button"
+        onClick={newChat}
+        disabled={loading}
+      >
+        + New Chat
+      </button>
 
-            <nav className="chat-history" aria-labelledby="chat-history-title">
-                <h2 id="chat-history-title">Chats</h2>
+      <button
+        className="analytics-button"
+        type="button"
+        onClick={openAnalytics}
+      >
+        📊 Feedback Analytics
+      </button>
 
-                {error && <p className="sidebar-error" role="alert">{error}</p>}
+      <nav className="chat-history" aria-labelledby="chat-history-title">
+        <h2 id="chat-history-title">Chats</h2>
 
-                <ul className="chat-list">
-                    {conversations.map((conversation) => (
-                        <li className="chat-item" key={conversation.conversation_id}>
-                            {editingId === conversation.conversation_id ? (
-                                <input
-                                    autoFocus
-                                    aria-label="Conversation title"
-                                    value={title}
-                                    onChange={(event) => setTitle(event.target.value)}
-                                    onKeyDown={(event) => handleRenameKeyDown(
-                                        event,
-                                        conversation.conversation_id,
-                                    )}
-                                    onBlur={() => void saveRename(conversation.conversation_id)}
-                                />
-                            ) : (
-                                <>
-                                    <button
-                                        className="chat-title"
-                                        type="button"
-                                        onClick={() => loadConversation(conversation.conversation_id)}
-                                    >
-                                        {conversation.title}
-                                    </button>
+        {error && (
+          <p className="sidebar-error" role="alert">
+            {error}
+          </p>
+        )}
 
-                                    <button
-                                        className="rename-btn"
-                                        type="button"
-                                        aria-label={`Rename ${conversation.title}`}
-                                        onClick={() => startRenaming(conversation)}
-                                    >
-                                        ✏
-                                    </button>
+        <ul className="chat-list">
+          {conversations.map((conversation) => (
+            <li className="chat-item" key={conversation.conversation_id}>
+              {editingId === conversation.conversation_id ? (
+                <input
+                  autoFocus
+                  aria-label="Conversation title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  onKeyDown={(event) =>
+                    handleRenameKeyDown(event, conversation.conversation_id)
+                  }
+                  onBlur={() => void saveRename(conversation.conversation_id)}
+                />
+              ) : (
+                <>
+                  <button
+                    className="chat-title"
+                    type="button"
+                    onClick={() =>
+                      loadConversation(conversation.conversation_id)
+                    }
+                  >
+                    {conversation.title}
+                  </button>
 
-                                    <button
-                                        className="delete-btn"
-                                        type="button"
-                                        aria-label={`Delete ${conversation.title}`}
-                                        onClick={() => void removeConversation(conversation.conversation_id)}
-                                        disabled={loading}
-                                    >
-                                        🗑
-                                    </button>
-                                </>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+                  <button
+                    className="rename-btn"
+                    type="button"
+                    aria-label={`Rename ${conversation.title}`}
+                    onClick={() => startRenaming(conversation)}
+                  >
+                    ✏
+                  </button>
 
-            <div className="sidebar-footer">Cyber RAG</div>
-        </aside>
-    );
+                  <button
+                    className="delete-btn"
+                    type="button"
+                    aria-label={`Delete ${conversation.title}`}
+                    onClick={() =>
+                      void removeConversation(conversation.conversation_id)
+                    }
+                    disabled={loading}
+                  >
+                    🗑
+                  </button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="sidebar-footer">Cyber RAG</div>
+    </aside>
+  );
 });
-
 
 export default Sidebar;

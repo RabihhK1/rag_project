@@ -43,9 +43,8 @@ describe("conversation service", () => {
   it("deletes a conversation", async () => {
     await deleteConversation("conversation-1");
 
-    expect(requestApi).toHaveBeenCalledWith(
-      "/conversations/conversation-1",
-      { method: "DELETE" },
-    );
+    expect(requestApi).toHaveBeenCalledWith("/conversations/conversation-1", {
+      method: "DELETE",
+    });
   });
 });

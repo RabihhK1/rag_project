@@ -24,7 +24,9 @@ describe("ChatInput", () => {
   it("disables input while a response is loading", () => {
     render(<ChatInput loading sendMessage={vi.fn()} />);
 
-    expect(screen.getByLabelText("Ask a question about CIS Controls")).toBeDisabled();
+    expect(
+      screen.getByLabelText("Ask a question about CIS Controls"),
+    ).toBeDisabled();
     expect(screen.getByRole("button", { name: "Thinking..." })).toBeDisabled();
   });
 });
