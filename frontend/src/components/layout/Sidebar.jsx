@@ -3,11 +3,7 @@ import {
     useState
 }
 from "react";
-
-
-
-const API="http://127.0.0.1:8000";
-
+import { API_URL } from "../../services/api";
 
 
 function Sidebar({
@@ -18,7 +14,11 @@ loadConversation,
 
 refreshKey,
 
-openAnalytics
+openAnalytics,
+
+onConversationDeleted,
+
+loading
 
 }){
 
@@ -55,7 +55,7 @@ try{
 
 const response =
 await fetch(
-`${API}/conversations`
+`${API_URL}/conversations`
 );
 
 
@@ -88,7 +88,14 @@ error
 useEffect(()=>{
 
 
-fetchConversations();
+const timer = window.setTimeout(() => {
+
+void fetchConversations();
+
+}, 0);
+
+
+return () => window.clearTimeout(timer);
 
 
 },[refreshKey]);
@@ -110,7 +117,7 @@ return;
 
 await fetch(
 
-`${API}/conversations/${id}`,
+`${API_URL}/conversations/${id}`,
 
 {
 
@@ -158,9 +165,9 @@ return;
 
 
 
-await fetch(
+const response = await fetch(
 
-`${API}/conversations/${id}`,
+`${API_URL}/conversations/${id}`,
 
 {
 
@@ -169,6 +176,16 @@ method:"DELETE"
 }
 
 );
+
+
+if(!response.ok){
+
+throw new Error("Failed deleting conversation");
+
+}
+
+
+onConversationDeleted?.(id);
 
 
 
@@ -205,6 +222,8 @@ return (
 className="new-chat"
 
 onClick={newChat}
+
+disabled={loading}
 
 >
 
@@ -359,6 +378,8 @@ className="delete-btn"
 onClick={()=>deleteChat(
 chat.conversation_id
 )}
+
+disabled={loading}
 
 >
 

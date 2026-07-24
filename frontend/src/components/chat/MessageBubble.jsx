@@ -3,20 +3,22 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import FeedbackModal from "../common/FeedbackModal";
+import { API_URL } from "../../services/api";
 
 
-const API = "http://127.0.0.1:8000";
-
-
-
-function MessageBubble({ message }) {
+function MessageBubble({
+    message,
+    onRegenerate,
+    regeneratingFor,
+    onSelectVersion,
+    onFeedbackSubmitted,
+}) {
 
 
     const [showSources, setShowSources] = useState(false);
 
 
-    const [feedback, setFeedback] =
-        useState(message.feedback || null);
+    const [feedbackOverrides, setFeedbackOverrides] = useState({});
 
 
 
@@ -39,6 +41,19 @@ function MessageBubble({ message }) {
 
     const [feedbackComment, setFeedbackComment] =
         useState("");
+
+    const replyVersions = Array.isArray(message.versions) && message.versions.length
+        ? message.versions
+        : [message];
+    const rootMessageId = message.root_message_id || message.message_id;
+    const selectedReplyIndex = Math.min(
+        Math.max(message.selected_version_index ?? 0, 0),
+        replyVersions.length - 1
+    );
+    const isRegenerating = regeneratingFor === rootMessageId;
+
+    const feedback =
+        feedbackOverrides[message.message_id] ?? message.feedback ?? null;
 
 
 
@@ -134,7 +149,7 @@ function MessageBubble({ message }) {
             const response =
                 await fetch(
 
-                    `${API}/feedback`,
+                    `${API_URL}/feedback`,
 
                     {
 
@@ -210,7 +225,11 @@ function MessageBubble({ message }) {
 
 
 
-            setFeedback(type);
+            setFeedbackOverrides((previous) => ({
+                ...previous,
+                [message.message_id]: type,
+            }));
+            onFeedbackSubmitted?.(message.message_id, type);
 
 
 
@@ -538,115 +557,68 @@ function MessageBubble({ message }) {
 
 
                 <div className="message-actions">
-
-
-
-
+                    {replyVersions.length > 1 && (
+                        <div className="response-versions" aria-label="Response versions">
+                            <button
+                                type="button"
+                                aria-label="Previous response version"
+                                disabled={isRegenerating || selectedReplyIndex === 0}
+                                onClick={() => onSelectVersion?.(
+                                    rootMessageId,
+                                    selectedReplyIndex - 1
+                                )}
+                            >
+                                ←
+                            </button>
+                            <span>
+                                {selectedReplyIndex + 1} / {replyVersions.length}
+                            </span>
+                            <button
+                                type="button"
+                                aria-label="Next response version"
+                                disabled={
+                                    isRegenerating ||
+                                    selectedReplyIndex === replyVersions.length - 1
+                                }
+                                onClick={() => onSelectVersion?.(
+                                    rootMessageId,
+                                    selectedReplyIndex + 1
+                                )}
+                            >
+                                →
+                            </button>
+                        </div>
+                    )}
 
                     <button
-
-                    onClick={copyMessage}
-
+                        disabled={isRegenerating}
+                        onClick={() => onRegenerate?.(
+                            message.message_id,
+                            message.conversation_id
+                        )}
                     >
-
-                        {
-
-                        copied
-
-                        ?
-
-                        "Copied ✓"
-
-                        :
-
-                        "📋 Copy"
-
-                        }
-
-
+                        {isRegenerating ? "🔄 Regenerating…" : "🔄 Regenerate"}
                     </button>
 
-
-
-
-
-
-
-
+                    <button onClick={copyMessage}>
+                        {copied ? "Copied ✓" : "📋 Copy"}
+                    </button>
 
                     <button
-
-
-                    className={
-
-                        feedback === "up"
-
-                        ?
-
-                        "active-feedback"
-
-                        :
-
-                        ""
-
-                    }
-
-
-
-                    onClick={()=>
-                        sendFeedback("up")
-                    }
-
-
+                        className={feedback === "up" ? "active-feedback" : ""}
+                        disabled={isRegenerating}
+                        onClick={() => sendFeedback("up")}
                     >
-
                         👍
-
-
                     </button>
-
-
-
-
-
-
-
-
 
                     <button
-
-
-                    className={
-
-                        feedback === "down"
-
-                        ?
-
-                        "active-feedback"
-
-                        :
-
-                        ""
-
-                    }
-
-
-
-                    onClick={()=>
-                        setShowFeedbackModal(true)
-                    }
-
-
+                        className={feedback === "down" ? "active-feedback" : ""}
+                        disabled={isRegenerating}
+                        onClick={() => setShowFeedbackModal(true)}
                     >
-
                         👎
-
-
                     </button>
-
-
-
-
                 </div>
 
 

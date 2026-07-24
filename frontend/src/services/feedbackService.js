@@ -1,5 +1,4 @@
-const API =
-    "http://127.0.0.1:8000";
+import { API_URL } from "./api";
 
 
 
@@ -8,7 +7,7 @@ export async function getFeedbackStats(){
 
     const response =
         await fetch(
-            `${API}/feedback/stats`
+            `${API_URL}/feedback/stats`
         );
 
 
@@ -35,7 +34,7 @@ export async function getFeedbackList(){
 
     const response =
         await fetch(
-            `${API}/feedback`
+            `${API_URL}/feedback`
         );
 
 

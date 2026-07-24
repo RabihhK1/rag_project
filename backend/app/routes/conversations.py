@@ -6,6 +6,7 @@ from app.database import (
     messages_collection,
     feedback_collection
 )
+from app.services.response_versions import group_assistant_messages
 
 
 router = APIRouter(
@@ -91,97 +92,113 @@ async def get_conversations():
 async def get_messages(
     conversation_id: str
 ):
+    raw_messages = await messages_collection.find(
+        {"conversation_id": conversation_id}
+    ).sort("created_at", 1).to_list(length=None)
 
+    feedback_by_message_id = {}
+    for message in raw_messages:
+        if message.get("role") != "assistant":
+            continue
 
-    messages = []
+        saved_feedback = await feedback_collection.find_one(
+            {"message_id": message.get("message_id")}
+        )
+        feedback_by_message_id[message.get("message_id")] = (
+            saved_feedback.get("rating") if saved_feedback else None
+        )
 
+    def version_payload(version, root_message_id, version_number):
+        return {
+            "message_id": version.get("message_id"),
+            "root_message_id": root_message_id,
+            "content": version.get("content", ""),
+            "sources": version.get("sources", []),
+            "feedback": feedback_by_message_id.get(version.get("message_id")),
+            "version_number": version_number,
+        }
 
+    def timestamp(value):
+        try:
+            return value.timestamp()
+        except (AttributeError, OSError, OverflowError, ValueError):
+            return 0
 
-    cursor = messages_collection.find({
+    timeline = []
+    for index, message in enumerate(raw_messages):
+        if message.get("role") != "user":
+            continue
 
-        "conversation_id":
-            conversation_id
-
-    }).sort(
-
-        "created_at",
-        1
-
-    )
-
-
-
-    async for message in cursor:
-
-
-
-        feedback = None
-
-
-        # Check if this message already has feedback
-
-        if message.get("role") == "assistant":
-
-
-            saved_feedback = await feedback_collection.find_one(
-
+        timeline.append(
+            (
+                timestamp(message.get("created_at")),
+                index,
                 {
-
-                    "message_id":
-                        message.get(
-                            "message_id"
-                        )
-
-                }
-
+                    "message_id": message.get("message_id"),
+                    "role": "user",
+                    "content": message.get("content", ""),
+                    "sources": [],
+                    "feedback": None,
+                },
             )
+        )
 
+    # One assistant slot is returned per root answer. Its selected content is
+    # the active version, while every reply stays available in `versions`.
+    for group_index, (root_message_id, versions) in enumerate(
+        group_assistant_messages(raw_messages).items(),
+        start=len(raw_messages),
+    ):
+        active_versions = [
+            version for version in versions if version.get("is_active_version")
+        ]
+        active_version = active_versions[-1] if active_versions else versions[-1]
+        public_versions = [
+            version_payload(version, root_message_id, version_number)
+            for version_number, version in enumerate(versions, start=1)
+        ]
+        selected_version_index = next(
+            (
+                index
+                for index, version in enumerate(public_versions)
+                if version["message_id"] == active_version.get("message_id")
+            ),
+            len(public_versions) - 1,
+        )
+        selected_version = public_versions[selected_version_index]
+        root_version = next(
+            (
+                version
+                for version in versions
+                if version.get("message_id") == root_message_id
+            ),
+            versions[0],
+        )
+        turn_created_at = (
+            root_version.get("turn_created_at")
+            or root_version.get("created_at")
+        )
 
-            if saved_feedback:
+        timeline.append(
+            (
+                timestamp(turn_created_at),
+                group_index,
+                {
+                    "message_id": selected_version["message_id"],
+                    "root_message_id": root_message_id,
+                    "role": "assistant",
+                    "content": selected_version["content"],
+                    "sources": selected_version["sources"],
+                    "feedback": selected_version["feedback"],
+                    "version_number": selected_version["version_number"],
+                    "selected_version_index": selected_version_index,
+                    "versions": public_versions,
+                },
+            )
+        )
 
-                feedback = saved_feedback.get(
-                    "rating"
-                )
-
-
-
-
-
-        messages.append({
-
-            "message_id":
-                message.get(
-                    "message_id"
-                ),
-
-
-            "role":
-                message.get(
-                    "role"
-                ),
-
-
-            "content":
-                message.get(
-                    "content"
-                ),
-
-
-            "sources":
-                message.get(
-                    "sources",
-                    []
-                ),
-
-
-            "feedback":
-                feedback
-
-        })
-
-
-
-    return messages
+    timeline.sort(key=lambda item: (item[0], item[1]))
+    return [message for _, _, message in timeline]
 
 
 

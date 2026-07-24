@@ -13,32 +13,22 @@ import useChat from "./hooks/useChat";
 
 
 
-
-function App(){
-
-
+function App() {
 
     const {
-
-
         messages,
-
         sendMessage,
-
         loading,
-
         newChat,
-
         loadConversation,
-
         refreshKey,
-
         refreshConversations,
-
-        toast
-
-
-
+        toast,
+        regenerateMessage,
+        regeneratingFor,
+        selectResponseVersion,
+        updateMessageFeedback,
+        handleConversationDeleted,
     } = useChat();
 
 
@@ -85,109 +75,38 @@ function App(){
 
 
     return (
-
-
-
         <div className="app">
 
-
-
-
-
-
             <Sidebar
-
-
                 newChat={newChat}
-
-
-                loadConversation={
-                    loadConversation
-                }
-
-
-                refreshKey={
-                    refreshKey
-                }
-
-
-                refreshConversations={
-                    refreshConversations
-                }
-
-
-
-                openAnalytics={()=>
-                    setPage("analytics")
-                }
-
-
+                loadConversation={loadConversation}
+                refreshKey={refreshKey}
+                refreshConversations={refreshConversations}
+                onConversationDeleted={handleConversationDeleted}
+                loading={loading}
+                openAnalytics={() => setPage("analytics")}
             />
-
-
-
-
-
-
-
-
 
             <div className="main">
 
-
-
                 <Header />
 
-
-
-
-
                 <ChatWindow
-
-
-                    messages={
-                        messages
-                    }
-
-
-                    sendMessage={
-                        sendMessage
-                    }
-
-
-                    loading={
-                        loading
-                    }
-
-
+                    messages={messages}
+                    sendMessage={sendMessage}
+                    loading={loading}
+                    regenerateMessage={regenerateMessage}
+                    regeneratingFor={regeneratingFor}
+                    selectResponseVersion={selectResponseVersion}
+                    onFeedbackSubmitted={updateMessageFeedback}
                 />
-
-
-
-
 
             </div>
 
-
-
-
-
-<Toast toast={toast}/>
-
-      
-
-
-
-
-
+            <Toast toast={toast} />
 
         </div>
-
-
-
     );
-
-
 }
 
 

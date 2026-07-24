@@ -1,5 +1,7 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import BaseModel, Field
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -23,12 +25,11 @@ class FeedbackRequest(BaseModel):
 
     message_id: str
 
-    rating: str  
-    # "up" or "down"
+    rating: Literal["up", "down"]
 
     comment: str | None = None
 
-    reasons: list[str] = []
+    reasons: list[str] = Field(default_factory=list)
 
 
 

@@ -749,6 +749,48 @@ body{
 }
 
 
+.response-versions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    color:#a3a3a3;
+
+    font-size:13px;
+
+}
+
+
+.response-versions button{
+
+    min-width:30px;
+
+    padding:6px 8px;
+
+}
+
+
+.response-versions span{
+
+    min-width:38px;
+
+    text-align:center;
+
+}
+
+
+.message-actions button:disabled{
+
+    cursor:not-allowed;
+
+    opacity:0.55;
+
+}
+
+
 
 .active-feedback{
 

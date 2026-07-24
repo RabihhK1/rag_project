@@ -52,9 +52,6 @@ function Analytics({goBack}) {
     const [filteredFeedback,setFilteredFeedback] = useState([]);
 
 
-    const [filter,setFilter] = useState("all");
-
-
     const [selectedFeedback,setSelectedFeedback] = useState(null);
 
 
@@ -131,13 +128,20 @@ function Analytics({goBack}) {
 
 
 
-    useEffect(()=>{
+useEffect(()=>{
 
 
-        loadAnalytics();
+const timer = window.setTimeout(() => {
+
+void loadAnalytics();
+
+}, 0);
 
 
-    },[]);
+return () => window.clearTimeout(timer);
+
+
+},[]);
 
 
 
@@ -147,10 +151,6 @@ function Analytics({goBack}) {
 
 
     function changeFilter(type){
-
-
-        setFilter(type);
-
 
 
         if(type==="all"){

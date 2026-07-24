@@ -1,36 +1,34 @@
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 
-
 function ChatWindow({
-messages,
-sendMessage,
-loading
-}){
+    messages,
+    sendMessage,
+    loading,
+    regenerateMessage,
+    regeneratingFor,
+    selectResponseVersion,
+    onFeedbackSubmitted,
+}) {
 
+    return (
+        <div className="chat-window">
 
-return (
+            <MessageList
+                messages={messages}
+                loading={loading}
+                regenerateMessage={regenerateMessage}
+                regeneratingFor={regeneratingFor}
+                selectResponseVersion={selectResponseVersion}
+                onFeedbackSubmitted={onFeedbackSubmitted}
+            />
 
-<div className="chat-window">
-
-
-<MessageList
-messages={messages}
-loading={loading}
-/>
-
-
-
-<ChatInput
-  sendMessage={sendMessage}
-  loading={loading}
-/>
-
-</div>
-
-)
-
+            <ChatInput
+                sendMessage={sendMessage}
+                loading={loading}
+            />
+        </div>
+    );
 }
-
 
 export default ChatWindow;
