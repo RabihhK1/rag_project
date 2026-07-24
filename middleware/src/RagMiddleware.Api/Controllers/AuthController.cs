@@ -48,7 +48,9 @@ public sealed class AuthController(
         var principal = externalResult.Principal;
         var providerKey = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
         var email = principal?.FindFirstValue(ClaimTypes.Email);
-        var isVerified = string.Equals(principal?.FindFirstValue("email_verified"), "true", StringComparison.OrdinalIgnoreCase);
+        var verificationClaim = principal?.FindFirstValue("email_verified")
+            ?? principal?.FindFirstValue("verified_email");
+        var isVerified = string.Equals(verificationClaim, "true", StringComparison.OrdinalIgnoreCase);
         if (!externalResult.Succeeded || principal is null || string.IsNullOrWhiteSpace(providerKey) || string.IsNullOrWhiteSpace(email) || !isVerified)
         {
             return Problem(statusCode: StatusCodes.Status401Unauthorized, title: "Unable to verify the Google account email.");

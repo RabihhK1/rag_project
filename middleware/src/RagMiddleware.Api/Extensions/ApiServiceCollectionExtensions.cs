@@ -78,6 +78,8 @@ public static class ApiServiceCollectionExtensions
                 options.SignInScheme = IdentityConstants.ExternalScheme;
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
+                options.ClaimActions.MapJsonKey("verified_email", "verified_email");
+                options.ClaimActions.MapJsonKey("email_verified", "email_verified");
             });
         }
 
